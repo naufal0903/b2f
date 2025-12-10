@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2F Store - Dashboard Admin</title>
+    <title>WARUNG DSG - Dashboard Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     
@@ -2223,7 +2223,7 @@
                 <div class="logo-icon">
                     <i class="fas fa-store"></i>
                 </div>
-                <h1>B2F Store</h1>
+                <h1>WARUNG DSG</h1>
             </div>
         </div>
         
@@ -2283,7 +2283,7 @@
             <div class="user-info">
                 <div class="user-avatar">A</div>
                 <div>
-                    <h4>Admin B2F</h4>
+                    <h4>Admin WARUNG DSG</h4>
                     <p>Administrator</p>
                 </div>
             </div>
@@ -2443,7 +2443,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <h2>Marketplace</h2>
-                    <p>Belanja produk dari B2F Store</p>
+                    <p>Belanja produk dari WARUNG DSG</p>
                 </div>
                 
                 <div class="top-bar-actions">
@@ -3095,7 +3095,7 @@
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log("🚀 B2F Store Admin Dashboard dimulai...");
+            console.log("🚀 WARUNG DSG Admin Dashboard dimulai...");
 
             // Load cart dari Firebase dulu
             try {
@@ -3133,7 +3133,7 @@
             
             // Simulate welcome notification
             setTimeout(() => {
-                showNotification('success', 'Selamat Datang!', 'Dashboard B2F Store siap digunakan.');
+                showNotification('success', 'Selamat Datang!', 'Dashboard WARUNG DSG siap digunakan.');
             }, 1000);
         });
         
@@ -3571,11 +3571,11 @@ function checkoutFromFloating() {
                 bell.classList.add('has-notifications');
                 
                 // Update page title with notification count
-                document.title = `(${unreadCount}) B2F Store - Dashboard Admin`;
+                document.title = `(${unreadCount}) WARUNG DSG - Dashboard Admin`;
             } else {
                 badge.style.display = 'none';
                 bell.classList.remove('has-notifications');
-                document.title = 'B2F Store - Dashboard Admin';
+                document.title = 'WARUNG DSG - Dashboard Admin';
             }
             
             // Update counter in localStorage
@@ -6086,7 +6086,7 @@ function showReceiptPopup(orderId, orderData) {
     // Buat konten struk
     let receiptContent = `
 ================================
-B2F STORE RECEIPT
+WARUNG DSG STORE RECEIPT
 ================================
 No. Pesanan: ${orderId}
 Tanggal: ${formattedDate}
@@ -6146,7 +6146,7 @@ Terima kasih telah berbelanja!
                 }
             }, 30000); // Update every 30 seconds
         
-        console.log("🎉 B2F Store Admin Dashboard initialized successfully!");
+        console.log("🎉 WARUNG DSG Store Admin Dashboard initialized successfully!");
     </script>
 </body>
 </html>
