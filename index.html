@@ -1150,6 +1150,43 @@
     display: none;
 }
 
+/* Filter Dropdown Styles */
+.category-filter {
+    width: 200px;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid #cbd5e0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-filter:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Category Badge in Product Card */
+.product-category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: var(--light-blue);
+    color: var(--accent-blue);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Active Filter */
+.active-filter {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
 .payment-option-label {
     display: flex;
     flex-direction: column;
@@ -1217,6 +1254,52 @@
     padding: 12px 10px;
     border-bottom: 1px solid #e2e8f0;
     transition: background-color 0.2s ease;
+}
+
+/* Tambahkan CSS untuk delivery quantity input */
+.delivery-quantity-input input {
+    width: 70px !important;
+    padding: 5px 8px !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+}
+
+.delivery-quantity-input span {
+    font-size: 0.8rem;
+    color: var(--blue-gray);
+}
+
+/* Style untuk status pengiriman */
+.delivery-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: var(--border-radius);
+    border: 1px solid #e2e8f0;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--success);
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 100px;
+    text-align: right;
 }
 
 .delivery-item:hover {
@@ -1431,6 +1514,39 @@
             margin-top: 20px;
             transition: all 0.3s ease;
         }
+
+        @media (max-width: 768px) {
+    .top-bar-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .search-box {
+        order: 1;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    #category-filter {
+        order: 2;
+        width: calc(50% - 5px);
+    }
+    
+    .notification-bell {
+        order: 3;
+    }
+    
+    .cart-btn {
+        order: 4;
+    }
+}
+
+@media (max-width: 576px) {
+    #category-filter {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
         
         .checkout-btn:hover {
             background: #2f855a;
@@ -2197,7 +2313,6 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Cari pesanan, produk, pelanggan...">
                     </div>
-                    
                     <!-- Notification Bell -->
                     <button class="notification-bell" id="notification-bell">
                         <i class="fas fa-bell"></i>
@@ -2332,11 +2447,23 @@
                 </div>
                 
                 <div class="top-bar-actions">
+                    <!-- Dalam bagian marketplace content, setelah top-bar-actions -->
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Cari produk...">
+                        <input type="text" id="marketplace-search" placeholder="Cari produk..." onkeyup="filterProducts()">
                     </div>
-                    
+
+                    <select class="form-control" id="category-filter" style="width: 200px;">
+                        <option value="all">Semua Kategori</option>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
+                        <option value="Ammo">Ammo</option>
+                        <option value="Attachment">Attachment</option>
+                        <option value="Vest">Vest</option>
+                        <option value="Heist Stuff">Heist Stuff</option>
+                        <option value="Nacotics">Narcotics</option>
+                    </select>
                     <button class="notification-bell">
                         <i class="fas fa-bell"></i>
                     </button>
@@ -2496,53 +2623,6 @@
     </div>
     
     <div id="reports-content" style="display: none;">
-        <!-- Summary Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon income">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>Pertumbuhan Penjualan</h3>
-                    <div class="value" id="sales-growth">0%</div>
-                    <small id="sales-growth-desc">7 hari vs sebelumnya</small>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon customers">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>Total Pelanggan</h3>
-                    <div class="value" id="total-customers-report">0</div>
-                    <small id="customer-desc">Jumlah unik pelanggan</small>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon orders">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>Pesanan 7 Hari</h3>
-                    <div class="value" id="week-orders">0</div>
-                    <small>Jumlah pesanan minggu ini</small>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon products">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>Pendapatan 7 Hari</h3>
-                    <div class="value" id="week-revenue">Rp 0</div>
-                    <small>Total pendapatan minggu ini</small>
-                </div>
-            </div>
-        </div>
-        
         <!-- Detailed Reports -->
         <div class="tables-section">
             <!-- Daily Sales Table -->
@@ -2700,12 +2780,11 @@
                             <option value="Class 1">Class 1</option>
                             <option value="Class 2">Class 2</option>
                             <option value="Class 3">Class 3</option>
-                            <option value="Minuman">Minuman</option>
-                            <option value="Kesehatan">Kesehatan</option>
-                            <option value="Olahraga">Olahraga</option>
-                            <option value="Buku">Buku</option>
-                            <option value="Kerajinan">Kerajinan</option>
-                            <option value="Alat Rumah Tangga">Alat Rumah Tangga</option>
+                            <option value="Ammo">Ammo</option>
+                            <option value="Attachment">Attachment</option>
+                            <option value="Vest">Vest</option>
+                            <option value="Heist Stuff">Heist Stuff</option>
+                            <option value="Nacotics">Narcotics</option>
                         </select>
                     </div>
                     
@@ -2760,10 +2839,10 @@
                         <label for="payment-recipient">Pembayaran Diterima Oleh *</label>
                         <select id="payment-recipient" class="form-control" required>
                             <option value="">Pilih penerima pembayaran</option>
-                            <option value="Admin B2F">Admin B2F</option>
-                            <option value="Kasir Toko">Kasir Toko</option>
-                            <option value="Sistem Online">Sistem Online</option>
-                            <option value="Lainnya">Lainnya</option>
+                            <option value="Romee">Romee</option>
+                            <option value="Kasir Toko">(Nama)</option>
+                            <option value="Sistem Online">(Nama)</option>
+                            <option value="Lainnya">(Nama)</option>
                         </select>
                     </div>
                     
@@ -2779,8 +2858,6 @@
                             <option value="">Pilih metode pembayaran</option>
                             <option value="Tunai">Tunai</option>
                             <option value="Transfer Bank">Transfer Bank</option>
-                            <option value="E-Wallet">E-Wallet</option>
-                            <option value="Kredit">Kartu Kredit</option>
                         </select>
                     </div>
                     
@@ -2926,7 +3003,9 @@
                 
                 <div class="amount-paid-section" id="amount-paid-section" style="display: none;">
                     <label for="amount-paid">Jumlah yang Sudah Dibayar (Rp):</label>
-                    <input type="number" id="amount-paid" class="form-control" min="0" placeholder="Masukkan jumlah yang sudah dibayar">
+                    <input type="number" id="amount-paid" class="form-control" min="0" 
+                        placeholder="Masukkan jumlah yang sudah dibayar" 
+                        onchange="calculateRemainingAmount()">
                 </div>
             </div>
             
@@ -3570,6 +3649,54 @@ function checkoutFromFloating() {
                 );
             }, 4000);
         }
+
+        function filterProducts() {
+            console.log("🔍 Filtering products...");
+            
+            // Gunakan try-catch untuk menangani elemen yang mungkin null
+            try {
+                const searchInput = document.getElementById('marketplace-search');
+                const categorySelect = document.getElementById('category-filter');
+                
+                // Jika elemen tidak ditemukan, kembalikan
+                if (!searchInput || !categorySelect) {
+                    console.log("⚠️ Filter elements not found, skipping filter");
+                    return;
+                }
+                
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categorySelect.value;
+                
+                const productCards = document.querySelectorAll('.product-card');
+                let visibleCount = 0;
+                
+                productCards.forEach(card => {
+                    const productName = card.querySelector('.product-title')?.textContent.toLowerCase() || '';
+                    const productCategory = card.querySelector('.product-category-badge')?.textContent || '';
+                    
+                    // Filter berdasarkan kategori
+                    const categoryMatch = selectedCategory === 'all' || productCategory === selectedCategory;
+                    
+                    // Filter berdasarkan pencarian
+                    const searchMatch = !searchTerm || 
+                                    productName.includes(searchTerm) || 
+                                    productCategory.toLowerCase().includes(searchTerm);
+                    
+                    // Tampilkan/sembunyikan kartu produk
+                    if (categoryMatch && searchMatch) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                console.log(`✅ Filter applied: ${visibleCount} products visible`);
+                
+            } catch (error) {
+                console.error("❌ Error in filterProducts:", error);
+            }
+        }
         
         // ==================== ORIGINAL APP FUNCTIONS ====================
         
@@ -3584,34 +3711,120 @@ function checkoutFromFloating() {
                 });
             });
 
-                        // Payment status modal event listeners
-            document.getElementById('close-payment-status').addEventListener('click', function() {
-                document.getElementById('payment-status-modal').classList.remove('active');
-            });
+            // Payment status modal event listeners - CEK APAKAH ELEMEN ADA
+            const closePaymentStatusBtn = document.getElementById('close-payment-status');
+            const cancelPaymentStatusBtn = document.getElementById('cancel-payment-status');
+            const savePaymentStatusBtn = document.getElementById('save-payment-status');
+            
+            if (closePaymentStatusBtn) {
+                closePaymentStatusBtn.addEventListener('click', function() {
+                    document.getElementById('payment-status-modal').classList.remove('active');
+                });
+            }
 
-            document.getElementById('cancel-payment-status').addEventListener('click', function() {
-                document.getElementById('payment-status-modal').classList.remove('active');
-            });
+            if (cancelPaymentStatusBtn) {
+                cancelPaymentStatusBtn.addEventListener('click', function() {
+                    document.getElementById('payment-status-modal').classList.remove('active');
+                });
+            }
 
-            document.getElementById('save-payment-status').addEventListener('click', savePaymentStatus);
+            if (savePaymentStatusBtn) {
+                savePaymentStatusBtn.addEventListener('click', savePaymentStatus);
+            }
 
             // Event listener untuk radio button pembayaran
-            document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const amountPaidSection = document.getElementById('amount-paid-section');
-                    if (this.value === 'sebagian') {
-                        amountPaidSection.style.display = 'block';
-                        document.getElementById('amount-paid').focus();
-                    } else {
-                        amountPaidSection.style.display = 'none';
+            const paymentStatusRadios = document.querySelectorAll('input[name="paymentStatus"]');
+            if (paymentStatusRadios.length > 0) {
+                paymentStatusRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        const amountPaidSection = document.getElementById('amount-paid-section');
+                        if (amountPaidSection && this.value === 'sebagian') {
+                            amountPaidSection.style.display = 'block';
+                            const amountPaidInput = document.getElementById('amount-paid');
+                            if (amountPaidInput) amountPaidInput.focus();
+                        } else if (amountPaidSection) {
+                            amountPaidSection.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Event listener untuk search di marketplace
+            const marketplaceSearch = document.getElementById('marketplace-search');
+            if (marketplaceSearch) {
+                marketplaceSearch.addEventListener('input', debounce(filterProducts, 300));
+            }
+
+            // Event listener untuk category filter
+            const categoryFilter = document.getElementById('category-filter');
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterProducts);
+            }
+
+            // Event listener untuk dropdown penerima pembayaran - CEK APAKAH ADA
+            const paymentRecipientSelect = document.getElementById('payment-recipient');
+            if (paymentRecipientSelect) {
+                paymentRecipientSelect.addEventListener('change', function() {
+                    const otherGroup = document.getElementById('other-recipient-group');
+                    if (otherGroup) {
+                        if (this.value === 'Lainnya') {
+                            otherGroup.style.display = 'block';
+                            const otherRecipient = document.getElementById('other-recipient');
+                            if (otherRecipient) otherRecipient.required = true;
+                        } else {
+                            otherGroup.style.display = 'none';
+                            const otherRecipient = document.getElementById('other-recipient');
+                            if (otherRecipient) otherRecipient.required = false;
+                        }
                     }
                 });
+            }
+
+            // Event listener untuk form checkout - CEK APAKAH ADA
+            const checkoutForm = document.getElementById('checkout-form');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showCheckoutConfirmation();
+                });
+            }
+
+            // Event listeners untuk konfirmasi checkout - CEK APAKAH ADA
+            const cancelCheckoutBtn = document.getElementById('cancel-checkout');
+            const confirmCheckoutBtn = document.getElementById('confirm-checkout');
+            const closeCheckoutConfirmBtn = document.getElementById('close-checkout-confirm');
+            
+            if (cancelCheckoutBtn) {
+                cancelCheckoutBtn.addEventListener('click', function() {
+                    document.getElementById('checkout-confirm-modal').classList.remove('active');
+                    document.getElementById('checkout-modal').classList.add('active');
+                });
+            }
+
+            if (confirmCheckoutBtn) {
+                confirmCheckoutBtn.addEventListener('click', function() {
+                    processCheckout();
+                });
+            }
+
+            if (closeCheckoutConfirmBtn) {
+                closeCheckoutConfirmBtn.addEventListener('click', function() {
+                    document.getElementById('checkout-confirm-modal').classList.remove('active');
+                });
+            }
+
+            // Dalam fungsi setupEventListeners, tambahkan:
+            document.addEventListener('change', function(e) {
+                if (e.target.matches('.delivery-item-checkbox input') || 
+                    e.target.matches('.delivery-quantity-input input')) {
+                    setTimeout(updateDeliverySummary, 100);
+                }
             });
 
             // Close modal when clicking outside (tambahkan untuk payment status modal)
             document.addEventListener('click', (e) => {
                 const paymentModal = document.getElementById('payment-status-modal');
-                if (paymentModal.classList.contains('active') && e.target === paymentModal) {
+                if (paymentModal && paymentModal.classList.contains('active') && e.target === paymentModal) {
                     paymentModal.classList.remove('active');
                 }
             });
@@ -3770,7 +3983,7 @@ function checkoutFromFloating() {
             };
         }
         
-        // Switch between sections
+        // Tambahkan di bagian switchSection untuk reset filter saat masuk ke marketplace
         function switchSection(sectionId) {
             console.log(`🔄 Switching to section: ${sectionId}`);
             
@@ -3785,25 +3998,34 @@ function checkoutFromFloating() {
             // Close notification panel
             document.getElementById('notification-panel').classList.remove('show');
             
-// Update bagian switch statement:
-switch(sectionId) {
-    case 'dashboard':
-        loadDashboardData();
-        break;
-    case 'marketplace':
-        loadMarketplaceProducts();
-        break;
-    case 'products':
-        loadProductsManagement();
-        break;
-    case 'orders':
-        loadAllOrders();
-        break;
-    case 'reports':
-        loadReports();
-        loadTopProductsReport(); // Tambahkan ini
-        break;
-}
+            switch(sectionId) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'marketplace':
+                    loadMarketplaceProducts();
+                    // Reset filter ke default - gunakan try-catch
+                    try {
+                        const searchInput = document.getElementById('marketplace-search');
+                        const categoryFilter = document.getElementById('category-filter');
+                        
+                        if (searchInput) searchInput.value = '';
+                        if (categoryFilter) categoryFilter.value = 'all';
+                    } catch (error) {
+                        console.log("⚠️ Could not reset filters:", error);
+                    }
+                    break;
+                case 'products':
+                    loadProductsManagement();
+                    break;
+                case 'orders':
+                    loadAllOrders();
+                    break;
+                case 'reports':
+                    loadReports();
+                    loadTopProductsReport();
+                    break;
+            }
         }
         
         // Load dashboard data
@@ -4065,7 +4287,6 @@ async function loadTopProductsReport() {
             }
         }
         
-        // Load marketplace products
         async function loadMarketplaceProducts() {
             console.log("🛍️ Loading marketplace products...");
             
@@ -4103,6 +4324,13 @@ async function loadTopProductsReport() {
                 document.getElementById('marketplace-loading').style.display = 'none';
                 document.getElementById('products-grid').style.display = 'grid';
                 
+                // Terapkan filter jika ada
+                try {
+                    filterProducts();
+                } catch (error) {
+                    console.log("⚠️ Could not apply filter:", error);
+                }
+                
                 console.log(`✅ Marketplace products loaded: ${allProducts.length} products`);
                 
             } catch (error) {
@@ -4113,11 +4341,12 @@ async function loadTopProductsReport() {
             }
         }
         
-        // Create product card element
+        // Update fungsi createProductCard untuk menambahkan badge kategori
         function createProductCard(product) {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.dataset.id = product.id;
+            card.dataset.category = product.category;
             
             // Use image URL from product data
             const imageUrl = product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop';
@@ -4125,10 +4354,10 @@ async function loadTopProductsReport() {
             card.innerHTML = `
                 <div class="product-image">
                     <img src="${imageUrl}" alt="${product.name}" 
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
                 </div>
                 <div class="product-info">
-                    <div class="product-category">${product.category}</div>
+                    <div class="product-category-badge">${product.category}</div>
                     <h3 class="product-title">${product.name}</h3>
                     <p class="product-description">${product.description || 'Tidak ada deskripsi'}</p>
                     <div class="product-price">Rp ${(product.price || 0).toLocaleString('id-ID')}</div>
@@ -4139,11 +4368,85 @@ async function loadTopProductsReport() {
                         <button class="btn btn-primary" onclick="addToCart('${product.id}')" ${(product.stock || 0) === 0 ? 'disabled' : ''}>
                             <i class="fas fa-cart-plus"></i> Beli
                         </button>
+                        <button class="btn btn-secondary" onclick="viewProductDetail('${product.id}')">
+                            <i class="fas fa-eye"></i> Detail
+                        </button>
                     </div>
                 </div>
             `;
             
             return card;
+        }
+
+        // Tambahkan fungsi untuk melihat detail produk
+        async function viewProductDetail(productId) {
+            try {
+                const doc = await productsRef.doc(productId).get();
+                if (doc.exists) {
+                    const product = doc.data();
+                    
+                    // Buat modal untuk detail produk
+                    const modalHtml = `
+                        <div class="modal active" id="product-detail-modal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Detail Produk</h3>
+                                    <button class="close-modal" onclick="closeProductDetail()">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                                        <div style="flex: 1;">
+                                            <img src="${product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
+                                                alt="${product.name}" 
+                                                style="width: 100%; border-radius: var(--border-radius);">
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <div class="product-category-badge">${product.category}</div>
+                                            <h2 style="color: var(--primary-blue); margin-bottom: 10px;">${product.name}</h2>
+                                            <div class="product-price" style="font-size: 1.8rem; margin-bottom: 15px;">
+                                                Rp ${(product.price || 0).toLocaleString('id-ID')}
+                                            </div>
+                                            <div class="product-stock ${(product.stock || 0) > 0 ? 'in-stock' : 'out-of-stock'}" style="margin-bottom: 15px;">
+                                                <strong>Stok:</strong> ${product.stock || 0} unit
+                                            </div>
+                                            <div style="margin-bottom: 20px;">
+                                                <strong>Deskripsi:</strong>
+                                                <p>${product.description || 'Tidak ada deskripsi'}</p>
+                                            </div>
+                                            <button class="btn btn-primary" onclick="addToCart('${productId}'); closeProductDetail();" ${(product.stock || 0) === 0 ? 'disabled' : ''} style="width: 100%;">
+                                                <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Tambahkan modal ke body
+                    const modalDiv = document.createElement('div');
+                    modalDiv.innerHTML = modalHtml;
+                    document.body.appendChild(modalDiv);
+                    
+                    // Tutup modal saat klik di luar
+                    const modal = document.getElementById('product-detail-modal');
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            closeProductDetail();
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("❌ Error viewing product detail:", error);
+                addNotification('error', 'Error', 'Gagal memuat detail produk');
+            }
+        }
+
+        function closeProductDetail() {
+            const modal = document.getElementById('product-detail-modal');
+            if (modal) {
+                modal.remove();
+            }
         }
         
         // Load products management
@@ -4457,6 +4760,66 @@ async function loadReports() {
     }
 }
 
+// Function untuk menampilkan summary pengiriman di modal
+function updateDeliverySummary() {
+    let totalDelivered = 0;
+    let totalOrdered = 0;
+    
+    // Hitung semua item
+    document.querySelectorAll('.delivery-item-checkbox input:checked').forEach(checkbox => {
+        const productId = checkbox.dataset.productId;
+        const deliveredQuantityInput = document.getElementById(`delivered-quantity-${productId}`);
+        const maxQuantity = parseInt(checkbox.dataset.maxQuantity);
+        
+        if (deliveredQuantityInput) {
+            const deliveredQuantity = parseInt(deliveredQuantityInput.value) || 1;
+            totalDelivered += Math.min(deliveredQuantity, maxQuantity);
+        }
+    });
+    
+    // Hitung total pesanan dari data order
+    if (currentOrderDataForPayment?.items) {
+        currentOrderDataForPayment.items.forEach(item => {
+            totalOrdered += item.quantity;
+        });
+    }
+    
+    // Update summary
+    const summaryDiv = document.getElementById('delivery-summary');
+    if (!summaryDiv) return;
+    
+    const percentage = totalOrdered > 0 ? Math.round((totalDelivered / totalOrdered) * 100) : 0;
+    const status = percentage === 100 ? 'Selesai' : percentage > 0 ? 'Sebagian' : 'Belum';
+    const statusColor = percentage === 100 ? 'var(--success)' : 
+                       percentage > 0 ? 'var(--warning)' : 'var(--blue-gray)';
+    
+    summaryDiv.innerHTML = `
+        <div class="delivery-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${percentage}%"></div>
+            </div>
+            <div class="progress-text" style="color: ${statusColor};">
+                ${status} (${totalDelivered}/${totalOrdered})
+            </div>
+        </div>
+    `;
+    
+    // Update status order otomatis
+    const statusText = document.getElementById('delivery-status-text');
+    if (statusText) {
+        if (percentage === 100) {
+            statusText.innerHTML = '<i class="fas fa-check-circle"></i> Semua barang sudah diberikan';
+            statusText.style.color = 'var(--success)';
+        } else if (percentage > 0) {
+            statusText.innerHTML = `<i class="fas fa-clock"></i> ${totalDelivered} dari ${totalOrdered} barang sudah diberikan`;
+            statusText.style.color = 'var(--warning)';
+        } else {
+            statusText.innerHTML = '<i class="fas fa-clock"></i> Belum ada barang yang diberikan';
+            statusText.style.color = 'var(--blue-gray)';
+        }
+    }
+}
+
 // Helper function untuk update chart (opsional)
 function updateChartData(orders, salesByDate) {
     // Ini bisa digunakan jika nanti menambahkan grafik
@@ -4655,129 +5018,165 @@ function updateChartData(orders, salesByDate) {
             }
         }
         
-        async function viewOrderDetail(orderId) {
-            console.log(`👁️ Viewing order detail: ${orderId}`);
+// Function untuk memperbarui tampilan order detail
+async function viewOrderDetail(orderId) {
+    console.log(`👁️ Viewing order detail: ${orderId}`);
+    
+    try {
+        const doc = await ordersRef.doc(orderId).get();
+        if (doc.exists) {
+            const order = doc.data();
             
-            try {
-                const doc = await ordersRef.doc(orderId).get();
-                if (doc.exists) {
-                    const order = doc.data();
-                    
-                    // Format tanggal
-                    const orderDate = order.createdAt ? 
-                        new Date(order.createdAt.seconds * 1000).toLocaleDateString('id-ID', {
-                            weekday: 'long',
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) : '-';
-                    
-                    // Buat modal untuk detail pesanan
-                    const modalHtml = `
-                        <div class="modal active" id="order-detail-modal">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3>Detail Pesanan #${order.orderId || orderId}</h3>
-                                    <button class="close-modal" onclick="closeOrderDetail()">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <div style="margin-bottom: 20px;">
-                                        <p><strong>Pemesan:</strong> ${order.customerName || 'Tidak diketahui'}</p>
-                                        <p><strong>Telepon:</strong> ${order.customerPhone || '-'}</p>
-                                        <p><strong>Status Pesanan:</strong> <span class="status ${order.status || 'pending'}">${order.status === 'completed' ? 'Selesai' : order.status === 'processing' ? 'Diproses' : 'Pending'}</span></p>
-                                        <p><strong>Status Pembayaran:</strong> 
-                                            ${order.paymentStatus ? `<span class="status-badge ${order.paymentStatus}">${getPaymentStatusText(order.paymentStatus)}</span>` : '<span style="color: var(--blue-gray);">Belum diatur</span>'}
-                                        </p>
-                                        ${order.paymentStatus === 'sebagian' && order.amountPaid ? `
-                                            <div class="payment-info">
-                                                <div class="payment-info-item">
-                                                    <span class="payment-info-label">Sudah dibayar:</span>
-                                                    <span class="payment-info-value">Rp ${order.amountPaid.toLocaleString('id-ID')}</span>
-                                                </div>
-                                                <div class="payment-info-item">
-                                                    <span class="payment-info-label">Kekurangan:</span>
-                                                    <span class="payment-info-value">Rp ${(order.total - order.amountPaid).toLocaleString('id-ID')}</span>
-                                                </div>
-                                            </div>
-                                        ` : ''}
-                                        <p><strong>Tanggal:</strong> ${orderDate}</p>
-                                        <p><strong>Metode Pembayaran:</strong> ${order.paymentMethod || '-'}</p>
-                                        <p><strong>Diterima oleh:</strong> ${order.paymentRecipient || '-'}</p>
-                                    </div>
-                                    
-                                    ${order.deliveredItems && order.deliveredItems.length > 0 ? `
-                                        <div class="delivered-items-list">
-                                            <h5><i class="fas fa-check-circle"></i> Barang Sudah Diberikan:</h5>
-                                            ${order.deliveredItems.map(item => `
-                                                <div class="delivered-item">
-                                                    <i class="fas fa-check"></i>
-                                                    <span>${item.name} (${item.quantity} buah)</span>
-                                                </div>
-                                            `).join('')}
+            // Format tanggal
+            const orderDate = order.createdAt ? 
+                new Date(order.createdAt.seconds * 1000).toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : '-';
+            
+            // Hitung total barang yang sudah diberikan
+            let totalDelivered = 0;
+            let totalOrdered = 0;
+            let deliveryStatus = 'Belum ada barang diberikan';
+            
+            if (order.deliveredItems && order.deliveredItems.length > 0) {
+                order.deliveredItems.forEach(item => {
+                    totalDelivered += item.quantity;
+                });
+            }
+            
+            if (order.items) {
+                order.items.forEach(item => {
+                    totalOrdered += item.quantity;
+                });
+            }
+            
+            // Tentukan status pengiriman
+            if (totalDelivered === totalOrdered && totalOrdered > 0) {
+                deliveryStatus = `<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Semua barang sudah diberikan (${totalDelivered}/${totalOrdered})</span>`;
+            } else if (totalDelivered > 0) {
+                deliveryStatus = `<span style="color: var(--warning);"><i class="fas fa-clock"></i> Sebagian barang sudah diberikan (${totalDelivered}/${totalOrdered})</span>`;
+            }
+            
+            // Buat modal untuk detail pesanan
+            const modalHtml = `
+                <div class="modal active" id="order-detail-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Detail Pesanan #${order.orderId || orderId}</h3>
+                            <button class="close-modal" onclick="closeOrderDetail()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin-bottom: 20px;">
+                                <p><strong>Pemesan:</strong> ${order.customerName || 'Tidak diketahui'}</p>
+                                <p><strong>Telepon:</strong> ${order.customerPhone || '-'}</p>
+                                <p><strong>Status Pesanan:</strong> <span class="status ${order.status || 'pending'}">${order.status === 'completed' ? 'Selesai' : order.status === 'processing' ? 'Diproses' : 'Pending'}</span></p>
+                                <p><strong>Status Pengiriman:</strong> ${deliveryStatus}</p>
+                                <p><strong>Status Pembayaran:</strong> 
+                                    ${order.paymentStatus ? `<span class="status-badge ${order.paymentStatus}">${getPaymentStatusText(order.paymentStatus)}</span>` : '<span style="color: var(--blue-gray);">Belum diatur</span>'}
+                                </p>
+                                ${order.paymentStatus === 'sebagian' && order.amountPaid ? `
+                                    <div class="payment-info">
+                                        <div class="payment-info-item">
+                                            <span class="payment-info-label">Sudah dibayar:</span>
+                                            <span class="payment-info-value">Rp ${order.amountPaid.toLocaleString('id-ID')}</span>
                                         </div>
-                                    ` : ''}
+                                        <div class="payment-info-item">
+                                            <span class="payment-info-label">Kekurangan:</span>
+                                            <span class="payment-info-value">Rp ${(order.total - order.amountPaid).toLocaleString('id-ID')}</span>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                <p><strong>Tanggal:</strong> ${orderDate}</p>
+                                <p><strong>Metode Pembayaran:</strong> ${order.paymentMethod || '-'}</p>
+                                <p><strong>Diterima oleh:</strong> ${order.paymentRecipient || '-'}</p>
+                            </div>
+                            
+                            ${order.deliveredItems && order.deliveredItems.length > 0 ? `
+                                <div class="delivered-items-list">
+                                    <h5><i class="fas fa-check-circle"></i> Barang Sudah Diberikan:</h5>
+                                    ${order.deliveredItems.map(item => `
+                                        <div class="delivered-item">
+                                            <i class="fas fa-check"></i>
+                                            <span>${item.name} (${item.quantity}/${item.maxQuantity || item.quantity} buah)</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            <h4>Item Pesanan:</h4>
+                            <div style="margin-bottom: 20px;">
+                                ${order.items ? order.items.map(item => {
+                                    const deliveredItem = order.deliveredItems?.find(di => di.productId === item.productId);
+                                    const deliveredQuantity = deliveredItem?.quantity || 0;
+                                    const isFullyDelivered = deliveredQuantity === item.quantity;
+                                    const isPartiallyDelivered = deliveredQuantity > 0;
                                     
-                                    <h4>Item Pesanan:</h4>
-                                    <div style="margin-bottom: 20px;">
-                                        ${order.items ? order.items.map(item => `
-                                            <div style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
-                                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                    <div>
-                                                        ${item.name} - ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}
-                                                        ${order.deliveredItems && order.deliveredItems.some(di => di.productId === item.productId) ? 
-                                                            '<span style="margin-left: 10px; color: var(--success);"><i class="fas fa-check-circle"></i> Sudah diberikan</span>' : 
-                                                            '<span style="margin-left: 10px; color: var(--blue-gray);"><i class="fas fa-clock"></i> Belum diberikan</span>'}
-                                                    </div>
-                                                    <div>
-                                                        <strong>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</strong>
-                                                    </div>
+                                    return `
+                                        <div style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div>
+                                                    ${item.name} - Pesanan: ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}
+                                                    ${isFullyDelivered ? 
+                                                        '<span style="margin-left: 10px; color: var(--success);"><i class="fas fa-check-circle"></i> Sudah diberikan (' + deliveredQuantity + ')</span>' : 
+                                                        isPartiallyDelivered ?
+                                                        '<span style="margin-left: 10px; color: var(--warning);"><i class="fas fa-clock"></i> Sudah diberikan (' + deliveredQuantity + '/' + item.quantity + ')</span>' :
+                                                        '<span style="margin-left: 10px; color: var(--blue-gray);"><i class="fas fa-clock"></i> Belum diberikan</span>'
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <strong>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</strong>
                                                 </div>
                                             </div>
-                                        `).join('') : 'Tidak ada detail item'}
-                                    </div>
-                                    
-                                    <div style="background: #f7fafc; padding: 15px; border-radius: var(--border-radius);">
-                                        <p><strong>Subtotal:</strong> Rp ${(order.subtotal || 0).toLocaleString('id-ID')}</p>
-                                        <p><strong>Pajak (0%):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
-                                        <p><strong>Pengiriman:</strong> Rp ${(order.shipping || 0).toLocaleString('id-ID')}</p>
-                                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary-blue);">
-                                            <strong>Total:</strong> Rp ${(order.total || 0).toLocaleString('id-ID')}
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="confirmation-actions" style="margin-top: 20px;">
-                                        <button class="btn btn-secondary" onclick="closeOrderDetail()">
-                                            <i class="fas fa-times"></i> Tutup
-                                        </button>
-                                        <button class="btn btn-primary" onclick="openPaymentStatusModal('${orderId}')">
-                                            <i class="fas fa-edit"></i> Kelola Status
-                                        </button>
-                                    </div>
-                                </div>
+                                        </div>
+                                    `;
+                                }).join('') : 'Tidak ada detail item'}
+                            </div>
+                            
+                            <div style="background: #f7fafc; padding: 15px; border-radius: var(--border-radius);">
+                                <p><strong>Subtotal:</strong> Rp ${(order.subtotal || 0).toLocaleString('id-ID')}</p>
+                                <p><strong>Pajak (0%):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
+                                <p><strong>Pengiriman:</strong> Rp ${(order.shipping || 0).toLocaleString('id-ID')}</p>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary-blue);">
+                                    <strong>Total:</strong> Rp ${(order.total || 0).toLocaleString('id-ID')}
+                                </p>
+                            </div>
+                            
+                            <div class="confirmation-actions" style="margin-top: 20px;">
+                                <button class="btn btn-secondary" onclick="closeOrderDetail()">
+                                    <i class="fas fa-times"></i> Tutup
+                                </button>
+                                <button class="btn btn-primary" onclick="openPaymentStatusModal('${orderId}')">
+                                    <i class="fas fa-edit"></i> Kelola Status
+                                </button>
                             </div>
                         </div>
-                    `;
-                    
-                    // Tambahkan modal ke body
-                    const modalDiv = document.createElement('div');
-                    modalDiv.innerHTML = modalHtml;
-                    document.body.appendChild(modalDiv);
-                    
-                    // Tutup modal saat klik di luar
-                    const modal = document.getElementById('order-detail-modal');
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            closeOrderDetail();
-                        }
-                    });
+                    </div>
+                </div>
+            `;
+            
+            // Tambahkan modal ke body
+            const modalDiv = document.createElement('div');
+            modalDiv.innerHTML = modalHtml;
+            document.body.appendChild(modalDiv);
+            
+            // Tutup modal saat klik di luar
+            const modal = document.getElementById('order-detail-modal');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeOrderDetail();
                 }
-            } catch (error) {
-                console.error("❌ Error viewing order detail:", error);
-                addNotification('error', 'Error', 'Gagal memuat detail pesanan');
-            }
+            });
         }
+    } catch (error) {
+        console.error("❌ Error viewing order detail:", error);
+        addNotification('error', 'Error', 'Gagal memuat detail pesanan');
+    }
+}
         
         // Close order detail modal
         function closeOrderDetail() {
@@ -4825,7 +5224,7 @@ async function openPaymentStatusModal(orderId) {
     }
 }
 
-// Function untuk memuat daftar barang
+// Function untuk memuat daftar barang dengan input jumlah
 function loadDeliveryItems(orderData) {
     const deliveryItemsDiv = document.getElementById('delivery-items');
     
@@ -4840,24 +5239,51 @@ function loadDeliveryItems(orderData) {
     }
     
     let itemsHtml = '';
+    let totalItems = 0;
     
     orderData.items.forEach(item => {
-        // Cek apakah item sudah diberikan
-        const isDelivered = orderData.deliveredItems && 
-            orderData.deliveredItems.some(di => di.productId === item.productId);
+        totalItems += item.quantity;
+        
+        // Cek berapa banyak yang sudah diberikan
+        const deliveredItem = orderData.deliveredItems?.find(di => di.productId === item.productId);
+        const deliveredQuantity = deliveredItem?.quantity || 0;
+        const isFullyDelivered = deliveredQuantity === item.quantity;
+        const isPartiallyDelivered = deliveredQuantity > 0 && deliveredQuantity < item.quantity;
         
         itemsHtml += `
             <div class="delivery-item">
                 <div class="delivery-item-checkbox">
                     <input type="checkbox" id="item-${item.productId}" 
-                           ${isDelivered ? 'checked' : ''}
+                           ${isFullyDelivered || isPartiallyDelivered ? 'checked' : ''}
                            data-product-id="${item.productId}"
                            data-product-name="${item.name}"
-                           data-quantity="${item.quantity}">
+                           data-max-quantity="${item.quantity}"
+                           data-original-delivered="${deliveredQuantity}"
+                           onchange="toggleQuantityInput('${item.productId}', this.checked)">
                 </div>
                 <div class="delivery-item-info">
                     <div class="delivery-item-name">${item.name}</div>
-                    <div class="delivery-item-quantity">Jumlah: ${item.quantity} buah</div>
+                    <div class="delivery-item-quantity">Total Pesanan: ${item.quantity} buah</div>
+                    ${isFullyDelivered ? 
+                        `<div style="color: var(--success); font-size: 0.85rem;">
+                            <i class="fas fa-check-circle"></i> Sudah diberikan: ${deliveredQuantity} buah
+                        </div>` : 
+                        isPartiallyDelivered ?
+                        `<div style="color: var(--warning); font-size: 0.85rem;">
+                            <i class="fas fa-clock"></i> Sudah diberikan: ${deliveredQuantity} buah
+                        </div>` : ''
+                    }
+                    <div class="delivery-quantity-input" id="quantity-input-${item.productId}" 
+                         style="display: ${isFullyDelivered || isPartiallyDelivered ? 'flex' : 'none'}; 
+                                align-items: center; gap: 5px; margin-top: 8px;">
+                        <label style="font-size: 0.85rem;">Jumlah diberikan:</label>
+                        <input type="number" id="delivered-quantity-${item.productId}" 
+                               class="form-control" style="width: 80px; padding: 5px;"
+                               min="1" max="${item.quantity}" 
+                               value="${deliveredQuantity || 1}"
+                               onchange="validateQuantity('${item.productId}', this.value, ${item.quantity})">
+                        <span style="font-size: 0.85rem;">/ ${item.quantity} buah</span>
+                    </div>
                 </div>
                 <div class="delivery-item-price">
                     Rp ${(item.price * item.quantity).toLocaleString('id-ID')}
@@ -4869,7 +5295,55 @@ function loadDeliveryItems(orderData) {
     deliveryItemsDiv.innerHTML = itemsHtml;
 }
 
-// Function untuk menyimpan status pembayaran
+// Function untuk toggle input jumlah
+function toggleQuantityInput(productId, isChecked) {
+    const quantityInputDiv = document.getElementById(`quantity-input-${productId}`);
+    const deliveredQuantityInput = document.getElementById(`delivered-quantity-${productId}`);
+    
+    if (isChecked) {
+        quantityInputDiv.style.display = 'flex';
+        deliveredQuantityInput.value = deliveredQuantityInput.value || 1;
+    } else {
+        quantityInputDiv.style.display = 'none';
+        deliveredQuantityInput.value = 0;
+    }
+}
+
+// Function untuk validasi jumlah
+function validateQuantity(productId, value, maxQuantity) {
+    const input = document.getElementById(`delivered-quantity-${productId}`);
+    let quantity = parseInt(value);
+    
+    if (isNaN(quantity) || quantity < 1) {
+        quantity = 1;
+    } else if (quantity > maxQuantity) {
+        quantity = maxQuantity;
+    }
+    
+    input.value = quantity;
+    
+    // Update checkbox jika jumlah 0
+    const checkbox = document.querySelector(`#item-${productId}`);
+    if (quantity === 0) {
+        checkbox.checked = false;
+        quantityInputDiv.style.display = 'none';
+    }
+}
+
+// Function untuk menghitung jumlah yang belum dibayar
+function calculateRemainingAmount() {
+    const amountPaidInput = document.getElementById('amount-paid');
+    const amountPaid = parseInt(amountPaidInput.value) || 0;
+    
+    if (currentOrderDataForPayment && currentOrderDataForPayment.total) {
+        const remaining = currentOrderDataForPayment.total - amountPaid;
+        if (remaining > 0) {
+            addNotification('info', 'Info', `Masih ada sisa pembayaran: Rp ${remaining.toLocaleString('id-ID')}`);
+        }
+    }
+}
+
+// Function untuk menyimpan status pembayaran (REVISI)
 async function savePaymentStatus() {
     console.log(`💾 Saving payment status for order: ${currentOrderIdForPayment}`);
     
@@ -4890,15 +5364,54 @@ async function savePaymentStatus() {
             return;
         }
         
-        // Get checked delivery items
+        // Get delivery items dengan jumlah yang diberikan
         const deliveredItems = [];
+        let totalDeliveredQuantity = 0;
+        let totalOrderedQuantity = 0;
+        
+        // Hitung semua item yang dicentang
         document.querySelectorAll('.delivery-item-checkbox input:checked').forEach(checkbox => {
-            deliveredItems.push({
-                productId: checkbox.dataset.productId,
-                name: checkbox.dataset.productName,
-                quantity: parseInt(checkbox.dataset.quantity)
-            });
+            const productId = checkbox.dataset.productId;
+            const deliveredQuantityInput = document.getElementById(`delivered-quantity-${productId}`);
+            const deliveredQuantity = deliveredQuantityInput ? parseInt(deliveredQuantityInput.value) || 1 : 1;
+            const maxQuantity = parseInt(checkbox.dataset.maxQuantity);
+            
+            // Cek apakah jumlah yang diberikan valid
+            if (deliveredQuantity > 0 && deliveredQuantity <= maxQuantity) {
+                deliveredItems.push({
+                    productId: productId,
+                    name: checkbox.dataset.productName,
+                    quantity: deliveredQuantity,
+                    maxQuantity: maxQuantity
+                });
+                totalDeliveredQuantity += deliveredQuantity;
+            }
         });
+        
+        // Hitung total jumlah pesanan
+        currentOrderDataForPayment.items?.forEach(item => {
+            totalOrderedQuantity += item.quantity;
+        });
+        
+        // Tentukan status berdasarkan barang yang diberikan
+        let orderStatus = 'processing'; // Default
+        
+        if (deliveredItems.length === 0) {
+            // Tidak ada barang yang diberikan
+            orderStatus = 'processing';
+        } else if (totalDeliveredQuantity === totalOrderedQuantity) {
+            // Semua barang sudah diberikan dengan jumlah yang sesuai
+            orderStatus = 'completed';
+        } else if (totalDeliveredQuantity > 0) {
+            // Beberapa barang sudah diberikan
+            orderStatus = 'processing';
+            
+            // Jika ada barang yang sebelumnya sudah diberikan tapi sekarang diuncheck
+            const previousDelivered = currentOrderDataForPayment.deliveredItems || [];
+            if (previousDelivered.length > deliveredItems.length) {
+                addNotification('info', 'Info', 'Beberapa barang dikembalikan ke status belum diberikan.');
+            }
+        }
         
         // Update data order di Firestore
         const updateData = {
@@ -4913,12 +5426,8 @@ async function savePaymentStatus() {
             updateData.amountPaid = null;
         }
         
-        // Update status order menjadi selesai jika semua barang sudah diberikan
-        const allItems = currentOrderDataForPayment.items || [];
-        const allDelivered = deliveredItems.length === allItems.length;
-        if (allDelivered && allItems.length > 0) {
-            updateData.status = 'completed';
-        }
+        // Update status order berdasarkan barang yang diberikan
+        updateData.status = orderStatus;
         
         // Tampilkan loading
         const saveBtn = document.getElementById('save-payment-status');
@@ -4929,12 +5438,14 @@ async function savePaymentStatus() {
         // Update Firestore
         await ordersRef.doc(currentOrderIdForPayment).update(updateData);
         
-        // Notifikasi sukses
-        addNotification('success', 'Berhasil', 'Status pembayaran dan pengiriman berhasil disimpan!');
-        
-        // Jika semua barang sudah diberikan, kirim notifikasi
-        if (allDelivered) {
+        // Buat notifikasi berdasarkan status
+        if (orderStatus === 'completed') {
             addNotification('success', 'Pengiriman Selesai', 'Semua barang telah diberikan kepada pelanggan.');
+        } else if (deliveredItems.length > 0) {
+            addNotification('info', 'Pengiriman Sebagian', 
+                `${totalDeliveredQuantity} dari ${totalOrderedQuantity} barang telah diberikan.`);
+        } else {
+            addNotification('info', 'Status Diperbarui', 'Status pembayaran dan pengiriman telah diperbarui.');
         }
         
         // Close modal
@@ -4961,6 +5472,23 @@ async function savePaymentStatus() {
         saveBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Status';
         saveBtn.disabled = false;
     }
+}
+
+// Helper function untuk reset delivery status
+function resetDeliveryStatus() {
+    // Reset semua checkbox dan input jumlah
+    document.querySelectorAll('.delivery-item-checkbox input').forEach(checkbox => {
+        checkbox.checked = false;
+        const productId = checkbox.dataset.productId;
+        const quantityInputDiv = document.getElementById(`quantity-input-${productId}`);
+        if (quantityInputDiv) {
+            quantityInputDiv.style.display = 'none';
+        }
+        const deliveredQuantityInput = document.getElementById(`delivered-quantity-${productId}`);
+        if (deliveredQuantityInput) {
+            deliveredQuantityInput.value = 1;
+        }
+    });
 }
 
 // Helper function untuk teks status pembayaran
