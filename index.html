@@ -1481,6 +1481,23 @@ body.dark-mode .delivered-items-list {
     border-left-color: var(--success);
 }
 
+    .role-btn:hover {
+        border-color: var(--accent-blue) !important;
+        background-color: var(--light-blue) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(49, 130, 206, 0.2) !important;
+    }
+    
+    .role-btn.selected {
+        border-color: var(--accent-blue) !important;
+        background-color: var(--light-blue) !important;
+        box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1) !important;
+    }
+    
+    #access-code::placeholder {
+        letter-spacing: normal;
+    }
+
 body.dark-mode .delivered-items-list h5 {
     color: #38a169;
 }
@@ -2943,6 +2960,34 @@ body.dark-mode .product-card[data-status="preorder"]::before {
     font-size: 1.5rem;
     line-height: 1.2;
 }
+
+/* Background blur effect untuk login modal */
+body.login-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9998;
+    pointer-events: auto;
+}
+
+body.login-active {
+    overflow: hidden;
+}
+
+#login-modal {
+    z-index: 10000 !important;
+    background: transparent !important;
+}
+
+#login-modal.active {
+    display: flex !important;
+}
     </style>
 </head>
 <body>
@@ -3848,6 +3893,100 @@ body.dark-mode .product-card[data-status="preorder"]::before {
         </div>
     </div>
 </div>
+<div class="modal" id="login-modal" style="display: flex; z-index: 10000;">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header" style="text-align: center; border-bottom: 2px solid var(--accent-blue);">
+            <h3 style="margin: 0;">
+                <i class="fas fa-store"></i> WARUNG DSG
+            </h3>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+            <!-- Role Selection -->
+            <div id="role-selection" style="margin-bottom: 30px;">
+                <h4 style="color: var(--primary-blue); margin-bottom: 20px;">
+                    Pilih Akses Anda
+                </h4>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <!-- Pembeli Button -->
+                    <button class="role-btn" id="buyer-btn" onclick="selectRole('buyer')" 
+                            style="flex: 1; padding: 20px; border: 2px solid #cbd5e0; 
+                                   background: white; border-radius: var(--border-radius); 
+                                   cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-shopping-bag" style="font-size: 2rem; color: var(--accent-blue); display: block; margin-bottom: 10px;"></i>
+                        <strong>Pembeli</strong>
+                        <p style="font-size: 0.85rem; color: var(--blue-gray); margin-top: 5px;">
+                            Berbelanja produk
+                        </p>
+                    </button>
+                    
+                    <!-- Admin Button -->
+                    <button class="role-btn" id="admin-btn" onclick="selectRole('admin')" 
+                            style="flex: 1; padding: 20px; border: 2px solid #cbd5e0; 
+                                   background: white; border-radius: var(--border-radius); 
+                                   cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--success); display: block; margin-bottom: 10px;"></i>
+                        <strong>Admin</strong>
+                        <p style="font-size: 0.85rem; color: var(--blue-gray); margin-top: 5px;">
+                            Kelola toko
+                        </p>
+                    </button>
+                </div>
+                
+                <p style="color: var(--blue-gray); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Pilih akses untuk melanjutkan
+                </p>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="login-form" style="display: none;">
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <p style="color: var(--blue-gray); font-size: 0.9rem; margin-bottom: 10px;">
+                        <i class="fas fa-lock"></i> Masukkan kode akses untuk <strong id="role-name"></strong>
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <input type="password" id="access-code" class="form-control" 
+                           placeholder="Masukkan kode akses" 
+                           style="font-size: 1rem; letter-spacing: 2px; text-align: center;"
+                           onkeypress="if(event.key === 'Enter') verifyAccess()">
+                </div>
+                
+                <div id="error-message" class="error-message" style="display: none; margin-bottom: 15px;">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <span id="error-text"></span>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="backToRoleSelection()" 
+                            style="flex: 1;">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                    <button class="btn btn-primary" onclick="verifyAccess()" 
+                            style="flex: 1;" id="verify-btn">
+                        <i class="fas fa-check"></i> Verifikasi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="logout-popup-modal">
+    <div class="modal-content" style="max-width:420px;">
+        <div class="modal-header">
+            <h3>Konfirmasi Keluar</h3>
+            <button class="close-modal" id="close-logout-popup">&times;</button>
+        </div>
+        <div class="modal-body" style="padding:20px; text-align:center;">
+            <p>Anda yakin ingin keluar dari sistem?</p>
+        </div>
+        <div class="modal-footer" style="padding:20px; display:flex; gap:10px; justify-content:flex-end;">
+            <button class="btn btn-secondary" id="cancel-logout-btn">Batal</button>
+            <button class="btn btn-danger" id="confirm-logout-btn">Keluar</button>
+        </div>
+    </div>
+</div>
     
     
     <!-- Firebase Configuration -->
@@ -3926,6 +4065,9 @@ body.dark-mode .product-card[data-status="preorder"]::before {
         // Initialize the app
         document.addEventListener('DOMContentLoaded', async function() {
             console.log("🚀 WARUNG DSG Admin Dashboard dimulai...");
+
+                // ✅ CEK SESSION DULU SEBELUM APAPUN
+                checkUserSession();
 
             // Load cart dari Firebase dulu
             try {
@@ -4644,6 +4786,346 @@ function updateDarkModeUI(isDarkMode) {
                 console.error("❌ Error in filterProducts:", error);
             }
         }
+
+        // ==================== LOGIN SYSTEM ====================
+
+let currentSelectedRole = null;
+
+function selectRole(role) {
+    console.log(`👤 Role selected: ${role}`);
+    
+    currentSelectedRole = role;
+    
+    // Update button states
+    document.getElementById('buyer-btn').classList.toggle('selected', role === 'buyer');
+    document.getElementById('admin-btn').classList.toggle('selected', role === 'admin');
+    
+    // Show login form jika ada role yang dipilih
+    if (role) {
+        document.getElementById('role-selection').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+        
+        const roleName = role === 'buyer' ? 'Pembeli' : 'Admin';
+        document.getElementById('role-name').textContent = roleName;
+        
+        // Focus ke input
+        setTimeout(() => {
+            document.getElementById('access-code').focus();
+        }, 100);
+    }
+}
+
+function backToRoleSelection() {
+    console.log("↩️ Back to role selection");
+    
+    // Reset form
+    document.getElementById('access-code').value = '';
+    document.getElementById('error-message').style.display = 'none';
+    
+    // Reset buttons
+    document.getElementById('buyer-btn').classList.remove('selected');
+    document.getElementById('admin-btn').classList.remove('selected');
+    
+    // Show role selection
+    document.getElementById('role-selection').style.display = 'block';
+    document.getElementById('login-form').style.display = 'none';
+    
+    currentSelectedRole = null;
+}
+
+async function verifyAccess() {
+    console.log("🔐 Verifying access...");
+    
+    const accessCode = document.getElementById('access-code').value.trim();
+    const errorDiv = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
+    const verifyBtn = document.getElementById('verify-btn');
+    
+    // Validasi input kosong
+    if (!accessCode) {
+        errorDiv.style.display = 'block';
+        errorText.textContent = 'Masukkan kode akses terlebih dahulu';
+        return;
+    }
+    
+    // Show loading
+    verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifikasi...';
+    verifyBtn.disabled = true;
+    
+    try {
+        // Simulasi delay untuk keamanan
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Verifikasi kode
+        let isValid = false;
+        let userRole = null;
+        
+        if (currentSelectedRole === 'buyer') {
+            // Kode pembeli: dsgjaya
+            if (accessCode === 'dsgjaya') {
+                isValid = true;
+                userRole = 'buyer';
+            }
+        } else if (currentSelectedRole === 'admin') {
+            // Kode admin: nopalgemink
+            if (accessCode === 'nopalgemink') {
+                isValid = true;
+                userRole = 'admin';
+            }
+        }
+        
+        if (isValid) {
+            console.log(`✅ Access verified for role: ${userRole}`);
+            
+            // Simpan session
+            sessionStorage.setItem('b2f_user_role', userRole);
+            sessionStorage.setItem('b2f_login_time', new Date().toISOString());
+            
+            // Tampilkan notifikasi sukses
+            errorDiv.style.display = 'none';
+            
+            // Tampilkan animasi sukses
+            verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Terverifikasi!';
+            verifyBtn.style.background = 'var(--success)';
+            
+            // Tutup modal login setelah delay
+            setTimeout(() => {
+                document.getElementById('login-modal').style.display = 'none';
+                document.getElementById('login-modal').classList.remove('active');
+                
+                // ✅ HAPUS blur background setelah login berhasil
+                document.body.classList.remove('login-active');
+                
+                // Tampilkan notifikasi welcome
+                if (userRole === 'buyer') {
+                    addNotification('success', 'Selamat Datang!', 
+                        'Anda login sebagai Pembeli. Selamat berbelanja!');
+                } else {
+                    addNotification('success', 'Selamat Datang Admin!', 
+                        'Anda login sebagai Admin. Dashboard siap digunakan.');
+                }
+                
+                // Restrict akses berdasarkan role
+                restrictAccessByRole(userRole);
+                
+            }, 1500);
+        } else {
+            // Kode tidak valid
+            console.log("❌ Invalid access code");
+            
+            errorDiv.style.display = 'block';
+            errorText.textContent = 'Kode akses salah. Silakan coba lagi.';
+            
+            // Reset button
+            verifyBtn.innerHTML = '<i class="fas fa-check"></i> Verifikasi';
+            verifyBtn.disabled = false;
+            
+            // Clear input
+            document.getElementById('access-code').value = '';
+            document.getElementById('access-code').focus();
+            
+            // Shake animation
+            const modal = document.getElementById('login-modal').querySelector('.modal-content');
+            modal.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                modal.style.animation = 'none';
+            }, 500);
+        }
+    } catch (error) {
+        console.error("❌ Error during verification:", error);
+        
+        errorDiv.style.display = 'block';
+        errorText.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
+        
+        verifyBtn.innerHTML = '<i class="fas fa-check"></i> Verifikasi';
+        verifyBtn.disabled = false;
+    }
+}
+
+function restrictAccessByRole(role) {
+    console.log(`🔒 Restricting access for role: ${role}`);
+    window.currentUserRole = role;
+
+    // Utility: show/hide a link and its parent li
+    const showSection = (section) => {
+        document.querySelectorAll(`[data-section="${section}"]`).forEach(el => {
+            el.style.display = '';
+            const li = el.closest('.nav-item');
+            if (li) li.style.display = '';
+        });
+    };
+    const hideSection = (section) => {
+        document.querySelectorAll(`[data-section="${section}"]`).forEach(el => {
+            el.style.display = 'none';
+            const li = el.closest('.nav-item');
+            if (li) li.style.display = 'none';
+        });
+    };
+
+    if (role === 'buyer') {
+        console.log("👤 Configuring interface for buyer...");
+
+        // Hide all nav links first (clean slate)
+        document.querySelectorAll('.nav-link').forEach(a => a.style.display = 'none');
+        document.querySelectorAll('.nav-item').forEach(li => li.style.display = 'none');
+
+        // Only show marketplace and orders (and floating/cart UI stays)
+        ['marketplace', 'orders'].forEach(showSection);
+
+        // Ensure admin-only elements hidden
+        document.querySelectorAll('[data-admin-only]').forEach(el => el.style.display = 'none');
+
+        // Switch to marketplace
+        setTimeout(() => {
+            switchSection('marketplace');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const marketplaceLink = document.querySelector('[data-section="marketplace"]');
+            if (marketplaceLink) marketplaceLink.classList.add('active');
+        }, 200);
+
+        addNotification('info', 'Mode Pembeli', 'Anda dapat mengakses Marketplace dan Pesanan Anda.');
+
+    } else if (role === 'admin') {
+        console.log("👨‍💼 Configuring interface for admin...");
+
+        // Show all nav items and links
+        document.querySelectorAll('.nav-link').forEach(a => a.style.display = '');
+        document.querySelectorAll('.nav-item').forEach(li => li.style.display = '');
+
+        // Reveal admin-only UI
+        document.querySelectorAll('[data-admin-only]').forEach(el => el.style.display = '');
+
+        // Switch to dashboard
+        setTimeout(() => {
+            switchSection('dashboard');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const dashboardLink = document.querySelector('[data-section="dashboard"]');
+            if (dashboardLink) dashboardLink.classList.add('active');
+        }, 200);
+
+        addNotification('success', 'Mode Admin', 'Anda memiliki akses penuh ke semua fitur dashboard admin.');
+    }
+}
+
+// Add shake animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(style);
+
+// Check session saat page load
+function checkUserSession() {
+    const userRole = sessionStorage.getItem('b2f_user_role');
+    const loginTime = sessionStorage.getItem('b2f_login_time');
+    
+    if (userRole && loginTime) {
+        console.log(`✅ User session found: ${userRole}`);
+        
+        // Hide login modal
+        document.getElementById('login-modal').style.display = 'none';
+        document.getElementById('login-modal').classList.remove('active');
+        
+        // HAPUS blur background
+        document.body.classList.remove('login-active');
+        
+        // Apply role restrictions
+        restrictAccessByRole(userRole);
+        
+        return true;
+    }
+    
+    console.log("ℹ️ No user session found, showing login modal");
+    
+    // TAMBAHKAN blur background saat pertama kali
+    document.body.classList.add('login-active');
+    document.getElementById('login-modal').style.display = 'flex';
+    document.getElementById('login-modal').classList.add('active');
+    
+    return false;
+}
+
+function logout() {
+    // Tampilkan popup konfirmasi logout (sebelumnya ada confirm())
+    const modal = document.getElementById('logout-popup-modal');
+    if (modal) {
+        modal.classList.add('active');
+    } else {
+        // fallback jika modal tidak ditemukan -> langsung perform logout
+        performLogout();
+    }
+}
+
+function performLogout() {
+    console.log("👋 Performing logout...");
+
+    // Clear session
+    sessionStorage.removeItem('b2f_user_role');
+    sessionStorage.removeItem('b2f_login_time');
+
+    // Clear cart
+    cart = [];
+    localStorage.setItem('b2f_cart', JSON.stringify(cart));
+    saveCartToFirebase().catch(()=>{});
+
+    // Reset form & UI
+    const accessInput = document.getElementById('access-code');
+    if (accessInput) accessInput.value = '';
+    const errorMsg = document.getElementById('error-message');
+    if (errorMsg) errorMsg.style.display = 'none';
+    const roleSelection = document.getElementById('role-selection');
+    const loginForm = document.getElementById('login-form');
+    if (roleSelection) roleSelection.style.display = 'block';
+    if (loginForm) loginForm.style.display = 'none';
+    const buyerBtn = document.getElementById('buyer-btn');
+    const adminBtn = document.getElementById('admin-btn');
+    if (buyerBtn) buyerBtn.classList.remove('selected');
+    if (adminBtn) adminBtn.classList.remove('selected');
+
+    // Show login modal + blur
+    const loginModal = document.getElementById('login-modal');
+    if (loginModal) {
+        loginModal.style.display = 'flex';
+        loginModal.classList.add('active');
+    }
+    document.body.classList.add('login-active');
+
+    addNotification('info', 'Logout Berhasil', 'Anda telah keluar dari sistem.');
+
+    window.currentUserRole = null;
+
+    // Close logout popup if open
+    const logoutPopup = document.getElementById('logout-popup-modal');
+    if (logoutPopup) logoutPopup.classList.remove('active');
+
+    console.log("👋 User logged out");
+}
+
+// Setup event listeners for the logout popup buttons
+document.addEventListener('DOMContentLoaded', function() {
+    // Cancel / close buttons
+    const cancelBtn = document.getElementById('cancel-logout-btn');
+    const closeBtn = document.getElementById('close-logout-popup');
+    const confirmBtn = document.getElementById('confirm-logout-btn');
+
+    if (cancelBtn) cancelBtn.addEventListener('click', () => {
+        const modal = document.getElementById('logout-popup-modal');
+        if (modal) modal.classList.remove('active');
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', () => {
+        const modal = document.getElementById('logout-popup-modal');
+        if (modal) modal.classList.remove('active');
+    });
+
+    if (confirmBtn) confirmBtn.addEventListener('click', () => {
+        performLogout();
+    });
+});
         
         // ==================== ORIGINAL APP FUNCTIONS ====================
         
@@ -4778,6 +5260,8 @@ function updateDarkModeUI(isDarkMode) {
                 }
             });
 
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
             // Close modal when clicking outside (tambahkan untuk payment status modal)
             document.addEventListener('click', (e) => {
                 const paymentModal = document.getElementById('payment-status-modal');
@@ -4805,24 +5289,6 @@ function updateDarkModeUI(isDarkMode) {
                     
                     console.log(`📂 Switched to section: ${sectionId}`);
                 });
-            });
-            
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function() {
-                if (confirm("Apakah Anda yakin ingin keluar?")) {
-                    // Add notification before logout
-                    addNotification('info', 'Sesi Berakhir', 'Anda telah keluar dari sistem.');
-                    
-                    // Clear cart
-                    cart = [];
-                    localStorage.setItem('b2f_cart', JSON.stringify(cart));
-                    updateCartCount();
-                    
-                    setTimeout(() => {
-                        alert("Anda telah keluar dari sistem.");
-                        console.log("👋 User logged out");
-                    }, 500);
-                }
             });
             
             // Cart toggle
@@ -6486,6 +6952,13 @@ async function viewOrderDetail(orderId) {
             // Cek apakah ada item pre-order
             const hasPreorder = order.items?.some(item => item.status === 'preorder');
             
+            // ✅ HANYA TAMPILKAN TOMBOL KELOLA STATUS UNTUK ADMIN
+            const manageStatusButton = window.currentUserRole === 'admin' 
+                ? `<button class="btn btn-primary" onclick="openPaymentStatusModal('${orderId}')">
+                    <i class="fas fa-edit"></i> Kelola Status
+                  </button>`
+                : '';
+            
             // Buat modal untuk detail pesanan
             const modalHtml = `
                 <div class="modal active" id="order-detail-modal">
@@ -6503,6 +6976,7 @@ async function viewOrderDetail(orderId) {
                                 <p><strong>Status Pesanan:</strong> <span class="order-status-badge ${order.status || 'pending'}">${order.status === 'completed' ? 'Selesai' : order.status === 'processing' ? 'Diproses' : 'Pending'}</span></p>
                                 <p><strong>Metode Pembayaran:</strong> ${order.paymentMethod || '-'}</p>
                                 <p><strong>Diterima oleh:</strong> ${order.paymentRecipient || '-'}</p>
+                                <p><strong>Status Pembayaran:</strong> <span class="status-badge ${order.paymentStatus || 'belum'}">${getPaymentStatusText(order.paymentStatus)}</span></p>
                                 <p><strong>Tanggal:</strong> ${orderDate}</p>
                             </div>
                             
@@ -6543,9 +7017,7 @@ async function viewOrderDetail(orderId) {
                                 <button class="btn btn-secondary" onclick="closeOrderDetail()">
                                     <i class="fas fa-times"></i> Tutup
                                 </button>
-                                <button class="btn btn-primary" onclick="openPaymentStatusModal('${orderId}')">
-                                    <i class="fas fa-edit"></i> Kelola Status
-                                </button>
+                                ${manageStatusButton}
                             </div>
                         </div>
                     </div>
@@ -6567,7 +7039,7 @@ async function viewOrderDetail(orderId) {
         }
     } catch (error) {
         console.error("❌ Error viewing order detail:", error);
-        addNotification('error', 'Error', 'Gagal memuat detail pesanan');
+        addNotification('error', 'Error', 'Gagal memload detail pesanan');
     }
 }
         
@@ -6583,6 +7055,13 @@ async function viewOrderDetail(orderId) {
 async function openPaymentStatusModal(orderId) {
     console.log(`💰 Opening payment status modal for order: ${orderId}`);
     
+    // ✅ CEK AKSES - HANYA ADMIN BISA EDIT
+    if (window.currentUserRole === 'buyer') {
+        addNotification('warning', 'Akses Ditolak', 'Pembeli tidak dapat mengubah status pesanan.');
+        console.log("🔒 Buyer tried to access payment status modal - Access denied");
+        return;
+    }
+
     try {
         const doc = await ordersRef.doc(orderId).get();
         if (doc.exists) {
@@ -7605,4 +8084,3 @@ Terima kasih telah berbelanja!
     </script>
 </body>
 </html>
-
