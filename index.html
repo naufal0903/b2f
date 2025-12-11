@@ -3359,7 +3359,7 @@ body.login-active {
                         </button>
                         
                         <!-- Tambah tombol copy -->
-                        <button class="btn btn-primary" onclick="copyProcessedOrders()">
+                        <button class="btn btn-primary" onclick="copyProcessedOrders()" data-admin-only>
                             <i class="fas fa-copy"></i> Copy Pesanan
                         </button>
                     </div>
@@ -3928,7 +3928,7 @@ body.login-active {
                         <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--success); display: block; margin-bottom: 10px;"></i>
                         <strong>Admin</strong>
                         <p style="font-size: 0.85rem; color: var(--blue-gray); margin-top: 5px;">
-                            Kelola toko
+                            Kelola Brangkas
                         </p>
                     </button>
                 </div>
@@ -5510,6 +5510,11 @@ function exportReport() {
 
 // Fungsi untuk mendapatkan pesanan berdasarkan range tanggal
 async function copyProcessedOrders() {
+    if (window.currentUserRole === 'buyer') {
+        console.log("🔒 Access denied: buyer attempted to copy processed orders");
+        addNotification('warning', 'Akses Ditolak', 'Hanya admin yang dapat menyalin ringkasan pesanan.');
+        return;
+    }
     console.log("📋 Copying processed orders...");
     
     try {
