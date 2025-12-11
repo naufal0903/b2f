@@ -1634,6 +1634,79 @@ body.dark-mode #darkmode-toggle:hover {
     margin-bottom: 8px;
 }
 
+/* Dark Mode Button Styles */
+.darkmode-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.darkmode-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.darkmode-btn:active {
+    transform: translateY(0);
+}
+
+/* Dark mode state untuk tombol dark mode */
+body.dark-mode .darkmode-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark-mode .darkmode-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Tambahkan sedikit spacing antara kedua tombol */
+.sidebar-footer {
+    padding: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Tambahkan margin antara user-info dan tombol-tombol */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+/* Atur margin untuk tombol logout agar lebih rapi */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /* Active Filter */
 .active-filter {
     background-color: var(--accent-blue);
@@ -2339,6 +2412,65 @@ body.dark-mode #darkmode-toggle:hover {
             color: var(--primary-blue);
             cursor: pointer;
         }
+
+        /* Tambahkan di bagian CSS */
+.date-range-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 15px;
+}
+
+.date-range-container span {
+    color: var(--blue-gray);
+    font-size: 0.9rem;
+}
+
+.copy-summary-modal {
+    max-width: 600px;
+}
+
+.summary-content {
+    max-height: 400px;
+    overflow-y: auto;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+.summary-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.copy-success {
+    color: var(--success);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: none;
+}
+
+.copy-success.show {
+    display: block;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+    font-weight: bold;
+    border-top: 2px solid var(--primary-blue);
+    margin-top: 10px;
+}
         
         @media (max-width: 768px) {
             .menu-toggle {
@@ -2459,6 +2591,31 @@ body.dark-mode #darkmode-toggle:hover {
     justify-content: center;
     border-radius: 50%;
     transition: background-color 0.2s ease;
+}
+
+/* Tambahkan di bagian CSS */
+.product-card[data-status="preorder"] {
+    border: 2px solid var(--warning);
+    position: relative;
+}
+
+.product-card[data-status="preorder"]::before {
+    content: "PRE-ORDER";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--warning);
+    color: white;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+/* Untuk dark mode */
+body.dark-mode .product-card[data-status="preorder"]::before {
+    background: #b7791f;
 }
 
 .close-floating-cart:hover {
@@ -2648,6 +2805,144 @@ body.dark-mode #darkmode-toggle:hover {
 .floating-cart-btn.new-item {
     animation: cartPulse 1s;
 }
+
+/* Pre-order Status Badge */
+.product-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    margin-right: 5px;
+}
+
+.product-status-badge.ready {
+    background-color: #c6f6d5;
+    color: #276749;
+    border: 1px solid #38a169;
+}
+
+.product-status-badge.preorder {
+    background-color: #feebc8;
+    color: #b7791f;
+    border: 1px solid #d69e2e;
+}
+
+/* Filter Buttons for Orders */
+.order-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    border: 1px solid #cbd5e0;
+    background: white;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.filter-btn.active {
+    background-color: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: #f7fafc;
+}
+
+/* Order Status Badges */
+.order-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.order-status-badge.completed {
+    background-color: #c6f6d5;
+    color: #276749;
+}
+
+.order-status-badge.processing {
+    background-color: #bee3f8;
+    color: #2c5282;
+}
+
+.order-status-badge.preorder {
+    background-color: #feebc8;
+    color: #b7791f;
+}
+
+/* Logo Styles */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: contain;
+    background-color: white;
+    padding: 5px;
+}
+
+.logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+/* Jika ingin logo dengan icon */
+.logo-icon-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent-blue), #2c5282);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+    color: white;
+}
+/* Logo Styles */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-image {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    /* Hapus properti ini jika ada */
+    background-color: transparent !important;
+    border-radius: 0; /* Jika ingin sudut persegi, atau pertahankan jika ingin rounded */
+}
+
+.logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
     </style>
 </head>
 <body>
@@ -2673,9 +2968,7 @@ body.dark-mode #darkmode-toggle:hover {
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-store"></i>
-                </div>
+                <img src="images/dsg.png" alt="WARUNG DSG Logo" class="logo-image">
                 <h1>WARUNG DSG</h1>
             </div>
         </div>
@@ -2741,8 +3034,9 @@ body.dark-mode #darkmode-toggle:hover {
                 </div>
             </div>
 
-            <div class="darkmode-toggle" style="margin-top: 10px;">
-                <button class="logout-btn" id="darkmode-toggle">
+            <!-- Di sidebar-footer, setelah user-info -->
+            <div class="darkmode-toggle" style="margin-top: 15px;">
+                <button class="darkmode-btn" id="darkmode-toggle">
                     <i class="fas fa-moon" id="darkmode-icon"></i>
                     <span id="darkmode-text">Dark Mode</span>
                 </button>
@@ -2770,10 +3064,6 @@ body.dark-mode #darkmode-toggle:hover {
                 </div>
                 
                 <div class="top-bar-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Cari pesanan, produk, pelanggan...">
-                    </div>
                     <!-- Notification Bell -->
                     <button class="notification-bell" id="notification-bell">
                         <i class="fas fa-bell"></i>
@@ -3009,26 +3299,59 @@ body.dark-mode #darkmode-toggle:hover {
                     <h2>Kelola Pesanan</h2>
                     <p>Kelola semua pesanan pelanggan</p>
                 </div>
-                
                 <div class="top-bar-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="order-search" placeholder="Cari pesanan...">
+                    <!-- Dalam top-bar di section orders (setelah search-box) -->
+                    <div class="top-bar-actions">
+                        <!-- Tambah elemen ini untuk range tanggal -->
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="date" id="start-date" class="form-control" style="width: 150px;">
+                            <span>s/d</span>
+                            <input type="date" id="end-date" class="form-control" style="width: 150px;">
+                        </div>
+                        
+                        <button class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        
+                        <!-- Tambah tombol copy -->
+                        <button class="btn btn-primary" onclick="copyProcessedOrders()">
+                            <i class="fas fa-copy"></i> Copy Pesanan
+                        </button>
                     </div>
-                    
-                    <button class="notification-bell">
-                        <i class="fas fa-bell"></i>
-                    </button>
                 </div>
+            </div>
+            
+            <!-- Filter Section -->
+            <div class="order-filters" id="order-filters">
+                <button class="filter-btn active" data-filter="all" onclick="filterOrders('all')">
+                    <i class="fas fa-list"></i> Semua Pesanan
+                </button>
+                <button class="filter-btn" data-filter="completed" onclick="filterOrders('completed')">
+                    <i class="fas fa-check-circle"></i> Selesai
+                </button>
+                <button class="filter-btn" data-filter="processing" onclick="filterOrders('processing')">
+                    <i class="fas fa-clock"></i> Diproses
+                </button>
+                <button class="filter-btn" data-filter="pending" onclick="filterOrders('pending')">
+                    <i class="fas fa-hourglass-half"></i> Pending
+                </button>
+                <button class="filter-btn" data-filter="preorder" onclick="filterOrders('preorder')">
+                    <i class="fas fa-box"></i> Pre-Order
+                </button>
             </div>
             
             <!-- Orders Table -->
             <div class="table-card">
                 <div class="table-header">
                     <h3>Semua Pesanan</h3>
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="order-search-2" placeholder="Cari pesanan...">
+                    <div style="display: flex; gap: 10px;">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="order-search-2" placeholder="Cari pesanan..." onkeyup="searchOrders()">
+                        </div>
+                        <button class="btn btn-secondary" onclick="exportOrders()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
                     </div>
                 </div>
                 <div id="all-orders-loading" class="loading">
@@ -3045,7 +3368,7 @@ body.dark-mode #darkmode-toggle:hover {
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="all-orders-body">
                         <!-- Orders will be loaded here -->
                     </tbody>
                 </table>
@@ -3218,69 +3541,84 @@ body.dark-mode #darkmode-toggle:hover {
         </div>
     </div>
     
-    <!-- Add/Edit Product Modal -->
-    <div class="modal" id="product-form-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="product-form-title">Tambah Produk Baru</h3>
-                <button class="close-modal" id="close-product-form">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="product-form">
-                    <input type="hidden" id="product-id">
-                    
-                    <div class="form-group">
-                        <label for="product-name">Nama Produk *</label>
-                        <input type="text" id="product-name" class="form-control" required>
+<!-- Add/Edit Product Modal -->
+<div class="modal" id="product-form-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="product-form-title">Tambah Produk Baru</h3>
+            <button class="close-modal" id="close-product-form">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                
+                <div class="form-group">
+                    <label for="product-name">Nama Produk *</label>
+                    <input type="text" id="product-name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-category">Kategori *</label>
+                    <select id="product-category" class="form-control" required>
+                        <option value="">Pilih Kategori</option>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
+                        <option value="Ammo">Ammo</option>
+                        <option value="Attachment">Attachment</option>
+                        <option value="Vest">Vest</option>
+                        <option value="Heist Stuff">Heist Stuff</option>
+                        <option value="Narcotics">Narcotics</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status Produk *</label>
+                    <div style="display: flex; gap: 20px; margin-top: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="radio" name="product-status" value="ready" id="status-ready" checked>
+                            <span>Ready Stock</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="radio" name="product-status" value="preorder" id="status-preorder">
+                            <span>Pre-Order</span>
+                        </label>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="product-category">Kategori *</label>
-                        <select id="product-category" class="form-control" required>
-                            <option value="">Pilih Kategori</option>
-                            <option value="Class 1">Class 1</option>
-                            <option value="Class 2">Class 2</option>
-                            <option value="Class 3">Class 3</option>
-                            <option value="Ammo">Ammo</option>
-                            <option value="Attachment">Attachment</option>
-                            <option value="Vest">Vest</option>
-                            <option value="Heist Stuff">Heist Stuff</option>
-                            <option value="Narcotics">Narcotics</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-price">Harga (Rp) *</label>
-                        <input type="number" id="product-price" class="form-control" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-stock">Stok *</label>
-                        <input type="number" id="product-stock" class="form-control" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-description">Deskripsi</label>
-                        <textarea id="product-description" class="form-control" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-image-url">URL Gambar Produk *</label>
-                        <input type="url" id="product-image-url" class="form-control" 
-                               placeholder="https://example.com/image.jpg" 
-                               required>
-                        <small>Gunakan URL gambar dari Unsplash, Pexels, atau penyedia gambar lainnya. Contoh: https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="submit-product-btn">
-                            <i class="fas fa-save"></i> Simpan Produk
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="form-group" id="stock-input-group">
+                    <label for="product-stock">Stok *</label>
+                    <input type="number" id="product-stock" class="form-control" min="0" value="0" required>
+                    <small style="color: var(--blue-gray); font-size: 0.85rem;">Masukkan jumlah stok tersedia</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-price">Harga (Rp) *</label>
+                    <input type="number" id="product-price" class="form-control" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-description">Deskripsi</label>
+                    <textarea id="product-description" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image-url">URL Gambar Produk *</label>
+                    <input type="url" id="product-image-url" class="form-control" 
+                           placeholder="https://example.com/image.jpg" 
+                           required>
+                    <small>Gunakan URL gambar dari Unsplash, Pexels, atau penyedia gambar lainnya.</small>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="submit-product-btn">
+                        <i class="fas fa-save"></i> Simpan Produk
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
     <div class="modal" id="checkout-modal">
         <div class="modal-content">
@@ -3481,6 +3819,35 @@ body.dark-mode #darkmode-toggle:hover {
         </div>
     </div>
 </div>
+<!-- Tambahkan sebelum tag </body> -->
+<div class="modal" id="copy-summary-modal">
+    <div class="modal-content copy-summary-modal">
+        <div class="modal-header">
+            <h3>Ringkasan Pesanan Diproses</h3>
+            <button class="close-modal" id="close-copy-summary">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="summary-content" id="summary-content">
+                <!-- Ringkasan akan muncul di sini -->
+            </div>
+            <div class="summary-actions">
+                <div>
+                    <button class="btn btn-secondary" onclick="clearSummary()">
+                        <i class="fas fa-times"></i> Bersihkan
+                    </button>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="copySummaryToClipboard()">
+                        <i class="fas fa-copy"></i> Copy ke Clipboard
+                    </button>
+                </div>
+            </div>
+            <div class="copy-success" id="copy-success">
+                <i class="fas fa-check-circle"></i> Ringkasan berhasil disalin ke clipboard!
+            </div>
+        </div>
+    </div>
+</div>
     
     
     <!-- Firebase Configuration -->
@@ -3512,7 +3879,9 @@ body.dark-mode #darkmode-toggle:hover {
         let isProcessingCheckout = false;
         let checkoutFormBound = false;
         let currentOrderIdForPayment = null;
-        let currentOrderDataForPayment = null;  
+        let currentOrderDataForPayment = null;
+        let currentOrderFilter = 'all';
+        let allOrdersData = [];
         
         // Notification system
         let notifications = JSON.parse(localStorage.getItem('b2f_notifications')) || [];
@@ -3574,6 +3943,10 @@ body.dark-mode #darkmode-toggle:hover {
                     cart = [];
                 }
             }
+
+            // Inisialisasi toggle stock input
+            const initialStatus = document.querySelector('input[name="product-status"]:checked').value;
+            toggleStockInput(initialStatus);
 
             initializeFloatingCart();
             
@@ -3929,25 +4302,35 @@ function updateFloatingCartDisplay() {
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
         
-        itemsHtml += `
-            <div class="floating-cart-item">
-                <div class="floating-cart-item-image">
-                    <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
-                         alt="${item.name}"
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
-                </div>
-                <div class="floating-cart-item-info">
-                    <div class="floating-cart-item-title">${item.name}</div>
-                    <div class="floating-cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
-                    <div class="floating-cart-item-quantity">
-                        <button class="floating-quantity-btn" onclick="updateCartQuantity('${item.id}', -1); closeFloatingCart(); setTimeout(updateFloatingCartDisplay, 100);">-</button>
-                        <input type="number" class="floating-quantity-input" value="${item.quantity}" min="1" 
-                               onchange="updateCartQuantity('${item.id}', 0, this.value); setTimeout(updateFloatingCartDisplay, 100);">
-                        <button class="floating-quantity-btn" onclick="updateCartQuantity('${item.id}', 1); closeFloatingCart(); setTimeout(updateFloatingCartDisplay, 100);">+</button>
-                    </div>
-                </div>
+itemsHtml += `
+    <div class="cart-item">
+        <div class="cart-item-image">
+            <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
+                 alt="${item.name}" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+            ${item.status === 'preorder' ? 
+                '<div style="position: absolute; top: 5px; left: 5px; background: var(--warning); color: white; padding: 2px 5px; border-radius: 3px; font-size: 0.7rem;">PRE-ORDER</div>' : 
+                ''}
+        </div>
+        <div class="cart-item-info">
+            <div class="cart-item-title">${item.name}</div>
+            <div class="cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+            ${item.status === 'preorder' ? 
+                '<div style="color: var(--warning); font-size: 0.85rem; margin-top: 3px;"><i class="fas fa-clock"></i> Pre-Order</div>' : 
+                ''}
+            <div class="cart-item-quantity">
+                <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', -1)">-</button>
+                <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                       onchange="updateCartQuantity('${item.id}', 0, this.value)">
+                <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
+                <button class="btn btn-secondary" onclick="removeFromCart('${item.id}')" 
+                        style="margin-left: auto; padding: 5px 10px;">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
-        `;
+        </div>
+    </div>
+`;
     });
     
     floatingCartItems.innerHTML = itemsHtml;
@@ -4277,6 +4660,13 @@ function updateDarkModeUI(isDarkMode) {
 
             // Dark mode toggle
             document.getElementById('darkmode-toggle').addEventListener('click', toggleDarkMode);
+
+            // Tambahkan di fungsi setupEventListeners
+            document.querySelectorAll('input[name="product-status"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    toggleStockInput(this.value);
+                });
+            });
 
             // Payment status modal event listeners - CEK APAKAH ELEMEN ADA
             const closePaymentStatusBtn = document.getElementById('close-payment-status');
@@ -4650,6 +5040,314 @@ function exportReport() {
     }
 }
 
+// Tambahkan fungsi-fungsi berikut di file JavaScript:
+
+// Fungsi untuk mendapatkan pesanan berdasarkan range tanggal
+async function copyProcessedOrders() {
+    console.log("📋 Copying processed orders...");
+    
+    try {
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        
+        if (!startDateInput || !endDateInput) {
+            console.error("Date inputs not found");
+            addNotification('error', 'Error', 'Input tanggal tidak ditemukan');
+            return;
+        }
+        
+        const startDateStr = startDateInput.value;
+        const endDateStr = endDateInput.value;
+        
+        if (!startDateStr || !endDateStr) {
+            addNotification('warning', 'Peringatan', 'Pilih range tanggal terlebih dahulu');
+            return;
+        }
+        
+        const startDate = new Date(startDateStr);
+        const endDate = new Date(endDateStr);
+        endDate.setHours(23, 59, 59, 999); // Sampai akhir hari
+        
+        if (startDate > endDate) {
+            addNotification('warning', 'Peringatan', 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir');
+            return;
+        }
+        
+        // Get all orders in the date range
+        const querySnapshot = await ordersRef
+            .where('createdAt', '>=', firebase.firestore.Timestamp.fromDate(startDate))
+            .where('createdAt', '<=', firebase.firestore.Timestamp.fromDate(endDate))
+            .get();
+        
+        if (querySnapshot.empty) {
+            addNotification('info', 'Info', 'Tidak ada pesanan dalam rentang tanggal tersebut');
+            return;
+        }
+        
+        // Filter dan proses pesanan
+        const processedOrders = [];
+        const summary = {};
+        
+        querySnapshot.forEach(doc => {
+            const order = doc.data();
+            
+            // Hanya ambil pesanan yang statusnya processing
+            if (order.status === 'processing') {
+                // Hitung sisa barang yang belum diberikan
+                if (order.items && order.items.length > 0) {
+                    order.items.forEach(item => {
+                        const itemId = item.productId || item.name;
+                        
+                        // Cari berapa yang sudah diberikan
+                        const deliveredItem = order.deliveredItems?.find(di => 
+                            di.productId === item.productId || di.name === item.name
+                        );
+                        
+                        const deliveredQuantity = deliveredItem?.quantity || 0;
+                        const remainingQuantity = item.quantity - deliveredQuantity;
+                        
+                        // Hanya tambahkan jika masih ada sisa
+                        if (remainingQuantity > 0) {
+                            const totalPrice = item.price * remainingQuantity;
+                            
+                            if (summary[itemId]) {
+                                summary[itemId].quantity += remainingQuantity;
+                                summary[itemId].total += totalPrice;
+                            } else {
+                                summary[itemId] = {
+                                    name: item.name,
+                                    quantity: remainingQuantity,
+                                    price: item.price,
+                                    total: totalPrice
+                                };
+                            }
+                        }
+                    });
+                }
+                
+                processedOrders.push({
+                    id: order.orderId || doc.id,
+                    customerName: order.customerName,
+                    total: order.total,
+                    ...order
+                });
+            }
+        });
+        
+        if (processedOrders.length === 0) {
+            addNotification('info', 'Info', 'Tidak ada pesanan yang sedang diproses dalam rentang tanggal tersebut');
+            return;
+        }
+        
+        // Generate summary text
+        generateSummaryText(processedOrders, summary);
+        
+        // Show modal
+        document.getElementById('copy-summary-modal').classList.add('active');
+        
+    } catch (error) {
+        console.error("❌ Error copying processed orders:", error);
+        addNotification('error', 'Error', 'Gagal mengambil data pesanan');
+    }
+}
+
+// Fungsi untuk generate ringkasan
+function generateSummaryText(orders, summary) {
+    const summaryContent = document.getElementById('summary-content');
+    
+    // Format tanggal
+    const startDateStr = document.getElementById('start-date').value;
+    const endDateStr = document.getElementById('end-date').value;
+    
+    const startDate = new Date(startDateStr).toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
+    
+    const endDate = new Date(endDateStr).toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
+    
+    let 
+summaryText = `📋 RINGKASAN PESANAN DIPROSES\n`;
+summaryText += `📅 Periode: ${startDate} - ${endDate}\n`;
+summaryText += `🔢 Jumlah Pesanan: ${orders.length}\n`;
+summaryText += `================================\n\n`;
+summaryText += `🛒 DAFTAR BARANG YANG BELUM DIBERIKAN:\n\n`;
+    
+    // Sort by total amount (highest first)
+const sortedItems = Object.values(summary).sort((a, b) => b.total - a.total);
+    
+    // Generate item list
+sortedItems.forEach((item, index) => {
+summaryText += `${index + 1}. ${item.name}\n`;
+summaryText += `   Qty: ${item.quantity} × Rp ${item.price.toLocaleString('id-ID')}\n`;
+summaryText += `   Total: Rp ${item.total.toLocaleString('id-ID')}\n\n`;
+    });
+    
+    // Calculate totals
+const totalQuantity = sortedItems.reduce((sum, item) => sum + item.quantity, 0);
+const totalAmount = sortedItems.reduce((sum, item) => sum + item.total, 0);
+    
+summaryText += `================================\n`;
+summaryText += `📊 TOTAL:\n`;
+summaryText += `   Jumlah Item: ${totalQuantity}\n`;
+summaryText += `   Total Nominal: Rp ${totalAmount.toLocaleString('id-ID')}\n`;
+summaryText += `================================\n\n`;
+    
+// Add compact version for quick copy
+summaryText += `📋 VERSI SINGKAT (untuk WhatsApp/Chat):\n\n`;
+    
+    sortedItems.forEach((item, index) => {
+        summaryText += `${item.name} - ${item.quantity}pcs\n`;
+    });
+    
+    summaryText += `\nTotal: Rp ${totalAmount.toLocaleString('id-ID')}`;
+    
+    summaryContent.innerHTML = `
+        <div style="margin-bottom: 20px; color: var(--primary-blue);">
+            <h4>📋 Ringkasan Pesanan Diproses</h4>
+            <p>📅 Periode: ${startDate} - ${endDate}</p>
+            <p>🔢 ${orders.length} pesanan sedang diproses</p>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <h5>🛒 Barang yang Belum Diberikan:</h5>
+            ${sortedItems.map((item, index) => `
+                <div class="summary-item">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>${item.quantity} × Rp ${item.price.toLocaleString('id-ID')}</small>
+                    </div>
+                    <div style="font-weight: bold;">
+                        Rp ${item.total.toLocaleString('id-ID')}
+                    </div>
+                </div>
+            `).join('')}
+            
+            <div class="summary-item" style="background-color: var(--light-blue); padding: 10px;">
+                <div>
+                    <strong>TOTAL</strong><br>
+                    <small>${totalQuantity} item</small>
+                </div>
+                <div style="color: var(--success); font-size: 1.2rem;">
+                    Rp ${totalAmount.toLocaleString('id-ID')}
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: #fffaf0; padding: 15px; border-radius: var(--border-radius); border-left: 4px solid var(--warning);">
+            <h5><i class="fas fa-comment-dots"></i> Versi Singkat untuk Chat:</h5>
+            <pre style="background: white; padding: 10px; border-radius: 5px; margin-top: 10px;">
+${sortedItems.map(item => `${item.name} - ${item.quantity}pcs`).join('\n')}
+
+Total: Rp ${totalAmount.toLocaleString('id-ID')}
+            </pre>
+        </div>
+    `;
+    
+    // Store summary data for copying
+    window.currentSummaryData = {
+        text: summaryText,
+        items: sortedItems,
+        totalQuantity: totalQuantity,
+        totalAmount: totalAmount
+    };
+}
+
+// Fungsi untuk copy ke clipboard
+function copySummaryToClipboard() {
+    if (!window.currentSummaryData) {
+        addNotification('error', 'Error', 'Tidak ada data ringkasan');
+        return;
+    }
+    
+    // Copy versi singkat
+    const compactText = window.currentSummaryData.items
+        .map(item => `${item.name} - ${item.quantity}pcs`)
+        .join('\n') + `\n\nTotal: Rp ${window.currentSummaryData.totalAmount.toLocaleString('id-ID')}`;
+    
+    // Copy ke clipboard
+    navigator.clipboard.writeText(compactText).then(() => {
+        // Tampilkan pesan sukses
+        const successMsg = document.getElementById('copy-success');
+        successMsg.classList.add('show');
+        
+        // Sembunyikan setelah 3 detik
+        setTimeout(() => {
+            successMsg.classList.remove('show');
+        }, 3000);
+        
+        addNotification('success', 'Berhasil', 'Ringkasan berhasil disalin ke clipboard!');
+        
+        // Auto close modal setelah copy
+        setTimeout(() => {
+            document.getElementById('copy-summary-modal').classList.remove('active');
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        addNotification('error', 'Error', 'Gagal menyalin ke clipboard');
+    });
+}
+
+// Fungsi untuk membersihkan summary
+function clearSummary() {
+    document.getElementById('summary-content').innerHTML = '';
+    window.currentSummaryData = null;
+}
+
+// Fungsi untuk menutup modal
+document.getElementById('close-copy-summary').addEventListener('click', function() {
+    document.getElementById('copy-summary-modal').classList.remove('active');
+});
+
+// Event listener untuk modal copy summary
+document.getElementById('copy-summary-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('copy-summary-modal')) {
+        document.getElementById('copy-summary-modal').classList.remove('active');
+    }
+});
+
+// Auto set date range to last 7 days on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default date range (last 7 days)
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 7);
+    
+    // Format to YYYY-MM-DD
+    const formatDate = (date) => {
+        return date.toISOString().split('T')[0];
+    };
+    
+    // Set default values jika elemen ada
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    
+    if (startDateInput && endDateInput) {
+        startDateInput.value = formatDate(sevenDaysAgo);
+        endDateInput.value = formatDate(today);
+    }
+});
+
+// Tambahkan juga tombol reset filter
+function resetDateFilter() {
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 7);
+    
+    document.getElementById('start-date').value = sevenDaysAgo.toISOString().split('T')[0];
+    document.getElementById('end-date').value = today.toISOString().split('T')[0];
+    
+    // Refresh orders jika sedang di filter
+    if (currentOrderFilter) {
+        applyOrderFilter(currentOrderFilter);
+    }
+}
+
 // Load top products report
 async function loadTopProductsReport() {
     console.log("🏆 Loading top products report...");
@@ -4908,42 +5606,55 @@ async function loadTopProductsReport() {
             }
         }
         
-        // Update fungsi createProductCard untuk menambahkan badge kategori
-        function createProductCard(product) {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.dataset.id = product.id;
-            card.dataset.category = product.category;
-            
-            // Use image URL from product data
-            const imageUrl = product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop';
-            
-            card.innerHTML = `
-                <div class="product-image">
-                    <img src="${imageUrl}" alt="${product.name}" 
-                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
-                </div>
-                <div class="product-info">
-                    <div class="product-category-badge">${product.category}</div>
-                    <h3 class="product-title">${product.name}</h3>
-                    <p class="product-description">${product.description || 'Tidak ada deskripsi'}</p>
-                    <div class="product-price">Rp ${(product.price || 0).toLocaleString('id-ID')}</div>
-                    <div class="product-stock ${(product.stock || 0) > 0 ? 'in-stock' : 'out-of-stock'}">
-                        Stok: ${product.stock || 0} unit
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-primary" onclick="addToCart('${product.id}')" ${(product.stock || 0) === 0 ? 'disabled' : ''}>
-                            <i class="fas fa-cart-plus"></i> Beli
-                        </button>
-                        <button class="btn btn-secondary" onclick="viewProductDetail('${product.id}')">
-                            <i class="fas fa-eye"></i> Detail
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            return card;
-        }
+function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.dataset.id = product.id;
+    card.dataset.category = product.category;
+    card.dataset.status = product.status || 'ready';
+    
+    const imageUrl = product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop';
+    
+    const statusBadge = product.status === 'preorder' 
+        ? `<span class="product-status-badge preorder">Pre-Order</span>` 
+        : `<span class="product-status-badge ready">Ready Stock</span>`;
+    
+    // PERUBAHAN: Tentukan ketersediaan berdasarkan status
+    const isAvailable = true; // Selalu tersedia untuk pre-order
+    
+    const stockDisplay = product.status === 'preorder' 
+        ? 'Pre-Order (Tersedia)' 
+        : `${product.stock || 0} unit`;
+    
+    card.innerHTML = `
+        <div class="product-image">
+            <img src="${imageUrl}" alt="${product.name}" 
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+        </div>
+        <div class="product-info">
+            <div style="display: flex; gap: 5px; margin-bottom: 8px;">
+                <div class="product-category-badge">${product.category}</div>
+                ${statusBadge}
+            </div>
+            <h3 class="product-title">${product.name}</h3>
+            <p class="product-description">${product.description || 'Tidak ada deskripsi'}</p>
+            <div class="product-price">Rp ${(product.price || 0).toLocaleString('id-ID')}</div>
+            <div class="product-stock ${isAvailable ? 'in-stock' : 'out-of-stock'}">
+                ${product.status === 'preorder' ? 'Status: Pre-Order (Bisa Dipesan)' : `Stok: ${stockDisplay}`}
+            </div>
+            <div class="product-actions">
+                <button class="btn btn-primary" onclick="addToCart('${product.id}')">
+                    <i class="fas fa-cart-plus"></i> ${product.status === 'preorder' ? 'Pre-Order' : 'Beli'}
+                </button>
+                <button class="btn btn-secondary" onclick="viewProductDetail('${product.id}')">
+                    <i class="fas fa-eye"></i> Detail
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
 
         // Tambahkan fungsi untuk melihat detail produk
         async function viewProductDetail(productId) {
@@ -5016,150 +5727,289 @@ async function loadTopProductsReport() {
             }
         }
         
-        // Load products management
-        async function loadProductsManagement() {
-            console.log("📦 Loading products management...");
-            
-            try {
-                document.getElementById('products-management-loading').style.display = 'flex';
-                document.getElementById('products-management-table').style.display = 'none';
+// Update dalam fungsi loadProductsManagement
+async function loadProductsManagement() {
+    console.log("📦 Loading products management...");
+    
+    try {
+        document.getElementById('products-management-loading').style.display = 'flex';
+        document.getElementById('products-management-table').style.display = 'none';
+        
+        const querySnapshot = await productsRef.get();
+        const productsTable = document.getElementById('products-management-table').getElementsByTagName('tbody')[0];
+        productsTable.innerHTML = '';
+        
+        if (querySnapshot.empty) {
+            productsTable.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 30px;">
+                        <i class="fas fa-box-open" style="font-size: 2rem; color: var(--blue-gray); margin-bottom: 10px;"></i>
+                        <p>Belum ada produk</p>
+                        <button class="btn btn-primary" onclick="openProductForm()">
+                            <i class="fas fa-plus"></i> Tambah Produk Pertama
+                        </button>
+                    </td>
+                </tr>
+            `;
+        } else {
+            querySnapshot.forEach(doc => {
+                const product = doc.data();
+                const row = productsTable.insertRow();
                 
-                const querySnapshot = await productsRef.get();
-                const productsTable = document.getElementById('products-management-table').getElementsByTagName('tbody')[0];
-                productsTable.innerHTML = '';
+                // Status produk
+                const status = product.status || 'ready';
+                let statusBadge, stockDisplay;
                 
-                if (querySnapshot.empty) {
-                    productsTable.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 30px;">
-                                <i class="fas fa-box-open" style="font-size: 2rem; color: var(--blue-gray); margin-bottom: 10px;"></i>
-                                <p>Belum ada produk</p>
-                                <button class="btn btn-primary" onclick="openProductForm()">
-                                    <i class="fas fa-plus"></i> Tambah Produk Pertama
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+                if (status === 'preorder') {
+                    statusBadge = '<span class="product-status-badge preorder">Pre-Order</span>';
+                    stockDisplay = '-';
                 } else {
-                    querySnapshot.forEach(doc => {
-                        const product = doc.data();
-                        const row = productsTable.insertRow();
-                        
-                        const stock = product.stock || 0;
-                        let statusClass, statusText;
-                        
-                        if (stock > 10) {
-                            statusClass = 'completed';
-                            statusText = 'Tersedia';
-                        } else if (stock > 0) {
-                            statusClass = 'processing';
-                            statusText = 'Terbatas';
-                        } else {
-                            statusClass = 'pending';
-                            statusText = 'Habis';
-                        }
-                        
-                        row.innerHTML = `
-                            <td>${product.name}</td>
-                            <td>${product.category}</td>
-                            <td>Rp ${(product.price || 0).toLocaleString('id-ID')}</td>
-                            <td>${stock}</td>
-                            <td><span class="status ${statusClass}">${statusText}</span></td>
-                            <td>
-                                <button class="btn btn-secondary" onclick="editProduct('${doc.id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-primary" onclick="deleteProduct('${doc.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        `;
-                    });
+                    const stock = product.stock || 0;
+                    statusBadge = '<span class="product-status-badge ready">Ready</span>';
+                    stockDisplay = stock;
+                    
+                    if (stock === 0) {
+                        statusBadge = '<span class="product-status-badge preorder" style="background-color: #fed7d7; color: #c53030;">Habis</span>';
+                    }
                 }
                 
-                // Hide loading, show table
-                document.getElementById('products-management-loading').style.display = 'none';
-                document.getElementById('products-management-table').style.display = 'table';
+                // Tampilan stok
+                const stockText = status === 'preorder' ? '-' : stockDisplay;
                 
-                console.log("✅ Products management loaded successfully");
-                
-            } catch (error) {
-                console.error("❌ Error loading products management:", error);
-                document.getElementById('products-management-loading').innerHTML = 
-                    '<i class="fas fa-exclamation-triangle"></i> Gagal memuat produk';
-                addNotification('error', 'Error', 'Gagal memuat manajemen produk');
-            }
+                row.innerHTML = `
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${statusBadge}</td>
+                    <td>Rp ${(product.price || 0).toLocaleString('id-ID')}</td>
+                    <td>${stockText}</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editProduct('${doc.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-primary" onclick="deleteProduct('${doc.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+            });
         }
         
-        // Load all orders
-        async function loadAllOrders() {
-            console.log("📋 Loading all orders...");
-            
-            try {
-                document.getElementById('all-orders-loading').style.display = 'flex';
-                document.getElementById('all-orders-table').style.display = 'none';
-                
-                const querySnapshot = await ordersRef.orderBy('createdAt', 'desc').get();
-                const ordersTable = document.getElementById('all-orders-table').getElementsByTagName('tbody')[0];
-                ordersTable.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    ordersTable.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 30px;">
-                                <i class="fas fa-shopping-cart" style="font-size: 2rem; color: var(--blue-gray); margin-bottom: 10px;"></i>
-                                <p>Belum ada pesanan</p>
-                            </td>
-                        </tr>
-                    `;
-                } else {
-                    querySnapshot.forEach(doc => {
-                        const order = doc.data();
-                        const row = ordersTable.insertRow();
-                        
-                        const statusClass = order.status === 'completed' ? 'completed' : 
-                                          order.status === 'processing' ? 'processing' : 'pending';
-                        const statusText = order.status === 'completed' ? 'Selesai' : 
-                                         order.status === 'processing' ? 'Diproses' : 'Pending';
-                        
-                        // Format date
-                        const date = order.createdAt ? 
-                            new Date(order.createdAt.seconds * 1000).toLocaleDateString('id-ID') : 
-                            '-';
-                        row.innerHTML = `
-                            <td>${order.orderId || doc.id}</td>
-                            <td>${date}</td>
-                            <td>
-                                <strong>${order.customerName || 'Pelanggan'}</strong><br>
-                                <small>${order.paymentRecipient ? 'Bayar ke: ' + order.paymentRecipient : ''}</small>
-                            </td>
-                            <td>Rp ${(order.total || 0).toLocaleString('id-ID')}</td>
-                            <td>
-                                <span class="status ${statusClass}">${statusText}</span>
-                                ${order.paymentStatus ? `<span class="status-badge ${order.paymentStatus}">${getPaymentStatusText(order.paymentStatus)}</span>` : ''}
-                            </td>
-                            <td>
-                                <button class="btn btn-secondary" onclick="viewOrderDetail('${doc.id}')">
-                                    <i class="fas fa-eye"></i> Detail
-                                </button>
-                            </td>
-                        `;
-                    });
-                }
-                
-                // Hide loading, show table
-                document.getElementById('all-orders-loading').style.display = 'none';
-                document.getElementById('all-orders-table').style.display = 'table';
-                
-                console.log("✅ All orders loaded successfully");
-                
-            } catch (error) {
-                console.error("❌ Error loading all orders:", error);
-                document.getElementById('all-orders-loading').innerHTML = 
-                    '<i class="fas fa-exclamation-triangle"></i> Gagal memuat pesanan';
-                addNotification('error', 'Error', 'Gagal memuat semua pesanan');
-            }
+        // Hide loading, show table
+        document.getElementById('products-management-loading').style.display = 'none';
+        document.getElementById('products-management-table').style.display = 'table';
+        
+        console.log("✅ Products management loaded successfully");
+        
+    } catch (error) {
+        console.error("❌ Error loading products management:", error);
+        document.getElementById('products-management-loading').innerHTML = 
+            '<i class="fas fa-exclamation-triangle"></i> Gagal memuat produk';
+        addNotification('error', 'Error', 'Gagal memuat manajemen produk');
+    }
+}
+        
+// Update fungsi loadAllOrders
+async function loadAllOrders() {
+    console.log("📋 Loading all orders...");
+    
+    try {
+        document.getElementById('all-orders-loading').style.display = 'flex';
+        document.getElementById('all-orders-table').style.display = 'none';
+        
+        const querySnapshot = await ordersRef.orderBy('createdAt', 'desc').get();
+        allOrdersData = [];
+        
+        querySnapshot.forEach(doc => {
+            allOrdersData.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        
+        applyOrderFilter(currentOrderFilter);
+        
+    } catch (error) {
+        console.error("❌ Error loading all orders:", error);
+        document.getElementById('all-orders-loading').innerHTML = 
+            '<i class="fas fa-exclamation-triangle"></i> Gagal memuat pesanan';
+        addNotification('error', 'Error', 'Gagal memuat semua pesanan');
+    }
+}
+
+// Fungsi untuk filter pesanan
+function filterOrders(filter) {
+    console.log(`🔍 Filtering orders: ${filter}`);
+    
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === filter) {
+            btn.classList.add('active');
         }
+    });
+    
+    currentOrderFilter = filter;
+    applyOrderFilter(filter);
+}
+
+// Fungsi untuk menerapkan filter
+function applyOrderFilter(filter) {
+    const ordersTable = document.getElementById('all-orders-body');
+    
+    if (allOrdersData.length === 0) {
+        ordersTable.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 30px;">
+                    <i class="fas fa-shopping-cart" style="font-size: 2rem; color: var(--blue-gray); margin-bottom: 10px;"></i>
+                    <p>Belum ada pesanan</p>
+                </td>
+            </tr>
+        `;
+    } else {
+        // Filter data berdasarkan kriteria
+        let filteredOrders = [...allOrdersData];
+        
+        if (filter === 'completed') {
+            filteredOrders = allOrdersData.filter(order => order.status === 'completed');
+        } else if (filter === 'processing') {
+            filteredOrders = allOrdersData.filter(order => order.status === 'processing');
+        } else if (filter === 'pending') {
+            filteredOrders = allOrdersData.filter(order => order.status === 'pending');
+        } else if (filter === 'preorder') {
+            // Filter pesanan yang mengandung produk pre-order
+            filteredOrders = allOrdersData.filter(order => {
+                return order.items?.some(item => item.status === 'preorder') || 
+                       order.orderType === 'preorder';
+            });
+        }
+        // 'all' menampilkan semua pesanan
+        
+        // Render tabel
+        renderOrdersTable(filteredOrders);
+    }
+    
+    // Hide loading, show table
+    document.getElementById('all-orders-loading').style.display = 'none';
+    document.getElementById('all-orders-table').style.display = 'table';
+}
+
+// Fungsi untuk render tabel pesanan
+function renderOrdersTable(orders) {
+    const ordersTable = document.getElementById('all-orders-body');
+    ordersTable.innerHTML = '';
+    
+    if (orders.length === 0) {
+        ordersTable.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 30px; color: var(--blue-gray);">
+                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Tidak ada pesanan yang sesuai</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    orders.forEach(orderData => {
+        const order = orderData;
+        const row = ordersTable.insertRow();
+        
+        // Format tanggal
+        const date = order.createdAt ? 
+            new Date(order.createdAt.seconds * 1000).toLocaleDateString('id-ID') : 
+            '-';
+        
+        // Status pesanan
+        const statusClass = order.status === 'completed' ? 'completed' : 
+                          order.status === 'processing' ? 'processing' : 'pending';
+        const statusText = order.status === 'completed' ? 'Selesai' : 
+                         order.status === 'processing' ? 'Diproses' : 'Pending';
+        
+        // Cek apakah ada item pre-order
+        const hasPreorder = order.items?.some(item => item.status === 'preorder');
+        
+        row.innerHTML = `
+            <td>
+                ${order.orderId || order.id}
+                ${hasPreorder ? '<span class="order-status-badge preorder" style="margin-left: 5px;">Pre-Order</span>' : ''}
+            </td>
+            <td>${date}</td>
+            <td>
+                <strong>${order.customerName || 'Pelanggan'}</strong><br>
+                <small>${order.paymentRecipient ? 'Bayar ke: ' + order.paymentRecipient : ''}</small>
+            </td>
+            <td>Rp ${(order.total || 0).toLocaleString('id-ID')}</td>
+            <td>
+                <span class="order-status-badge ${statusClass}">${statusText}</span>
+                ${order.paymentStatus ? `<span class="status-badge ${order.paymentStatus}">${getPaymentStatusText(order.paymentStatus)}</span>` : ''}
+            </td>
+            <td>
+                <button class="btn btn-secondary" onclick="viewOrderDetail('${order.id}')">
+                    <i class="fas fa-eye"></i> Detail
+                </button>
+            </td>
+        `;
+    });
+}
+
+// Fungsi search untuk pesanan
+function searchOrders() {
+    const searchTerm = document.getElementById('order-search-2').value.toLowerCase();
+    
+    if (!searchTerm) {
+        applyOrderFilter(currentOrderFilter);
+        return;
+    }
+    
+    const filteredOrders = allOrdersData.filter(order => {
+        return (
+            (order.orderId && order.orderId.toLowerCase().includes(searchTerm)) ||
+            (order.customerName && order.customerName.toLowerCase().includes(searchTerm)) ||
+            (order.customerPhone && order.customerPhone.includes(searchTerm))
+        );
+    });
+    
+    renderOrdersTable(filteredOrders);
+}
+
+// Fungsi export pesanan
+function exportOrders() {
+    console.log("📤 Exporting orders...");
+    
+    try {
+        let csv = 'ID Pesanan,Tanggal,Pelanggan,Telepon,Total,Status,Status Pembayaran,Metode Pembayaran\n';
+        
+        allOrdersData.forEach(order => {
+            const date = order.createdAt ? 
+                new Date(order.createdAt.seconds * 1000).toLocaleDateString('id-ID') : '-';
+            
+            csv += `"${order.orderId || order.id}",`;
+            csv += `"${date}",`;
+            csv += `"${order.customerName || ''}",`;
+            csv += `"${order.customerPhone || ''}",`;
+            csv += `"${order.total || 0}",`;
+            csv += `"${order.status || ''}",`;
+            csv += `"${getPaymentStatusText(order.paymentStatus)}",`;
+            csv += `"${order.paymentMethod || ''}"\n`;
+        });
+        
+        // Create download link
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `pesanan_b2f_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        addNotification('success', 'Export Berhasil', 'Data pesanan berhasil diexport ke CSV');
+        
+    } catch (error) {
+        console.error("❌ Error exporting orders:", error);
+        addNotification('error', 'Error', 'Gagal mengexport data pesanan');
+    }
+}
         
 // Ganti fungsi loadReports() dengan ini:
 async function loadReports() {
@@ -5431,7 +6281,7 @@ function updateChartData(orders, salesByDate) {
             document.getElementById('product-form-modal').classList.add('active');
         }
         
-        // Load product data for editing
+        // Update fungsi loadProductData untuk pre-order
         async function loadProductData(productId) {
             try {
                 const doc = await productsRef.doc(productId).get();
@@ -5441,6 +6291,14 @@ function updateChartData(orders, salesByDate) {
                     document.getElementById('product-id').value = productId;
                     document.getElementById('product-name').value = product.name || '';
                     document.getElementById('product-category').value = product.category || '';
+                    
+                    // Set status radio button
+                    const status = product.status || 'ready';
+                    document.getElementById(`status-${status}`).checked = true;
+                    
+                    // Tampilkan/sembunyikan input stok
+                    toggleStockInput(status);
+                    
                     document.getElementById('product-price').value = product.price || '';
                     document.getElementById('product-stock').value = product.stock || '';
                     document.getElementById('product-description').value = product.description || '';
@@ -5453,108 +6311,128 @@ function updateChartData(orders, salesByDate) {
                 addNotification('error', 'Error', 'Gagal memuat data produk');
             }
         }
+
+        // Fungsi untuk toggle input stok
+function toggleStockInput(status) {
+    const stockInputGroup = document.getElementById('stock-input-group');
+    const stockInput = document.getElementById('product-stock');
+    const stockLabel = stockInputGroup.querySelector('label');
+    
+    if (status === 'preorder') {
+        stockLabel.textContent = 'Stok (Opsional untuk Pre-Order)';
+        stockInput.required = false;
+        stockInput.value = 0;
+        stockInputGroup.querySelector('small').textContent = 'Untuk pre-order, stok bisa diisi 0 atau jumlah yang tersedia';
+    } else {
+        stockLabel.textContent = 'Stok *';
+        stockInput.required = true;
+        stockInputGroup.querySelector('small').textContent = 'Masukkan jumlah stok tersedia';
+    }
+}
         
-        // Save product to Firebase
-        async function saveProduct() {
-            console.log("💾 Saving product...");
-            
-            try {
-                const productId = document.getElementById('product-id').value;
-                const name = document.getElementById('product-name').value;
-                const category = document.getElementById('product-category').value;
-                const price = parseInt(document.getElementById('product-price').value);
-                const stock = parseInt(document.getElementById('product-stock').value);
-                const description = document.getElementById('product-description').value;
-                const imageUrl = document.getElementById('product-image-url').value;
-                
-                // Validasi
-                if (!name || !category || !price || !stock || !imageUrl) {
-                    addNotification('warning', 'Peringatan', 'Harap isi semua field yang diperlukan');
-                    return;
-                }
-                
-                if (price < 0) {
-                    addNotification('warning', 'Peringatan', 'Harga tidak boleh negatif');
-                    return;
-                }
-                
-                if (stock < 0) {
-                    addNotification('warning', 'Peringatan', 'Stok tidak boleh negatif');
-                    return;
-                }
-                
-                // Validasi URL gambar
-                try {
-                    new URL(imageUrl);
-                } catch (e) {
-                    addNotification('warning', 'Peringatan', 'URL gambar tidak valid. Gunakan URL yang lengkap (https://...)');
-                    return;
-                }
-                
-                // Prepare product data
-                const productData = {
-                    name,
-                    category,
-                    price,
-                    stock,
-                    description,
-                    imageUrl,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                // Only add createdAt for new products
-                if (!productId) {
-                    productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    productData.sold = 0;
-                }
-                
-                // Save to Firestore
-                const submitBtn = document.getElementById('submit-product-btn');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-                submitBtn.disabled = true;
-                
-                if (productId) {
-                    // Update existing product
-                    await productsRef.doc(productId).update(productData);
-                    addNotification('success', 'Berhasil', 'Produk berhasil diupdate!');
-                    console.log(`✅ Product updated: ${productId}`);
-                } else {
-                    // Add new product
-                    const docRef = await productsRef.add(productData);
-                    addNotification('success', 'Berhasil', 'Produk berhasil ditambahkan!');
-                    console.log(`✅ Product added: ${docRef.id} - ${name}`);
-                }
-                
-                // Restore button
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                
-                // Close modal
-                document.getElementById('product-form-modal').classList.remove('active');
-                
-                // Reload data
-                loadDashboardStats();
-                loadProductsManagement();
-                loadMarketplaceProducts();
-                loadTopProducts();
-                
-            } catch (error) {
-                console.error("❌ Error saving product:", error);
-                
-                // Restore button
-                const submitBtn = document.getElementById('submit-product-btn');
-                submitBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Produk';
-                submitBtn.disabled = false;
-                
-                if (error.code === 'permission-denied') {
-                    addNotification('error', 'Error', 'Izin Firestore ditolak. Silakan konfigurasi Firestore Security Rules.');
-                    console.log("💡 Solusi: Update Firestore Security Rules di Firebase Console");
-                } else {
-                    addNotification('error', 'Error', 'Gagal menyimpan produk: ' + error.message);
-                }
-            }
+// Update fungsi saveProduct untuk handle pre-order
+async function saveProduct() {
+    console.log("💾 Saving product...");
+    
+    try {
+        const productId = document.getElementById('product-id').value;
+        const name = document.getElementById('product-name').value;
+        const category = document.getElementById('product-category').value;
+        const status = document.querySelector('input[name="product-status"]:checked').value;
+        const price = parseInt(document.getElementById('product-price').value);
+        const stock = status === 'ready' ? parseInt(document.getElementById('product-stock').value) : 0;
+        const description = document.getElementById('product-description').value;
+        const imageUrl = document.getElementById('product-image-url').value;
+        
+        // Validasi
+        if (!name || !category || !status || !price || !imageUrl) {
+            addNotification('warning', 'Peringatan', 'Harap isi semua field yang diperlukan');
+            return;
         }
+        
+        if (status === 'ready' && (isNaN(stock) || stock < 0)) {
+            addNotification('warning', 'Peringatan', 'Stok tidak boleh negatif');
+            return;
+        }
+        
+        if (price < 0) {
+            addNotification('warning', 'Peringatan', 'Harga tidak boleh negatif');
+            return;
+        }
+        
+        // Validasi URL gambar
+        try {
+            new URL(imageUrl);
+        } catch (e) {
+            addNotification('warning', 'Peringatan', 'URL gambar tidak valid. Gunakan URL yang lengkap (https://...)');
+            return;
+        }
+        
+        // Prepare product data
+        const productData = {
+            name,
+            category,
+            status,
+            price,
+            stock,
+            description,
+            imageUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        // Only add createdAt for new products
+        if (!productId) {
+            productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            productData.sold = 0;
+        }
+        
+        // Save to Firestore
+        const submitBtn = document.getElementById('submit-product-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+        submitBtn.disabled = true;
+        
+        if (productId) {
+            // Update existing product
+            await productsRef.doc(productId).update(productData);
+            addNotification('success', 'Berhasil', 'Produk berhasil diupdate!');
+            console.log(`✅ Product updated: ${productId}`);
+        } else {
+            // Add new product
+            const docRef = await productsRef.add(productData);
+            addNotification('success', 'Berhasil', 'Produk berhasil ditambahkan!');
+            console.log(`✅ Product added: ${docRef.id} - ${name}`);
+        }
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Close modal
+        document.getElementById('product-form-modal').classList.remove('active');
+        
+        // Reload data
+        loadDashboardStats();
+        loadProductsManagement();
+        loadMarketplaceProducts();
+        loadTopProducts();
+        
+    } catch (error) {
+        console.error("❌ Error saving product:", error);
+        
+        // Restore button
+        const submitBtn = document.getElementById('submit-product-btn');
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Produk';
+        submitBtn.disabled = false;
+        
+        if (error.code === 'permission-denied') {
+            addNotification('error', 'Error', 'Izin Firestore ditolak. Silakan konfigurasi Firestore Security Rules.');
+            console.log("💡 Solusi: Update Firestore Security Rules di Firebase Console");
+        } else {
+            addNotification('error', 'Error', 'Gagal menyimpan produk: ' + error.message);
+        }
+    }
+}
         
         // Edit product
         async function editProduct(productId) {
@@ -5585,7 +6463,7 @@ function updateChartData(orders, salesByDate) {
             }
         }
         
-// Function untuk memperbarui tampilan order detail
+// Update fungsi viewOrderDetail untuk menampilkan status pre-order
 async function viewOrderDetail(orderId) {
     console.log(`👁️ Viewing order detail: ${orderId}`);
     
@@ -5605,95 +6483,43 @@ async function viewOrderDetail(orderId) {
                     minute: '2-digit'
                 }) : '-';
             
-            // Hitung total barang yang sudah diberikan
-            let totalDelivered = 0;
-            let totalOrdered = 0;
-            let deliveryStatus = 'Belum ada barang diberikan';
-            
-            if (order.deliveredItems && order.deliveredItems.length > 0) {
-                order.deliveredItems.forEach(item => {
-                    totalDelivered += item.quantity;
-                });
-            }
-            
-            if (order.items) {
-                order.items.forEach(item => {
-                    totalOrdered += item.quantity;
-                });
-            }
-            
-            // Tentukan status pengiriman
-            if (totalDelivered === totalOrdered && totalOrdered > 0) {
-                deliveryStatus = `<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Semua barang sudah diberikan (${totalDelivered}/${totalOrdered})</span>`;
-            } else if (totalDelivered > 0) {
-                deliveryStatus = `<span style="color: var(--warning);"><i class="fas fa-clock"></i> Sebagian barang sudah diberikan (${totalDelivered}/${totalOrdered})</span>`;
-            }
+            // Cek apakah ada item pre-order
+            const hasPreorder = order.items?.some(item => item.status === 'preorder');
             
             // Buat modal untuk detail pesanan
             const modalHtml = `
                 <div class="modal active" id="order-detail-modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3>Detail Pesanan #${order.orderId || orderId}</h3>
+                            <h3>Detail Pesanan #${order.orderId || orderId}
+                                ${hasPreorder ? '<span class="order-status-badge preorder" style="margin-left: 10px;">Pre-Order</span>' : ''}
+                            </h3>
                             <button class="close-modal" onclick="closeOrderDetail()">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div style="margin-bottom: 20px;">
                                 <p><strong>Pemesan:</strong> ${order.customerName || 'Tidak diketahui'}</p>
                                 <p><strong>Telepon:</strong> ${order.customerPhone || '-'}</p>
-                                <p><strong>Status Pesanan:</strong> <span class="status ${order.status || 'pending'}">${order.status === 'completed' ? 'Selesai' : order.status === 'processing' ? 'Diproses' : 'Pending'}</span></p>
-                                <p><strong>Status Pengiriman:</strong> ${deliveryStatus}</p>
-                                <p><strong>Status Pembayaran:</strong> 
-                                    ${order.paymentStatus ? `<span class="status-badge ${order.paymentStatus}">${getPaymentStatusText(order.paymentStatus)}</span>` : '<span style="color: var(--blue-gray);">Belum diatur</span>'}
-                                </p>
-                                ${order.paymentStatus === 'sebagian' && order.amountPaid ? `
-                                    <div class="payment-info">
-                                        <div class="payment-info-item">
-                                            <span class="payment-info-label">Sudah dibayar:</span>
-                                            <span class="payment-info-value">Rp ${order.amountPaid.toLocaleString('id-ID')}</span>
-                                        </div>
-                                        <div class="payment-info-item">
-                                            <span class="payment-info-label">Kekurangan:</span>
-                                            <span class="payment-info-value">Rp ${(order.total - order.amountPaid).toLocaleString('id-ID')}</span>
-                                        </div>
-                                    </div>
-                                ` : ''}
-                                <p><strong>Tanggal:</strong> ${orderDate}</p>
+                                <p><strong>Status Pesanan:</strong> <span class="order-status-badge ${order.status || 'pending'}">${order.status === 'completed' ? 'Selesai' : order.status === 'processing' ? 'Diproses' : 'Pending'}</span></p>
                                 <p><strong>Metode Pembayaran:</strong> ${order.paymentMethod || '-'}</p>
                                 <p><strong>Diterima oleh:</strong> ${order.paymentRecipient || '-'}</p>
+                                <p><strong>Tanggal:</strong> ${orderDate}</p>
                             </div>
-                            
-                            ${order.deliveredItems && order.deliveredItems.length > 0 ? `
-                                <div class="delivered-items-list">
-                                    <h5><i class="fas fa-check-circle"></i> Barang Sudah Diberikan:</h5>
-                                    ${order.deliveredItems.map(item => `
-                                        <div class="delivered-item">
-                                            <i class="fas fa-check"></i>
-                                            <span>${item.name} (${item.quantity}/${item.maxQuantity || item.quantity} buah)</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
                             
                             <h4>Item Pesanan:</h4>
                             <div style="margin-bottom: 20px;">
                                 ${order.items ? order.items.map(item => {
-                                    const deliveredItem = order.deliveredItems?.find(di => di.productId === item.productId);
-                                    const deliveredQuantity = deliveredItem?.quantity || 0;
-                                    const isFullyDelivered = deliveredQuantity === item.quantity;
-                                    const isPartiallyDelivered = deliveredQuantity > 0;
+                                    const isPreorder = item.status === 'preorder';
+                                    const statusBadge = isPreorder 
+                                        ? '<span class="product-status-badge preorder" style="margin-left: 10px;">Pre-Order</span>' 
+                                        : '';
                                     
                                     return `
                                         <div style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
                                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                                 <div>
-                                                    ${item.name} - Pesanan: ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}
-                                                    ${isFullyDelivered ? 
-                                                        '<span style="margin-left: 10px; color: var(--success);"><i class="fas fa-check-circle"></i> Sudah diberikan (' + deliveredQuantity + ')</span>' : 
-                                                        isPartiallyDelivered ?
-                                                        '<span style="margin-left: 10px; color: var(--warning);"><i class="fas fa-clock"></i> Sudah diberikan (' + deliveredQuantity + '/' + item.quantity + ')</span>' :
-                                                        '<span style="margin-left: 10px; color: var(--blue-gray);"><i class="fas fa-clock"></i> Belum diberikan</span>'
-                                                    }
+                                                    ${item.name} ${statusBadge}<br>
+                                                    <small>${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}</small>
                                                 </div>
                                                 <div>
                                                     <strong>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</strong>
@@ -6080,19 +6906,26 @@ async function addToCart(productId) {
         
         const product = doc.data();
         
-        if ((product.stock || 0) <= 0) {
-            addNotification('warning', 'Peringatan', 'Stok produk habis');
-            return;
+        // PERUBAHAN DI SINI: Skip stock check for pre-order items
+        if (product.status !== 'preorder') {
+            // Hanya cek stok untuk produk non-preorder
+            if ((product.stock || 0) <= 0) {
+                addNotification('warning', 'Peringatan', 'Stok produk habis');
+                return;
+            }
+            
+            // Cek stok saat menambah quantity
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem && existingItem.quantity >= product.stock) {
+                addNotification('warning', 'Peringatan', `Stok ${product.name} tidak mencukupi!`);
+                return;
+            }
         }
         
         // Check if product is already in cart
         const existingItem = cart.find(item => item.id === productId);
         
         if (existingItem) {
-            if (existingItem.quantity >= product.stock) {
-                addNotification('warning', 'Peringatan', `Stok ${product.name} tidak mencukupi!`);
-                return;
-            }
             existingItem.quantity++;
         } else {
             cart.push({
@@ -6100,7 +6933,8 @@ async function addToCart(productId) {
                 name: product.name,
                 price: product.price,
                 quantity: 1,
-                imageUrl: product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'
+                imageUrl: product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400',
+                status: product.status || 'ready'
             });
         }
         
@@ -6112,8 +6946,14 @@ async function addToCart(productId) {
         // Update cart count
         updateCartCount();
         
-        addNotification('success', 'Keranjang', `${product.name} telah ditambahkan ke keranjang!`);
-        console.log(`✅ Product added to cart: ${product.name}`);
+        // Tampilkan pesan khusus untuk pre-order
+        if (product.status === 'preorder') {
+            addNotification('info', 'Pre-Order', `${product.name} telah ditambahkan sebagai pre-order!`);
+        } else {
+            addNotification('success', 'Keranjang', `${product.name} telah ditambahkan ke keranjang!`);
+        }
+        
+        console.log(`✅ Product added to cart: ${product.name} (Status: ${product.status})`);
         
         // Show floating cart animation
         const floatingBtn = document.getElementById('floating-cart-btn');
@@ -6188,16 +7028,22 @@ async function addToCart(productId) {
                     <div class="cart-item">
                         <div class="cart-item-image">
                             <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
-                                 alt="${item.name}" 
-                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+                                alt="${item.name}" 
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+                            ${item.status === 'preorder' ? 
+                                '<div style="position: absolute; top: 5px; left: 5px; background: var(--warning); color: white; padding: 2px 5px; border-radius: 3px; font-size: 0.7rem;">PRE-ORDER</div>' : 
+                                ''}
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.name}</div>
                             <div class="cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                            ${item.status === 'preorder' ? 
+                                '<div style="color: var(--warning); font-size: 0.85rem; margin-top: 3px;"><i class="fas fa-clock"></i> Pre-Order</div>' : 
+                                ''}
                             <div class="cart-item-quantity">
                                 <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', -1)">-</button>
                                 <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
-                                       onchange="updateCartQuantity('${item.id}', 0, this.value)">
+                                    onchange="updateCartQuantity('${item.id}', 0, this.value)">
                                 <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
                                 <button class="btn btn-secondary" onclick="removeFromCart('${item.id}')" 
                                         style="margin-left: auto; padding: 5px 10px;">
@@ -6260,23 +7106,22 @@ async function addToCart(productId) {
     loadTopProductsReport();
 }
         
-        // Update item quantity in cart
-        async function updateCartQuantity(productId, change, newValue = null) {
-            console.log(`🔄 Updating cart quantity for: ${productId}, change: ${change}`);
+async function updateCartQuantity(productId, change, newValue = null) {
+    console.log(`🔄 Updating cart quantity for: ${productId}, change: ${change}`);
+    
+    const itemIndex = cart.findIndex(item => item.id === productId);
+    
+    if (itemIndex === -1) return;
+    
+    try {
+        // PERUBAHAN: Hanya cek stok untuk produk non-preorder
+        const productDoc = await productsRef.doc(productId).get();
+        if (productDoc.exists) {
+            const product = productDoc.data();
             
-            const itemIndex = cart.findIndex(item => item.id === productId);
-            
-            if (itemIndex === -1) return;
-            
-            try {
-                // Get current stock from Firebase
-                const productDoc = await productsRef.doc(productId).get();
-                let maxStock = 999; // Default stock
-                
-                if (productDoc.exists) {
-                    const product = productDoc.data();
-                    maxStock = product.stock || 0;
-                }
+            // Skip stock validation for pre-order items
+            if (product.status !== 'preorder') {
+                let maxStock = product.stock || 0;
                 
                 if (newValue !== null) {
                     const newQuantity = parseInt(newValue);
@@ -6293,27 +7138,41 @@ async function addToCart(productId) {
                     }
                     cart[itemIndex].quantity = newQuantity;
                 }
-                
-                // Remove item if quantity is 0 or less
-                if (cart[itemIndex].quantity <= 0) {
-                    cart.splice(itemIndex, 1);
+            } else {
+                // Untuk pre-order, update quantity tanpa cek stok
+                if (newValue !== null) {
+                    cart[itemIndex].quantity = parseInt(newValue) || 1;
+                } else {
+                    cart[itemIndex].quantity += change;
                 }
                 
-                // Save cart
-                localStorage.setItem('b2f_cart', JSON.stringify(cart));
-                saveCartToFirebase();
-                
-                // Update displays
-                updateCartCount();
-                updateCartDisplay();
-                
-                console.log("✅ Cart quantity updated successfully");
-                
-            } catch (error) {
-                console.error("❌ Error updating cart quantity:", error);
-                addNotification('error', 'Error', 'Gagal memperbarui kuantitas');
+                // Pastikan quantity minimal 1
+                if (cart[itemIndex].quantity < 1) {
+                    cart[itemIndex].quantity = 1;
+                }
             }
         }
+        
+        // Remove item if quantity is 0 or less
+        if (cart[itemIndex].quantity <= 0) {
+            cart.splice(itemIndex, 1);
+        }
+        
+        // Save cart
+        localStorage.setItem('b2f_cart', JSON.stringify(cart));
+        saveCartToFirebase();
+        
+        // Update displays
+        updateCartCount();
+        updateCartDisplay();
+        
+        console.log("✅ Cart quantity updated successfully");
+        
+    } catch (error) {
+        console.error("❌ Error updating cart quantity:", error);
+        addNotification('error', 'Error', 'Gagal memperbarui kuantitas');
+    }
+}
         
         // Remove item from cart
         function removeFromCart(productId) {
@@ -6519,7 +7378,7 @@ async function addToCart(productId) {
                 // Buat order ID unik
                 const orderId = 'ORD' + Date.now() + Math.floor(Math.random() * 1000);
                 
-                // Data order untuk Firestore
+                // Update dalam fungsi processCheckout
                 const orderData = {
                     orderId: orderId,
                     customerName: currentOrderSummary.customerName,
@@ -6530,7 +7389,8 @@ async function addToCart(productId) {
                         productId: item.id,
                         name: item.name,
                         price: item.price,
-                        quantity: item.quantity
+                        quantity: item.quantity,
+                        status: item.status || 'ready' // Tambahkan status produk
                     })),
                     subtotal: currentOrderSummary.subtotal,
                     tax: currentOrderSummary.tax,
@@ -6538,6 +7398,8 @@ async function addToCart(productId) {
                     total: currentOrderSummary.total,
                     status: 'processing',
                     paymentStatus: 'belum',
+                    // Cek apakah ada item pre-order
+                    orderType: currentOrderSummary.items.some(item => item.status === 'preorder') ? 'preorder' : 'regular',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
@@ -6551,19 +7413,31 @@ async function addToCart(productId) {
                     const productRef = productsRef.doc(item.id);
                     const productDoc = await productRef.get();
                     
-                    if (productDoc.exists) {
-                        const product = productDoc.data();
+                if (productDoc.exists) {
+                    const product = productDoc.data();
+                    
+                    // PERUBAHAN: Hanya update stok untuk produk non-preorder
+                    if (product.status !== 'preorder') {
                         const newStock = (product.stock || 0) - item.quantity;
                         const newSold = (product.sold || 0) + item.quantity;
                         
                         await productRef.update({
-                            stock: Math.max(0, newStock), // Pastikan tidak negatif
+                            stock: Math.max(0, newStock),
+                            sold: newSold,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        // Untuk pre-order, hanya update jumlah terjual
+                        const newSold = (product.sold || 0) + item.quantity;
+                        
+                        await productRef.update({
                             sold: newSold,
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
                     }
-                });
-                
+                }
+            });
+                            
                 await Promise.all(updatePromises);
                 console.log("✅ Product stock updated");
                 
@@ -6624,6 +7498,20 @@ setTimeout(() => {
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Proses';
                 confirmBtn.disabled = false;
             }
+            // Dalam fungsi processCheckout(), tambahkan notifikasi khusus:
+                if (orderData.orderType === 'preorder') {
+                    addNotification(
+                        'info',
+                        'Pre-Order Diterima!',
+                        `Pesanan pre-order #${orderId} telah dibuat. Barang akan disiapkan.`
+                    );
+                } else {
+                    addNotification(
+                        'success',
+                        'Checkout Berhasil!',
+                        `Pesanan #${orderId} telah dibuat dengan total Rp ${orderData.total.toLocaleString('id-ID')}`
+                    );
+                }
         }
 
 function showReceiptPopup(orderId, orderData) {
@@ -6717,3 +7605,4 @@ Terima kasih telah berbelanja!
     </script>
 </body>
 </html>
+
