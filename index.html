@@ -890,6 +890,16 @@
             height: 100%;
             object-fit: cover;
         }
+
+        /* Preview in product form modal */
+        #product-image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: none;
+        }
         
         .product-info {
             padding: 20px;
@@ -3651,7 +3661,10 @@ body.login-active {
                     <label for="product-image-url">URL Gambar Produk *</label>
                     <input type="url" id="product-image-url" class="form-control" 
                            placeholder="https://example.com/image.jpg" 
-                           required>
+                           required oninput="updateImagePreview(this.value)">
+                    <div style="margin-top:8px;">
+                        <img id="product-image-preview" src="" alt="Preview Gambar" style="width:100%; max-height:200px; object-fit:contain; border-radius:8px; background:#f3f4f6; display:none;">
+                    </div>
                     <small>Gunakan URL gambar dari Unsplash, Pexels, atau penyedia gambar lainnya.</small>
                 </div>
                 
@@ -6083,6 +6096,7 @@ function createProductCard(product) {
     card.dataset.status = product.status || 'ready';
     
     const imageUrl = product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop';
+    console.log(`🔎 product image for ${product.id}:`, imageUrl);
     
     const statusBadge = product.status === 'preorder' 
         ? `<span class="product-status-badge preorder">Pre-Order</span>` 
@@ -6097,7 +6111,7 @@ function createProductCard(product) {
     
     card.innerHTML = `
         <div class="product-image">
-            <img src="${imageUrl}" alt="${product.name}" 
+            <img src="${imageUrl}" alt="${product.name}" data-image="${imageUrl}"
                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
         </div>
         <div class="product-info">
@@ -6711,6 +6725,35 @@ function updateChartData(orders, salesByDate) {
     // Ini bisa digunakan jika nanti menambahkan grafik
     console.log("📈 Chart data updated");
 }
+
+// Preview gambar di form produk
+function updateImagePreview(url) {
+    const img = document.getElementById('product-image-preview');
+    if (!img) return;
+
+    const trimmed = (url || '').trim();
+    if (!trimmed) {
+        img.style.display = 'none';
+        img.src = '';
+        return;
+    }
+
+    try {
+        // Use encodeURI to avoid issues with spaces or strange chars
+        img.src = encodeURI(trimmed);
+        img.style.display = 'block';
+        img.onerror = function() {
+            // Jika gagal, tetap tampilkan tapi dengan opacity rendah
+            img.style.opacity = '0.5';
+        };
+        img.onload = function() {
+            img.style.opacity = '1';
+        };
+    } catch (e) {
+        img.style.display = 'none';
+        img.src = '';
+    }
+}
         
         // Search products
         function searchProducts() {
@@ -6811,7 +6854,8 @@ async function saveProduct() {
         const price = parseInt(document.getElementById('product-price').value);
         const stock = status === 'ready' ? parseInt(document.getElementById('product-stock').value) : 0;
         const description = document.getElementById('product-description').value;
-        const imageUrl = document.getElementById('product-image-url').value;
+        const rawImageUrl = document.getElementById('product-image-url').value || '';
+        const imageUrl = rawImageUrl.trim();
         
         // Validasi
         if (!name || !category || !status || !price || !imageUrl) {
@@ -6829,13 +6873,20 @@ async function saveProduct() {
             return;
         }
         
-        // Validasi URL gambar
-        try {
-            new URL(imageUrl);
-        } catch (e) {
-            addNotification('warning', 'Peringatan', 'URL gambar tidak valid. Gunakan URL yang lengkap (https://...)');
+        // Validasi URL gambar — terima URL CDN seperti Discord
+        if (!imageUrl) {
+            addNotification('warning', 'Peringatan', 'URL gambar kosong. Masukkan URL gambar.');
             return;
         }
+
+        // Terima protokol http/https, protocol-relative (//) dan data URLs
+        if (!/^(https?:\/\/|\/\/|data:)/i.test(imageUrl)) {
+            addNotification('warning', 'Peringatan', 'URL gambar tidak valid. Gunakan URL lengkap (https://...) atau link CDN (https://cdn.discordapp.com/...)');
+            return;
+        }
+
+        // Encode URL agar karakter khusus (spasi, dll) tidak merusak atribut src
+        const safeImageUrl = encodeURI(imageUrl);
         
         // Prepare product data
         const productData = {
@@ -6845,7 +6896,7 @@ async function saveProduct() {
             price,
             stock,
             description,
-            imageUrl,
+            imageUrl: safeImageUrl,
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         };
         
