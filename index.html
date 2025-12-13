@@ -29,6 +29,7 @@
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --border-radius: 10px;
             --sidebar-width: 250px;
+                --smooth-ease: cubic-bezier(0.2, 0.9, 0.2, 1);
         }
         
         * {
@@ -57,7 +58,8 @@
             overflow-y: auto;
             box-shadow: var(--shadow);
             z-index: 100;
-            transition: transform 0.3s ease;
+            transition: transform 360ms var(--smooth-ease), box-shadow 360ms var(--smooth-ease);
+            will-change: transform;
         }
         
         .sidebar-header {
@@ -1005,6 +1007,38 @@
         
         .btn-success:hover {
             background-color: #2f855a;
+        }
+
+        /* Delete button (danger) styling + spacing for action buttons */
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+
+        /* Add spacing between action buttons in table cells */
+        .table-card td .btn {
+            margin: 6px 6px 6px 0;
+        }
+
+        /* Sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.36);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 320ms var(--smooth-ease), visibility 320ms var(--smooth-ease);
+            z-index: 90;
+        }
+
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Tambahkan di bagian CSS setelah .checkout-btn */
@@ -2998,7 +3032,82 @@ body.login-active {
 #login-modal.active {
     display: flex !important;
 }
-    </style>
+        </style>
+
+    <!-- Fade transition for switching sidebar sections -->
+    <script>
+    (function(){
+        document.addEventListener('DOMContentLoaded', function(){
+            // Inject improved transition styles (slower fade + sidebar subtle transition)
+            var style = document.createElement('style');
+            style.innerHTML = '\n                /* Smooth content fade */\n                .content-section { display: none; opacity: 0; transform: translateY(12px); transition: opacity 300ms cubic-bezier(.2,.9,.2,1), transform 300ms cubic-bezier(.2,.9,.2,1); }\n                .content-section.active { display: block; }\n                .content-section.fade-in { opacity: 1; transform: translateY(0); }\n                /* Sidebar subtle slide */\n                #sidebar { transition: transform 300ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease; will-change: transform, opacity; }\n                #sidebar.collapsed { transform: translateX(-12px); opacity: 0.88; }\n                /* Ensure overlay shows smoothly if used */\n                .sidebar-overlay { transition: opacity 300ms ease; }\n                .sidebar-overlay.show { opacity: 1; }\n            ';
+            document.head.appendChild(style);
+
+            const links = document.querySelectorAll('.nav-link[data-section]');
+
+            function showSection(id){
+                const current = document.querySelector('.content-section.active');
+                if(current && current.id === id) return;
+
+                const next = document.getElementById(id);
+                if(!next) return;
+
+                if(current){
+                    // start fade-out
+                    current.classList.remove('fade-in');
+                    // when fade-out completes, hide the element
+                    const onEnd = function(e){
+                        if(e.propertyName !== 'opacity') return;
+                        current.style.display = 'none';
+                        current.classList.remove('active');
+                        current.removeEventListener('transitionend', onEnd);
+                    };
+                    current.addEventListener('transitionend', onEnd);
+                }
+
+                // Prepare next section then fade it in
+                next.style.display = 'block';
+                // Force reflow so transitions apply
+                void next.offsetWidth;
+                next.classList.add('active');
+                // use RAF to ensure class applied after paint
+                requestAnimationFrame(()=> next.classList.add('fade-in'));
+            }
+
+            links.forEach(link=>{
+                link.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const id = this.dataset.section;
+                    showSection(id);
+                    links.forEach(l=>l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Initialize currently active section with fade-in
+            const initial = document.querySelector('.content-section.active');
+            if(initial){
+                initial.style.display = 'block';
+                requestAnimationFrame(()=> initial.classList.add('fade-in'));
+            }
+
+            // Sidebar toggle buttons (mobile and desktop menu toggles)
+            const menuToggles = document.querySelectorAll('.menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            function toggleSidebar(){
+                if(!sidebar) return;
+                sidebar.classList.toggle('collapsed');
+                if(overlay) overlay.classList.toggle('show');
+            }
+            menuToggles.forEach(btn => btn.addEventListener('click', toggleSidebar));
+            if(overlay) overlay.addEventListener('click', function(){
+                sidebar && sidebar.classList.remove('collapsed');
+                overlay.classList.remove('show');
+            });
+        });
+    })();
+    </script>
 </head>
 <body>
     <!-- Notification Container -->
@@ -3104,6 +3213,9 @@ body.login-active {
         </div>
     </div>
     
+    <!-- Overlay shown when sidebar opens (mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
     <!-- Main Content -->
     <div class="main-content">
         <!-- Dashboard Content -->
@@ -3999,7 +4111,23 @@ body.login-active {
     </div>
 </div>
     
-    
+    <!-- Delete Order Confirmation Modal -->
+    <div class="modal" id="delete-order-modal">
+        <div class="modal-content" style="max-width:420px;">
+            <div class="modal-header">
+                <h3>Konfirmasi Hapus Pesanan</h3>
+                <button class="close-modal" onclick="cancelDeleteOrder()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:20px; text-align:left;">
+                <p id="delete-order-message">Anda yakin ingin menghapus pesanan ini? Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-footer" style="padding:20px; display:flex; gap:10px; justify-content:flex-end;">
+                <button class="btn btn-secondary" onclick="cancelDeleteOrder()">Batal</button>
+                <button class="btn btn-danger" id="confirm-delete-order-btn" onclick="confirmDeleteOrder()">Hapus</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase Configuration -->
     <script>
         // Firebase configuration
@@ -5144,12 +5272,34 @@ document.addEventListener('DOMContentLoaded', function() {
         function setupEventListeners() {
             console.log("🔧 Setting up event listeners...");
             
-            // Mobile menu toggle
+            // Mobile menu toggle with overlay and smooth transitions
             document.querySelectorAll('.menu-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function() {
-                    document.getElementById('sidebar').classList.toggle('active');
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('sidebar-overlay');
+
+                    sidebar.classList.toggle('active');
+
+                    if (sidebar.classList.contains('active')) {
+                        if (overlay) overlay.classList.add('show');
+                        document.body.classList.add('sidebar-open');
+                    } else {
+                        if (overlay) overlay.classList.remove('show');
+                        document.body.classList.remove('sidebar-open');
+                    }
                 });
             });
+
+            // Clicking on overlay closes sidebar
+            const sidebarOverlayEl = document.getElementById('sidebar-overlay');
+            if (sidebarOverlayEl) {
+                sidebarOverlayEl.addEventListener('click', () => {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('active');
+                    sidebarOverlayEl.classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                });
+            }
 
             // Dark mode toggle
             document.getElementById('darkmode-toggle').addEventListener('click', toggleDarkMode);
@@ -6430,6 +6580,7 @@ function renderOrdersTable(orders) {
                 <button class="btn btn-secondary" onclick="viewOrderDetail('${order.id}')">
                     <i class="fas fa-eye"></i> Detail
                 </button>
+                ${window.currentUserRole === 'admin' ? '\n                <button class="btn btn-danger" onclick="deleteOrder(\'' + order.id + '\')" style="margin-left:8px;">\n                    <i class="fas fa-trash"></i> Hapus\n                </button>\n                ' : ''}
             </td>
         `;
     });
@@ -7103,6 +7254,76 @@ async function viewOrderDetail(orderId) {
             if (modal) {
                 modal.remove();
             }
+        }
+
+        // Hapus pesanan (hanya admin)
+        async function deleteOrder(orderId) {
+            console.log(`🗑️ Deleting order (requested): ${orderId}`);
+
+            // Cek hak akses
+            if (window.currentUserRole !== 'admin') {
+                console.log('🔒 Access denied: only admin can delete orders');
+                addNotification('warning', 'Akses Ditolak', 'Hanya admin yang dapat menghapus pesanan.');
+                return;
+            }
+
+            // Show custom modal instead of browser confirm
+            try {
+                window.pendingDeleteOrderId = orderId;
+                const msgEl = document.getElementById('delete-order-message');
+                if (msgEl) {
+                    msgEl.textContent = `Anda yakin ingin menghapus pesanan #${orderId}? Tindakan ini tidak dapat dibatalkan.`;
+                }
+                const modal = document.getElementById('delete-order-modal');
+                if (modal) modal.classList.add('active');
+            } catch (error) {
+                console.error('❌ Error opening delete modal:', error);
+                addNotification('error', 'Error', 'Gagal membuka dialog konfirmasi');
+            }
+        }
+
+        // Confirm deletion from modal
+        async function confirmDeleteOrder() {
+            const orderId = window.pendingDeleteOrderId;
+            if (!orderId) return;
+
+            // Disable confirm button while processing
+            const btn = document.getElementById('confirm-delete-order-btn');
+            const originalText = btn ? btn.innerHTML : null;
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghapus...';
+                btn.disabled = true;
+            }
+
+            try {
+                await ordersRef.doc(orderId).delete();
+                addNotification('success', 'Berhasil', 'Pesanan berhasil dihapus');
+                console.log(`✅ Order deleted: ${orderId}`);
+
+                // Close modal
+                const modal = document.getElementById('delete-order-modal');
+                if (modal) modal.classList.remove('active');
+
+                // Refresh views
+                loadAllOrders();
+                loadRecentOrders();
+                loadDashboardStats();
+            } catch (error) {
+                console.error('❌ Error deleting order:', error);
+                addNotification('error', 'Error', 'Gagal menghapus pesanan');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+                window.pendingDeleteOrderId = null;
+            }
+        }
+
+        function cancelDeleteOrder() {
+            window.pendingDeleteOrderId = null;
+            const modal = document.getElementById('delete-order-modal');
+            if (modal) modal.classList.remove('active');
         }
 
         // Tambahkan fungsi untuk membuka modal status pembayaran
