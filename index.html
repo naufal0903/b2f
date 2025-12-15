@@ -2539,14 +2539,21 @@ body.dark-mode .darkmode-btn:hover {
             }
         }
         
-        /* Active Content */
-        .content-section {
-            display: none;
-        }
-        
-        .content-section.active {
-            display: block;
-        }
+/* Tambahkan di bagian CSS */
+.content-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.content-section.active {
+    display: block;
+    opacity: 1;
+}
+
+.nav-item.hidden {
+    display: none !important;
+}
         /* Floating Cart Styles */
 .floating-cart-btn {
     position: fixed;
@@ -4206,7 +4213,12 @@ body.login-active {
             console.log("🚀 WARUNG DSG Admin Dashboard dimulai...");
 
                 // ✅ CEK SESSION DULU SEBELUM APAPUN
-                checkUserSession();
+            checkUserSession();
+
+                // Inisialisasi interface berdasarkan role
+            setTimeout(() => {
+                initializeInterface();
+            }, 500);
 
             // Load cart dari Firebase dulu
             try {
@@ -5034,7 +5046,8 @@ async function verifyAccess() {
                 
                 // ✅ HAPUS blur background setelah login berhasil
                 document.body.classList.remove('login-active');
-                
+                // Apply role restrictions
+                restrictAccessByRole(userRole);
                 // Tampilkan notifikasi welcome
                 if (userRole === 'buyer') {
                     addNotification('success', 'Selamat Datang!', 
@@ -5082,67 +5095,140 @@ async function verifyAccess() {
 }
 
 function restrictAccessByRole(role) {
-    console.log(`🔒 Restricting access for role: ${role}`);
+    console.log("🛠️ Applying role restrictions for:", role);
     window.currentUserRole = role;
 
-    // Utility: show/hide a link and its parent li
-    const showSection = (section) => {
-        document.querySelectorAll(`[data-section="${section}"]`).forEach(el => {
-            el.style.display = '';
-            const li = el.closest('.nav-item');
-            if (li) li.style.display = '';
-        });
-    };
-    const hideSection = (section) => {
-        document.querySelectorAll(`[data-section="${section}"]`).forEach(el => {
-            el.style.display = 'none';
-            const li = el.closest('.nav-item');
-            if (li) li.style.display = 'none';
-        });
-    };
+    // Simpan role di localStorage agar bisa diakses semua tab
+    if (role) {
+        sessionStorage.setItem('b2f_user_role', role);
+    }
 
+    // 1. Atur navigation sidebar terlebih dahulu
+    const allNavLinks = document.querySelectorAll('.nav-link[data-section]');
+    const allNavItems = document.querySelectorAll('.nav-item');
+    
     if (role === 'buyer') {
-        console.log("👤 Configuring interface for buyer...");
+        console.log("👤 Hiding admin sections for buyer...");
+        
+        // Sembunyikan semua nav item terlebih dahulu
+        allNavItems.forEach(item => {
+            if (item.querySelector('.nav-link[data-section]')) {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Hanya tampilkan marketplace dan orders
+        allNavLinks.forEach(link => {
+            const section = link.getAttribute('data-section');
+            if (section === 'marketplace' || section === 'orders') {
+                link.style.display = 'flex';
+                link.closest('.nav-item').style.display = 'list-item';
+            } else {
+                link.style.display = 'none';
+                link.closest('.nav-item').style.display = 'none';
+            }
+        });
 
-        // Hide all nav links first (clean slate)
-        document.querySelectorAll('.nav-link').forEach(a => a.style.display = 'none');
-        document.querySelectorAll('.nav-item').forEach(li => li.style.display = 'none');
+        // Sembunyikan admin-only buttons
+        document.querySelectorAll('[data-admin-only]').forEach(el => {
+            el.style.display = 'none';
+        });
 
-        // Only show marketplace and orders (and floating/cart UI stays)
-        ['marketplace', 'orders'].forEach(showSection);
+        // Nonaktifkan sections admin di content
+        const adminSections = ['dashboard', 'products', 'reports'];
+        adminSections.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            }
+        });
 
-        // Ensure admin-only elements hidden
-        document.querySelectorAll('[data-admin-only]').forEach(el => el.style.display = 'none');
+        // Pastikan marketplace aktif
+        const marketplaceSection = document.getElementById('marketplace');
+        const ordersSection = document.getElementById('orders');
+        
+        if (marketplaceSection) {
+            marketplaceSection.style.display = 'block';
+            marketplaceSection.classList.add('active');
+        }
+        
+        if (ordersSection) {
+            ordersSection.style.display = 'none';
+            ordersSection.classList.remove('active');
+        }
 
-        // Switch to marketplace
+        // Set active nav link ke marketplace
         setTimeout(() => {
-            switchSection('marketplace');
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const marketplaceLink = document.querySelector('[data-section="marketplace"]');
+            const ordersLink = document.querySelector('[data-section="orders"]');
+            
             if (marketplaceLink) marketplaceLink.classList.add('active');
-        }, 200);
+            if (ordersLink) ordersLink.classList.remove('active');
+            
+            // Load marketplace products
+            if (marketplaceSection.classList.contains('active')) {
+                loadMarketplaceProducts();
+            }
+        }, 100);
 
-        addNotification('info', 'Mode Pembeli', 'Anda dapat mengakses Marketplace dan Pesanan Anda.');
+        console.log("✅ Buyer interface configured");
 
     } else if (role === 'admin') {
-        console.log("👨‍💼 Configuring interface for admin...");
+        console.log("👨‍💼 Showing all sections for admin...");
+        
+        // Tampilkan semua nav items
+        allNavItems.forEach(item => {
+            item.style.display = 'list-item';
+        });
+        
+        allNavLinks.forEach(link => {
+            link.style.display = 'flex';
+        });
 
-        // Show all nav items and links
-        document.querySelectorAll('.nav-link').forEach(a => a.style.display = '');
-        document.querySelectorAll('.nav-item').forEach(li => li.style.display = '');
+        // Tampilkan admin-only buttons
+        document.querySelectorAll('[data-admin-only]').forEach(el => {
+            el.style.display = '';
+        });
 
-        // Reveal admin-only UI
-        document.querySelectorAll('[data-admin-only]').forEach(el => el.style.display = '');
+        // Tampilkan semua sections
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => {
+            section.style.display = 'none';
+            section.classList.remove('active');
+        });
 
-        // Switch to dashboard
-        setTimeout(() => {
-            switchSection('dashboard');
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            const dashboardLink = document.querySelector('[data-section="dashboard"]');
-            if (dashboardLink) dashboardLink.classList.add('active');
-        }, 200);
+        // Set dashboard sebagai aktif
+        const dashboardSection = document.getElementById('dashboard');
+        if (dashboardSection) {
+            dashboardSection.style.display = 'block';
+            dashboardSection.classList.add('active');
+            
+            // Set active nav link
+            setTimeout(() => {
+                const dashboardLink = document.querySelector('[data-section="dashboard"]');
+                if (dashboardLink) dashboardLink.classList.add('active');
+                
+                // Load dashboard data
+                loadDashboardData();
+            }, 100);
+        }
 
-        addNotification('success', 'Mode Admin', 'Anda memiliki akses penuh ke semua fitur dashboard admin.');
+        console.log("✅ Admin interface configured");
+    }
+}
+
+// Tambahkan fungsi ini
+function initializeInterface() {
+    const userRole = sessionStorage.getItem('b2f_user_role');
+    
+    if (userRole) {
+        console.log("🎯 Initializing interface for:", userRole);
+        restrictAccessByRole(userRole);
+    } else {
+        console.log("🎯 No user role found, showing login modal");
+        // Default ke buyer jika belum login
+        restrictAccessByRole('buyer');
     }
 }
 
@@ -5157,7 +5243,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Check session saat page load
 function checkUserSession() {
     const userRole = sessionStorage.getItem('b2f_user_role');
     const loginTime = sessionStorage.getItem('b2f_login_time');
@@ -5166,24 +5251,31 @@ function checkUserSession() {
         console.log(`✅ User session found: ${userRole}`);
         
         // Hide login modal
-        document.getElementById('login-modal').style.display = 'none';
-        document.getElementById('login-modal').classList.remove('active');
+        const loginModal = document.getElementById('login-modal');
+        if (loginModal) {
+            loginModal.style.display = 'none';
+            loginModal.classList.remove('active');
+        }
         
-        // HAPUS blur background
+        // Hapus blur background
         document.body.classList.remove('login-active');
         
-        // Apply role restrictions
-        restrictAccessByRole(userRole);
+        // Set current user role global
+        window.currentUserRole = userRole;
         
         return true;
     }
     
     console.log("ℹ️ No user session found, showing login modal");
     
-    // TAMBAHKAN blur background saat pertama kali
+    // Tambahkan blur background
     document.body.classList.add('login-active');
-    document.getElementById('login-modal').style.display = 'flex';
-    document.getElementById('login-modal').classList.add('active');
+    
+    const loginModal = document.getElementById('login-modal');
+    if (loginModal) {
+        loginModal.style.display = 'flex';
+        loginModal.classList.add('active');
+    }
     
     return false;
 }
@@ -5609,6 +5701,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     loadReports();
                     loadTopProductsReport();
                     break;
+                if (window.currentUserRole) {
+                    restrictAccessByRole(window.currentUserRole);
+                }
             }
         }
         
@@ -6246,22 +6341,19 @@ function createProductCard(product) {
     card.dataset.status = product.status || 'ready';
     
     const imageUrl = product.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop';
-    console.log(`🔎 product image for ${product.id}:`, imageUrl);
     
     const statusBadge = product.status === 'preorder' 
-        ? `<span class="product-status-badge preorder">Pre-Order</span>` 
-        : `<span class="product-status-badge ready">Ready Stock</span>`;
+        ? '<span class="product-status-badge preorder">Pre-Order</span>' 
+        : '<span class="product-status-badge ready">Ready Stock</span>';
     
-    // PERUBAHAN: Tentukan ketersediaan berdasarkan status
     const isAvailable = true; // Selalu tersedia untuk pre-order
-    
     const stockDisplay = product.status === 'preorder' 
         ? 'Pre-Order (Tersedia)' 
         : `${product.stock || 0} unit`;
     
     card.innerHTML = `
         <div class="product-image">
-            <img src="${imageUrl}" alt="${product.name}" data-image="${imageUrl}"
+            <img src="${imageUrl}" alt="${product.name}" 
                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
         </div>
         <div class="product-info">
@@ -7858,6 +7950,22 @@ async function addToCart(productId) {
     // Refresh reports data
     loadReports();
     loadTopProductsReport();
+}
+
+// Tambahkan fungsi ini di awal JavaScript
+function cleanText(text) {
+    if (!text) return '';
+    return text
+        .replace(/-->/g, '')
+        .replace(/<!--/g, '')
+        .trim();
+}
+
+// Gunakan dalam pembuatan HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
         
 async function updateCartQuantity(productId, change, newValue = null) {
