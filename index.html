@@ -4176,6 +4176,8 @@ body.login-active {
             popup: localStorage.getItem('b2f_notif_popup') !== 'false'
         };
 
+        
+
         // Simpan cart langsung ke Firestore
         async function saveCartToFirebase() {
             try {
@@ -7842,97 +7844,96 @@ async function addToCart(productId) {
             console.log(`🛒 Cart updated: ${totalItems} items`);
         }
         
-        // Update cart display
-        function updateCartDisplay() {
-            console.log("🔄 Updating cart display...");
-            
-            const cartItems = document.getElementById('cart-items');
-            const cartSummary = document.getElementById('cart-summary');
-            
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <h3>Keranjang Kosong</h3>
-                        <p>Tambahkan produk ke keranjang Anda</p>
+function updateCartDisplay() {
+    console.log("🔄 Updating cart display...");
+    
+    const cartItems = document.getElementById('cart-items');
+    const cartSummary = document.getElementById('cart-summary');
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Keranjang Kosong</h3>
+                <p>Tambahkan produk ke keranjang Anda</p>
+            </div>
+        `;
+        
+        cartSummary.innerHTML = '';
+        return;
+    }
+    
+    // Render cart items
+    let itemsHtml = '';
+    let subtotal = 0;
+    
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        
+        itemsHtml += `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
+                        alt="${item.name}" 
+                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
+                    ${item.status === 'preorder' ? 
+                        '<div style="position: absolute; top: 5px; left: 5px; background: var(--warning); color: white; padding: 2px 5px; border-radius: 3px; font-size: 0.7rem;">PRE-ORDER</div>' : 
+                        ''}
+                </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                    ${item.status === 'preorder' ? 
+                        '<div style="color: var(--warning); font-size: 0.85rem; margin-top: 3px;"><i class="fas fa-clock"></i> Pre-Order</div>' : 
+                        ''}
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', -1)">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                            onchange="updateCartQuantity('${item.id}', 0, this.value)">
+                        <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
+                        <button class="btn btn-secondary" onclick="removeFromCart('${item.id}')" 
+                                style="margin-left: auto; padding: 5px 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
-                `;
-                
-                cartSummary.innerHTML = '';
-                return;
-            }
-            
-            // Render cart items
-            let itemsHtml = '';
-            let subtotal = 0;
-            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-                
-                itemsHtml += `
-                    <div class="cart-item">
-                        <div class="cart-item-image">
-                            <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}" 
-                                alt="${item.name}" 
-                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400';">
-                            ${item.status === 'preorder' ? 
-                                '<div style="position: absolute; top: 5px; left: 5px; background: var(--warning); color: white; padding: 2px 5px; border-radius: 3px; font-size: 0.7rem;">PRE-ORDER</div>' : 
-                                ''}
-                        </div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
-                            ${item.status === 'preorder' ? 
-                                '<div style="color: var(--warning); font-size: 0.85rem; margin-top: 3px;"><i class="fas fa-clock"></i> Pre-Order</div>' : 
-                                ''}
-                            <div class="cart-item-quantity">
-                                <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', -1)">-</button>
-                                <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
-                                    onchange="updateCartQuantity('${item.id}', 0, this.value)">
-                                <button class="quantity-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
-                                <button class="btn btn-secondary" onclick="removeFromCart('${item.id}')" 
-                                        style="margin-left: auto; padding: 5px 10px;">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            cartItems.innerHTML = itemsHtml;
-            
-            // Calculate totals
-            const tax = subtotal * 0; // 11% tax
-            const shipping = 0;
-            const total = subtotal + tax + shipping;
-            
-            // Render summary
-            cartSummary.innerHTML = `
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
                 </div>
-                <div class="summary-row">
-                    <span>Pajak (0%)</span>
-                    <span>Rp ${tax.toLocaleString('id-ID')}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Pengiriman</span>
-                    <span>Rp ${shipping.toLocaleString('id-ID')}</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total</span>
-                    <span>Rp ${total.toLocaleString('id-ID')}</span>
-                </div>
-                <button class="checkout-btn" onclick="checkout()">
-                    <i class="fas fa-credit-card"></i> Checkout Sekarang
-                </button>
-            `;
-            
-            console.log("✅ Cart display updated");
-        }
+            </div>
+        `;
+    });
+    
+    cartItems.innerHTML = itemsHtml;
+    
+    // Calculate totals
+    const tax = subtotal * 0;
+    const shipping = 0;
+    const total = subtotal + tax + shipping;
+    
+    // Render summary
+    cartSummary.innerHTML = `
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
+        </div>
+        <div class="summary-row">
+            <span>Pajak (0%)</span>
+            <span>Rp ${tax.toLocaleString('id-ID')}</span>
+        </div>
+        <div class="summary-row">
+            <span>Pengiriman</span>
+            <span>Rp ${shipping.toLocaleString('id-ID')}</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span>Rp ${total.toLocaleString('id-ID')}</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">
+            <i class="fas fa-credit-card"></i> Checkout Sekarang
+        </button>
+    `;
+    
+    console.log("✅ Cart display updated");
+}
 
         // Event listener untuk dropdown penerima pembayaran
         document.getElementById('payment-recipient').addEventListener('change', function() {
@@ -7952,21 +7953,6 @@ async function addToCart(productId) {
     loadTopProductsReport();
 }
 
-// Tambahkan fungsi ini di awal JavaScript
-function cleanText(text) {
-    if (!text) return '';
-    return text
-        .replace(/-->/g, '')
-        .replace(/<!--/g, '')
-        .trim();
-}
-
-// Gunakan dalam pembuatan HTML
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
         
 async function updateCartQuantity(productId, change, newValue = null) {
     console.log(`🔄 Updating cart quantity for: ${productId}, change: ${change}`);
@@ -8027,6 +8013,11 @@ async function updateCartQuantity(productId, change, newValue = null) {
         // Update displays
         updateCartCount();
         updateCartDisplay();
+
+        const floatingPanel = document.getElementById('floating-cart-panel');
+        if (floatingPanel && floatingPanel.classList.contains('show')) {
+            updateFloatingCartDisplay();
+        }
         
         console.log("✅ Cart quantity updated successfully");
         
