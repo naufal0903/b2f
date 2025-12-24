@@ -4631,7 +4631,7 @@ itemsHtml += `
     floatingCartItems.innerHTML = itemsHtml;
     
     // Calculate totals
-    const tax = subtotal * 0;
+    const tax = subtotal * 0.3;
     const shipping = 0;
     const total = subtotal + tax + shipping;
     
@@ -4642,7 +4642,7 @@ itemsHtml += `
             <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
         </div>
         <div class="floating-summary-row">
-            <span>Pajak (0%)</span>
+            <span>Pajak (30% dari CS)</span>
             <span>Rp ${tax.toLocaleString('id-ID')}</span>
         </div>
         <div class="floating-summary-row">
@@ -7305,7 +7305,7 @@ async function viewOrderDetail(orderId) {
                             
                             <div style="background: #f7fafc; padding: 15px; border-radius: var(--border-radius);">
                                 <p><strong>Subtotal:</strong> Rp ${(order.subtotal || 0).toLocaleString('id-ID')}</p>
-                                <p><strong>Pajak (0%):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
+                                <p><strong>Pajak (30% dari CS):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
                                 <p><strong>Pengiriman:</strong> Rp ${(order.shipping || 0).toLocaleString('id-ID')}</p>
                                 <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary-blue);">
                                     <strong>Total:</strong> Rp ${(order.total || 0).toLocaleString('id-ID')}
@@ -7905,7 +7905,7 @@ function updateCartDisplay() {
     cartItems.innerHTML = itemsHtml;
     
     // Calculate totals
-    const tax = subtotal * 0;
+    const tax = subtotal * 0.3; //pajak 30%
     const shipping = 0;
     const total = subtotal + tax + shipping;
     
@@ -7916,7 +7916,7 @@ function updateCartDisplay() {
             <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
         </div>
         <div class="summary-row">
-            <span>Pajak (0%)</span>
+            <span>Pajak (30% dari CS)</span>
             <span>Rp ${tax.toLocaleString('id-ID')}</span>
         </div>
         <div class="summary-row">
@@ -8061,7 +8061,7 @@ async function updateCartQuantity(productId, change, newValue = null) {
             
             // Hitung total
             const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            const tax = subtotal * 0;
+            const tax = subtotal * 0.3;
             const shipping = 0;
             const total = subtotal + tax + shipping;
             
@@ -8104,7 +8104,7 @@ async function updateCartQuantity(productId, change, newValue = null) {
                     <span>Rp ${currentOrderSummary.subtotal.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="summary-row">
-                    <span>Pajak (0%)</span>
+                    <span>Pajak (30% dari CS)</span>
                     <span>Rp ${currentOrderSummary.tax.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="summary-row">
@@ -8420,7 +8420,7 @@ DETAIL PESANAN:\n`;
     receiptContent += `
 --------------------------------
 Subtotal: Rp ${orderData.subtotal.toLocaleString('id-ID')}
-Pajak (0%): Rp ${orderData.tax.toLocaleString('id-ID')}
+Pajak (30% dari CS): Rp ${orderData.tax.toLocaleString('id-ID')}
 Pengiriman: Rp ${orderData.shipping.toLocaleString('id-ID')}
 --------------------------------
 
