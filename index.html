@@ -2966,6 +2966,64 @@ body.dark-mode .product-card[data-status="preorder"]::before {
     background-color: white;
     padding: 5px;
 }
+/* CS Distribution Styles */
+.cs-option-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    height: 100%;
+}
+
+.cs-option-label i {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--accent-blue);
+}
+
+.cs-option-label span {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.cs-option-label small {
+    font-size: 0.8rem;
+    color: var(--blue-gray);
+    margin-top: 5px;
+}
+
+.cs-option input[type="radio"]:checked + .cs-option-label {
+    border-color: var(--accent-blue);
+    background-color: var(--light-blue);
+    color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(49, 130, 206, 0.1);
+}
+
+.cs-option input[type="radio"]:checked + .cs-option-label i {
+    color: var(--accent-blue);
+}
+
+/* Dark mode styles */
+body.dark-mode .cs-option-label {
+    background-color: #1e1e1e;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .cs-option input[type="radio"]:checked + .cs-option-label {
+    background-color: #1a2a3a;
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
 
 .logo h1 {
     font-family: 'Playfair Display', serif;
@@ -3173,6 +3231,13 @@ body.login-active {
                 <a href="#reports" class="nav-link" data-section="reports">
                     <i class="fas fa-chart-bar"></i>
                     Laporan
+                </a>
+            </li>
+            <!-- Di dalam <ul class="nav-menu"> setelah menu Laporan -->
+            <li class="nav-item">
+                <a href="#cs-distribution" class="nav-link" data-section="cs-distribution">
+                    <i class="fas fa-share-alt"></i>
+                    Distribusi ke CS
                 </a>
             </li>
         </ul>
@@ -4134,6 +4199,161 @@ body.login-active {
             </div>
         </div>
     </div>
+    <!-- CS Distribution Content -->
+<div id="cs-distribution" class="content-section">
+    <div class="top-bar">
+        <div class="page-title">
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h2>Distribusi ke CS</h2>
+            <p>Kirim pesanan ke Crew Supplier (CS)</p>
+        </div>
+        
+        <div class="top-bar-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="cs-search" placeholder="Cari pesanan...">
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <select class="form-control" id="cs-filter" style="width: 200px;">
+                    <option value="all">Semua CS</option>
+                    <option value="BOA">BOA</option>
+                    <option value="AllStar">AllStar</option>
+                    <option value="GHO">GHO</option>
+                    <option value="4Bloods">4Bloods</option>
+                </select>
+                <button class="btn btn-primary" onclick="exportCSDistribution()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CS Selection and Calculation -->
+    <div class="table-card" style="margin-bottom: 20px;">
+        <div class="table-header">
+            <h3>Pilih Crew Supplier</h3>
+        </div>
+        <div class="modal-body">
+            <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                <label class="payment-option" style="flex: 1; min-width: 120px;">
+                    <input type="radio" name="cs-select" value="BOA" id="cs-boa" checked>
+                    <span class="payment-option-label">
+                        <i class="fas fa-user-tie"></i>
+                        <span>BOA</span>
+                        <small>No additional fee</small>
+                    </span>
+                </label>
+                
+                <label class="payment-option" style="flex: 1; min-width: 120px;">
+                    <input type="radio" name="cs-select" value="AllStar" id="cs-allstar">
+                    <span class="payment-option-label">
+                        <i class="fas fa-star"></i>
+                        <span>AllStar</span>
+                        <small>+30% + 400MS</small>
+                    </span>
+                </label>
+                
+                <label class="payment-option" style="flex: 1; min-width: 120px;">
+                    <input type="radio" name="cs-select" value="GHO" id="cs-gho">
+                    <span class="payment-option-label">
+                        <i class="fas fa-ghost"></i>
+                        <span>GHO</span>
+                        <small>200-400MS</small>
+                    </span>
+                </label>
+                
+                <label class="payment-option" style="flex: 1; min-width: 120px;">
+                    <input type="radio" name="cs-select" value="4Bloods" id="cs-4bloods">
+                    <span class="payment-option-label">
+                        <i class="fas fa-tint"></i>
+                        <span>4Bloods</span>
+                        <small>Standard rate</small>
+                    </span>
+                </label>
+            </div>
+            
+            <!-- Calculation Results -->
+            <div id="cs-calculation-result" style="display: none;">
+                <div style="background: #f8fafc; padding: 20px; border-radius: var(--border-radius); border: 1px solid #e2e8f0;">
+                    <h4 style="margin-bottom: 15px; color: var(--primary-blue);">
+                        <i class="fas fa-calculator"></i> Ringkasan Perhitungan
+                    </h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div style="background: white; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="font-size: 0.9rem; color: var(--blue-gray);">Total Pesanan</div>
+                            <div style="font-size: 1.3rem; font-weight: bold;" id="cs-order-total">Rp 0</div>
+                        </div>
+                        
+                        <div style="background: white; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="font-size: 0.9rem; color: var(--blue-gray);">Biaya Tambahan</div>
+                            <div style="font-size: 1.3rem; font-weight: bold;" id="cs-additional-cost">Rp 0</div>
+                        </div>
+                        
+                        <div style="background: var(--light-blue); padding: 15px; border-radius: var(--border-radius);">
+                            <div style="font-size: 0.9rem; color: var(--accent-blue);">MetalScrap</div>
+                            <div style="font-size: 1.3rem; font-weight: bold; color: var(--accent-blue);" id="cs-metalscrap">0</div>
+                        </div>
+                        
+                        <div style="background: #f0fff4; padding: 15px; border-radius: var(--border-radius); border: 1px solid var(--success);">
+                            <div style="font-size: 0.9rem; color: var(--success);">Total Akhir</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);" id="cs-final-total">Rp 0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Breakdown -->
+                    <div id="cs-breakdown" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                        <h5 style="margin-bottom: 10px;">Detail Perhitungan:</h5>
+                        <div id="cs-breakdown-content" style="background: white; padding: 15px; border-radius: var(--border-radius);">
+                            <!-- Breakdown will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Orders to Send to CS -->
+    <div class="table-card">
+        <div class="table-header">
+            <h3>Pesanan untuk Dikirim ke CS</h3>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" onclick="selectAllCSOrders()">
+                    <i class="fas fa-check-square"></i> Pilih Semua
+                </button>
+                <button class="btn btn-primary" onclick="sendToSelectedCS()">
+                    <i class="fas fa-paper-plane"></i> Kirim ke CS
+                </button>
+            </div>
+        </div>
+        
+        <div id="cs-orders-loading" class="loading">
+            <i class="fas fa-spinner"></i> Memuat pesanan...
+        </div>
+        
+        <table id="cs-orders-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">
+                        <input type="checkbox" id="select-all-cs" onchange="toggleAllCSOrders(this.checked)">
+                    </th>
+                    <th>ID Pesanan</th>
+                    <th>Pelanggan</th>
+                    <th>Total</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th>CS Terakhir</th>
+                </tr>
+            </thead>
+            <tbody id="cs-orders-body">
+                <!-- Orders will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
     <!-- Firebase Configuration -->
     <script>
@@ -4538,16 +4758,38 @@ function initializeFloatingCart() {
     document.getElementById('close-floating-cart').addEventListener('click', closeFloatingCart);
     
     // Close floating cart when clicking outside
-    document.addEventListener('click', (e) => {
-        const floatingCartBtn = document.getElementById('floating-cart-btn');
-        const floatingCartPanel = document.getElementById('floating-cart-panel');
-        
-        if (floatingCartPanel.classList.contains('show') && 
-            !floatingCartPanel.contains(e.target) && 
-            !floatingCartBtn.contains(e.target)) {
-            closeFloatingCart();
-        }
-    });
+// GANTI event listener ini dengan yang lebih spesifik:
+document.addEventListener('click', (e) => {
+    const floatingCartBtn = document.getElementById('floating-cart-btn');
+    const floatingCartPanel = document.getElementById('floating-cart-panel');
+    
+    if (!floatingCartPanel || !floatingCartPanel.classList.contains('show')) {
+        return; // Panel tidak terbuka, tidak perlu cek
+    }
+    
+    // Cek apakah klik adalah pada:
+    // 1. Tombol cart floating (boleh tutup/untuk toggle)
+    // 2. Di luar panel cart
+    // 3. BUKAN pada elemen dalam cart (tombol hapus, +/- dll)
+    
+    const target = e.target;
+    const isInsideCart = floatingCartPanel.contains(target);
+    const isCartButton = floatingCartBtn.contains(target);
+    const isCartAction = target.closest('.btn-secondary') || 
+                         target.closest('.quantity-btn') ||
+                         target.closest('.quantity-input') ||
+                         target.closest('.cart-item-quantity') ||
+                         target.closest('.cart-item-info');
+    
+    // Hanya tutup jika:
+    // - Panel sedang terbuka DAN
+    // - Klik di luar panel DAN
+    // - Bukan di tombol cart DAN
+    // - Bukan aksi dalam cart (meski di luar, tapi mungkin dropdown dll)
+    if (!isInsideCart && !isCartButton && !isCartAction) {
+        closeFloatingCart();
+    }
+});
     
     // Update floating cart count
     updateFloatingCartCount();
@@ -4631,7 +4873,7 @@ itemsHtml += `
     floatingCartItems.innerHTML = itemsHtml;
     
     // Calculate totals
-    const tax = subtotal * 0.3;
+    const tax = subtotal * 0.05;
     const shipping = 0;
     const total = subtotal + tax + shipping;
     
@@ -4642,7 +4884,7 @@ itemsHtml += `
             <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
         </div>
         <div class="floating-summary-row">
-            <span>Pajak (30% dari CS)</span>
+            <span>Pajak (5% dari CS)</span>
             <span>Rp ${tax.toLocaleString('id-ID')}</span>
         </div>
         <div class="floating-summary-row">
@@ -7305,7 +7547,7 @@ async function viewOrderDetail(orderId) {
                             
                             <div style="background: #f7fafc; padding: 15px; border-radius: var(--border-radius);">
                                 <p><strong>Subtotal:</strong> Rp ${(order.subtotal || 0).toLocaleString('id-ID')}</p>
-                                <p><strong>Pajak (30% dari CS):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
+                                <p><strong>Pajak (5% dari CS):</strong> Rp ${(order.tax || 0).toLocaleString('id-ID')}</p>
                                 <p><strong>Pengiriman:</strong> Rp ${(order.shipping || 0).toLocaleString('id-ID')}</p>
                                 <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary-blue);">
                                     <strong>Total:</strong> Rp ${(order.total || 0).toLocaleString('id-ID')}
@@ -7905,7 +8147,7 @@ function updateCartDisplay() {
     cartItems.innerHTML = itemsHtml;
     
     // Calculate totals
-    const tax = subtotal * 0.3; //pajak 30%
+    const tax = subtotal * 0.05; //pajak 20%
     const shipping = 0;
     const total = subtotal + tax + shipping;
     
@@ -7916,7 +8158,7 @@ function updateCartDisplay() {
             <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
         </div>
         <div class="summary-row">
-            <span>Pajak (30% dari CS)</span>
+            <span>Pajak (5% dari CS)</span>
             <span>Rp ${tax.toLocaleString('id-ID')}</span>
         </div>
         <div class="summary-row">
@@ -8014,6 +8256,8 @@ async function updateCartQuantity(productId, change, newValue = null) {
         updateCartCount();
         updateCartDisplay();
 
+        
+
         const floatingPanel = document.getElementById('floating-cart-panel');
         if (floatingPanel && floatingPanel.classList.contains('show')) {
             updateFloatingCartDisplay();
@@ -8027,8 +8271,12 @@ async function updateCartQuantity(productId, change, newValue = null) {
     }
 }
         
-        // Remove item from cart
-        function removeFromCart(productId) {
+        // Update fungsi removeFromCart:
+        function removeFromCart(productId, event) {  // Tambahkan parameter event
+            if (event) {
+                event.stopPropagation();  // Hentikan propagasi event
+            }
+            
             console.log(`🗑️ Removing from cart: ${productId}`);
             
             cart = cart.filter(item => item.id !== productId);
@@ -8040,6 +8288,12 @@ async function updateCartQuantity(productId, change, newValue = null) {
             // Update displays
             updateCartCount();
             updateCartDisplay();
+            
+            // Update floating cart juga jika terbuka
+            const floatingPanel = document.getElementById('floating-cart-panel');
+            if (floatingPanel && floatingPanel.classList.contains('show')) {
+                updateFloatingCartDisplay();
+            }
             
             addNotification('info', 'Keranjang', 'Item telah dihapus dari keranjang');
             console.log("✅ Item removed from cart");
@@ -8061,7 +8315,7 @@ async function updateCartQuantity(productId, change, newValue = null) {
             
             // Hitung total
             const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            const tax = subtotal * 0.3;
+            const tax = subtotal * 0.05;
             const shipping = 0;
             const total = subtotal + tax + shipping;
             
@@ -8104,7 +8358,7 @@ async function updateCartQuantity(productId, change, newValue = null) {
                     <span>Rp ${currentOrderSummary.subtotal.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="summary-row">
-                    <span>Pajak (30% dari CS)</span>
+                    <span>Pajak (5% dari CS)</span>
                     <span>Rp ${currentOrderSummary.tax.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="summary-row">
@@ -8183,7 +8437,7 @@ async function updateCartQuantity(productId, change, newValue = null) {
                     <span class="confirmation-value">Rp ${currentOrderSummary.subtotal.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="confirmation-row">
-                    <span class="confirmation-label">Pajak (0%):</span>
+                    <span class="confirmation-label">Pajak (5%):</span>
                     <span class="confirmation-value">Rp ${currentOrderSummary.tax.toLocaleString('id-ID')}</span>
                 </div>
                 <div class="confirmation-row">
@@ -8420,7 +8674,7 @@ DETAIL PESANAN:\n`;
     receiptContent += `
 --------------------------------
 Subtotal: Rp ${orderData.subtotal.toLocaleString('id-ID')}
-Pajak (30% dari CS): Rp ${orderData.tax.toLocaleString('id-ID')}
+Pajak (5% dari CS): Rp ${orderData.tax.toLocaleString('id-ID')}
 Pengiriman: Rp ${orderData.shipping.toLocaleString('id-ID')}
 --------------------------------
 
