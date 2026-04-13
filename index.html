@@ -1220,6 +1220,106 @@ body.dark-mode .close-modal:hover {
     color: #e0e0e0;
 }
 
+/* Detail Modal Styling */
+.detail-modal .modal-content {
+    max-width: 500px;
+}
+
+.detail-summary {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.detail-summary-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-summary-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.detail-summary-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.detail-items {
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.detail-item-quantity {
+    color: #666;
+    font-size: 14px;
+}
+
+.detail-item-price {
+    font-weight: 600;
+    color: var(--accent-blue);
+}
+
+.detail-total {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Dark mode untuk detail modal */
+body.dark-mode .detail-summary {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .detail-summary-label {
+    color: #b0b0b0;
+}
+
+body.dark-mode .detail-summary-value {
+    color: #e0e0e0;
+}
+
+body.dark-mode .detail-item {
+    border-bottom-color: #444;
+}
+
+body.dark-mode .detail-item-name {
+    color: #e0e0e0;
+}
+
+body.dark-mode .detail-item-quantity {
+    color: #b0b0b0;
+}
+
 /* Dark mode untuk form */
 body.dark-mode .form-control {
     background-color: #2d2d2d;
@@ -1963,6 +2063,12 @@ body.dark-mode .darkmode-btn:hover {
     background-color: #feebc8;
     color: #b7791f;
     border: 1px solid #d69e2e;
+}
+
+.status-badge.completed {
+    background-color: #c6f6d5;
+    color: #276749;
+    border: 1px solid #38a169;
 }
 
 /* Update order detail modal */
@@ -3308,8 +3414,374 @@ body.dark-mode .metalscrap-badge {
     border-color: #444;
     color: #e0e0e0;
 }
+
+/* ==================== PEMESANAN BARANG STYLES ==================== */
+
+#pemesanan-barang .form-group {
+    margin-bottom: 20px;
+}
+
+#pemesanan-barang .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+#pemesanan-barang .form-row.compact-row .form-group {
+    flex: 1 1 260px;
+    max-width: 320px;
+}
+
+#pemesanan-barang .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+#pemesanan-barang input[type="text"],
+#pemesanan-barang input[type="number"],
+#pemesanan-barang select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: white;
+}
+
+#pemesanan-barang input[type="text"]:focus,
+#pemesanan-barang input[type="number"]:focus,
+#pemesanan-barang select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+#pemesanan-barang input[readonly] {
+    background-color: #f8fafc;
+    cursor: not-allowed;
+}
+
+#pemesanan-barang input#total-kacang-ijo,
+#pemesanan-barang input#total-baggy {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    font-weight: 500;
+}
+
+#pemesanan-barang input#total-uang-diterima {
+    background-color: #e8f5e8;
+    border-color: var(--success);
+    font-weight: 600;
+    color: var(--success);
+}
+
+#pemesanan-barang .btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#pemesanan-barang .btn-primary {
+    background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+    color: white;
+}
+
+#pemesanan-barang .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+}
+
+#pemesanan-barang .btn-success {
+    background: var(--success);
+    color: white;
+}
+
+#pemesanan-barang .btn-success:hover {
+    background: #38a169;
+}
+
+#pemesanan-barang .btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* History Table Styles */
+#pemesanan-barang #history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+#pemesanan-barang #history-table thead {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    color: white;
+}
+
+#pemesanan-barang #history-table th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+#pemesanan-barang #history-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+}
+
+#pemesanan-barang #history-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+#pemesanan-barang #history-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badge in Table */
+#pemesanan-barang .status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+#pemesanan-barang .status-badge.completed {
+    background-color: #c6f6d5;
+    color: #276749;
+    border: 1px solid #38a169;
+}
+
+/* Dark mode untuk pemesanan barang */
+body.dark-mode #pemesanan-barang .form-group label {
+    color: #e0e0e0;
+}
+
+body.dark-mode #pemesanan-barang input[type="text"],
+body.dark-mode #pemesanan-barang input[type="number"],
+body.dark-mode #pemesanan-barang select {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode #pemesanan-barang input[readonly] {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode #pemesanan-barang input#total-kacang-ijo,
+body.dark-mode #pemesanan-barang input#total-baggy {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode #pemesanan-barang input#total-uang-diterima {
+    background-color: #1a2a1a;
+    border-color: var(--success);
+    color: var(--success);
+}
+
+body.dark-mode #pemesanan-barang #history-table {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode #pemesanan-barang #history-table td {
+    border-bottom-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode #pemesanan-barang #history-table tbody tr:hover {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode #pemesanan-barang .status-badge.completed {
+    background-color: #1a3a1a;
+    color: #68d391;
+    border-color: #38a169;
+}
+
+/* Responsive untuk pemesanan barang */
+@media (max-width: 768px) {
+    #pemesanan-barang #history-table {
+        font-size: 0.75rem;
+    }
+    
+    #pemesanan-barang #history-table th,
+    #pemesanan-barang #history-table td {
+        padding: 6px 4px;
+    }
+    
+    #pemesanan-barang .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Sembunyikan kolom yang kurang penting di mobile */
+    #pemesanan-barang #history-table th:nth-child(5),
+    #pemesanan-barang #history-table td:nth-child(5),
+    #pemesanan-barang #history-table th:nth-child(6),
+    #pemesanan-barang #history-table td:nth-child(6) {
+        display: none;
+    }
+}
+
 body.login-active {
     overflow: hidden;
+}
+
+/* Summary Info Styles */
+.summary-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.total-summary {
+    background: linear-gradient(135deg, var(--success), #38a169);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 10px rgba(72, 187, 120, 0.3);
+    font-weight: 600;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.summary-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Detail Modal Styles */
+.detail-summary {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row.total {
+    border-top: 2px solid var(--success);
+    padding-top: 15px;
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--success);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.detail-value {
+    color: var(--text-dark);
+}
+
+.detail-items {
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}
+
+.detail-item-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.detail-item-quantity {
+    color: var(--blue-gray);
+    font-size: 0.9rem;
+}
+
+.detail-item-price {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.detail-total {
+    background: #f0f9f0;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--success);
+}
+
+/* Dark mode untuk detail modal */
+body.dark-mode .detail-summary {
+    background: #2d2d2d;
+}
+
+body.dark-mode .detail-row {
+    border-bottom-color: #444;
+}
+
+body.dark-mode .detail-row.total {
+    border-top-color: var(--success);
+}
+
+body.dark-mode .detail-label,
+body.dark-mode .detail-value {
+    color: #e0e0e0;
+}
+
+body.dark-mode .detail-item {
+    background: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .detail-item-name {
+    color: #e0e0e0;
+}
+
+body.dark-mode .detail-item-quantity {
+    color: #b0b0b0;
+}
+
+body.dark-mode .detail-total {
+    background: #1a2a1a;
 }
 
 #login-modal {
@@ -3460,6 +3932,12 @@ body.login-active {
                 <a href="#cs-shipment" class="nav-link" data-section="cs-shipment">
                     <i class="fas fa-truck"></i>
                     Kirim ke CS/HT
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#pemesanan-barang" class="nav-link" data-section="pemesanan-barang">
+                    <i class="fas fa-shopping-cart"></i>
+                    Pemesanan Barang
                 </a>
             </li>
         </ul>
@@ -4157,6 +4635,100 @@ body.login-active {
                 </div>
             </div>
         </div>
+        
+        <!-- Pemesanan Barang Section -->
+        <div id="pemesanan-barang" class="content-section">
+            <div class="top-bar">
+                <div class="page-title">
+                    <button class="menu-toggle" id="menu-toggle-7">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Pemesanan Barang</h2>
+                    <p>Kelola pemesanan barang untuk geng</p>
+                </div>
+            </div>
+            
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>Form Pemesanan Barang</h3>
+                </div>
+                <div style="padding: 20px;">
+                    <form id="pemesanan-form">
+                        <div class="form-row compact-row">
+                            <div class="form-group short-field">
+                                <label for="nama-geng">Nama Geng *</label>
+                                <input type="text" id="nama-geng" required placeholder="Masukkan nama geng">
+                            </div>
+                            
+                            <div class="form-group short-field">
+                                <label for="gang-side">Gang Side *</label>
+                                <select id="gang-side" required>
+                                    <option value="">Pilih Side</option>
+                                    <option value="west">West Side</option>
+                                    <option value="non-west">Non-West Side</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Pilihan Barang dengan Input Jumlah -->
+                        <div class="form-group">
+                            <label>Weed</label>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="number" id="jumlah-kacang-ijo" min="0" value="0" placeholder="Jumlah" style="flex: 1;">
+                                <span style="color: var(--text-dark); font-weight: 500;">@ Rp 700/650</span>
+                                <input type="text" id="total-kacang-ijo" readonly placeholder="Total" style="flex: 1; background-color: #f8fafc;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Baggy</label>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="number" id="jumlah-baggy" min="0" value="0" placeholder="Jumlah" style="flex: 1;">
+                                <span style="color: var(--text-dark); font-weight: 500;">@ Rp 50</span>
+                                <input type="text" id="total-baggy" readonly placeholder="Total" style="flex: 1; background-color: #f8fafc;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="total-uang-diterima">Total Uang Diterima</label>
+                            <input type="text" id="total-uang-diterima" readonly placeholder="Total keseluruhan" style="background-color: #e8f5e8; border-color: var(--success); font-weight: 600; color: var(--success);">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Simpan Pemesanan
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="table-card" style="margin-top: 20px;">
+                <div class="table-header">
+                    <h3>History Pemesanan</h3>
+                    <div class="summary-info">
+                        <div class="total-summary">
+                            <span class="summary-label">Total Penerimaan:</span>
+                            <span class="summary-value" id="total-penerimaan">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+                <table id="history-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Nama Geng</th>
+                            <th>Side</th>
+                            <th>Total Diterima</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <!-- History akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     
     
@@ -4716,6 +5288,40 @@ body.login-active {
     </div>
 </div>
 
+<!-- Modal untuk detail pemesanan -->
+<div class="modal detail-modal" id="detail-pemesanan-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Detail Pemesanan - <span id="detail-nama-geng"></span></h3>
+            <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-summary">
+                <div class="detail-summary-item">
+                    <div class="detail-summary-label">Side</div>
+                    <div class="detail-summary-value" id="detail-side"></div>
+                </div>
+                <div class="detail-summary-item">
+                    <div class="detail-summary-label">Tanggal</div>
+                    <div class="detail-summary-value" id="detail-tanggal"></div>
+                </div>
+                <div class="detail-summary-item">
+                    <div class="detail-summary-label">Status</div>
+                    <div class="detail-summary-value" id="detail-status"></div>
+                </div>
+            </div>
+            
+            <div class="detail-items" id="detail-items">
+                <!-- Detail items akan diisi oleh JavaScript -->
+            </div>
+            
+            <div class="detail-total" id="detail-total">
+                <!-- Total akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- Firebase Configuration -->
     <script>
         // Firebase configuration
@@ -4748,6 +5354,15 @@ body.login-active {
         let currentOrderDataForPayment = null;
         let currentOrderFilter = 'all';
         let allOrdersData = [];
+        
+        // Pemesanan Barang
+        let pemesananHistory = [];
+        const HARGA_KACANG_IJO_NORMAL = 700;
+        const HARGA_KACANG_IJO_WEST = 650;
+        const HARGA_PLASTIK_NORMAL = 700; // TODO: Sesuaikan harga plastik jika berbeda
+        const HARGA_PLASTIK_WEST = 650;   // TODO: Sesuaikan harga plastik jika berbeda
+        const HARGA_BAGGY = 50;
+        // Harga plastik belum ditentukan, bisa ditambahkan nanti
         
         // Notification system
         let notifications = JSON.parse(localStorage.getItem('b2f_notifications')) || [];
@@ -4833,6 +5448,7 @@ body.login-active {
             loadDashboardStats();
             initializeShipmentSystem();
             setupShipmentEventListeners();
+            initializePemesananBarang();
             
             // Initialize notification system
             initializeNotificationSystem();
@@ -10936,6 +11552,305 @@ Terima kasih telah berbelanja!
                 loadDashboardStats();                    
                 }
             }, 30000); // Update every 30 seconds
+        
+        // ==================== PEMESANAN BARANG FUNCTIONS ====================
+        
+        function initializePemesananBarang() {
+            console.log("📦 Initializing pemesanan barang...");
+            
+            // Set up event listeners
+            setupPemesananEventListeners();
+            
+            // Load history
+            loadPemesananHistory();
+        }
+        
+        function setupPemesananEventListeners() {
+            const form = document.getElementById('pemesanan-form');
+            const gangSide = document.getElementById('gang-side');
+            const jumlahKacangIjo = document.getElementById('jumlah-kacang-ijo');
+            const jumlahBaggy = document.getElementById('jumlah-baggy');
+            
+            if (form) {
+                form.addEventListener('submit', handlePemesananSubmit);
+            }
+            
+            if (gangSide) {
+                gangSide.addEventListener('change', calculateTotalHarga);
+            }
+            
+            if (jumlahKacangIjo) {
+                jumlahKacangIjo.addEventListener('input', calculateTotalHarga);
+            }
+            
+            if (jumlahBaggy) {
+                jumlahBaggy.addEventListener('input', calculateTotalHarga);
+            }
+        }
+        
+        function calculateTotalHarga() {
+            const gangSide = document.getElementById('gang-side').value;
+            const jumlahKacangIjo = parseInt(document.getElementById('jumlah-kacang-ijo').value) || 0;
+            const jumlahBaggy = parseInt(document.getElementById('jumlah-baggy').value) || 0;
+
+            if (!gangSide) {
+                document.getElementById('total-kacang-ijo').value = '';
+                document.getElementById('total-baggy').value = '';
+                document.getElementById('total-uang-diterima').value = '';
+                return;
+            }
+            
+            // Hitung harga kacang ijo berdasarkan side
+            const hargaKacangIjo = gangSide === 'west' ? HARGA_KACANG_IJO_WEST : HARGA_KACANG_IJO_NORMAL;
+            const totalKacangIjo = hargaKacangIjo * jumlahKacangIjo;
+            
+            // Hitung harga baggy (tetap)
+            const totalBaggy = HARGA_BAGGY * jumlahBaggy;
+            
+            // Total keseluruhan
+            const totalUangDiterima = totalKacangIjo + totalBaggy;
+            
+            // Update display
+            document.getElementById('total-kacang-ijo').value = `Rp ${totalKacangIjo.toLocaleString('id-ID')}`;
+            document.getElementById('total-baggy').value = `Rp ${totalBaggy.toLocaleString('id-ID')}`;
+            document.getElementById('total-uang-diterima').value = `Rp ${totalUangDiterima.toLocaleString('id-ID')}`;
+        }
+        
+        async function handlePemesananSubmit(e) {
+            e.preventDefault();
+            
+            const namaGeng = document.getElementById('nama-geng').value.trim();
+            const gangSide = document.getElementById('gang-side').value;
+            const jumlahKacangIjo = parseInt(document.getElementById('jumlah-kacang-ijo').value) || 0;
+            const jumlahBaggy = parseInt(document.getElementById('jumlah-baggy').value) || 0;
+            
+            if (!gangSide) {
+                showNotification('error', 'Error', 'Pilih side gang terlebih dahulu sebelum menyimpan!');
+                document.getElementById('gang-side').focus();
+                return;
+            }
+
+            if (!namaGeng) {
+                showNotification('error', 'Error', 'Nama geng harus diisi!');
+                document.getElementById('nama-geng').focus();
+                return;
+            }
+            
+            if (jumlahKacangIjo === 0 && jumlahBaggy === 0) {
+                showNotification('error', 'Error', 'Minimal pilih satu jenis barang!');
+                return;
+            }
+            
+            // Hitung harga
+            const hargaKacangIjo = gangSide === 'west' ? HARGA_KACANG_IJO_WEST : HARGA_KACANG_IJO_NORMAL;
+            const totalKacangIjo = hargaKacangIjo * jumlahKacangIjo;
+            const totalBaggy = HARGA_BAGGY * jumlahBaggy;
+            const totalUangDiterima = totalKacangIjo + totalBaggy;
+            
+            const pemesananData = {
+                id: Date.now().toString(),
+                namaGeng,
+                gangSide: gangSide === 'west' ? 'West Side' : 'Non-West Side',
+                jumlahKacangIjo,
+                jumlahBaggy,
+                hargaKacangIjo,
+                totalKacangIjo,
+                totalBaggy,
+                totalUangDiterima,
+                tanggal: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            try {
+                // Save to Firestore
+                await db.collection('pemesanan_barang').doc(pemesananData.id).set(pemesananData);
+                
+                // Add to local array
+                pemesananHistory.unshift(pemesananData);
+                
+                // Reset form
+                document.getElementById('pemesanan-form').reset();
+                document.getElementById('total-kacang-ijo').value = '';
+                document.getElementById('total-baggy').value = '';
+                document.getElementById('total-uang-diterima').value = '';
+                
+                // Reload history
+                loadPemesananHistory();
+                
+                showNotification('success', 'Berhasil', 'Pemesanan berhasil disimpan!');
+                
+            } catch (error) {
+                console.error('Error saving pemesanan:', error);
+                showNotification('error', 'Error', 'Gagal menyimpan pemesanan!');
+            }
+        }
+        
+        async function loadPemesananHistory() {
+            try {
+                const snapshot = await db.collection('pemesanan_barang').orderBy('tanggal', 'desc').get();
+                pemesananHistory = [];
+                
+                snapshot.forEach(doc => {
+                    pemesananHistory.push(doc.data());
+                });
+                
+                renderPemesananHistory();
+                
+            } catch (error) {
+                console.error('Error loading pemesanan history:', error);
+                // Fallback to localStorage if needed
+                pemesananHistory = JSON.parse(localStorage.getItem('b2f_pemesanan_history')) || [];
+                renderPemesananHistory();
+            }
+        }
+        
+        function renderPemesananHistory() {
+            const tbody = document.getElementById('history-body');
+            
+            if (pemesananHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Belum ada pemesanan</td></tr>';
+                updateTotalPenerimaan();
+                return;
+            }
+            
+            let html = '';
+            pemesananHistory.forEach(item => {
+                const tanggal = new Date(item.tanggal).toLocaleDateString('id-ID');
+                const statusClass = item.status === 'completed' ? 'status-badge completed' : 'status-badge';
+                const statusText = item.status === 'completed' ? 'Selesai' : 'Pending';
+                
+                html += `
+                    <tr>
+                        <td>${item.namaGeng}</td>
+                        <td>${item.gangSide}</td>
+                        <td>Rp ${(item.totalUangDiterima || 0).toLocaleString('id-ID')}</td>
+                        <td>${tanggal}</td>
+                        <td><span class="${statusClass}">${statusText}</span></td>
+                        <td>
+                            <button class="btn btn-secondary btn-sm" onclick="showDetailModal('${item.id}')">
+                                <i class="fas fa-eye"></i> Detail
+                            </button>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                ${item.status !== 'completed' ? 
+                                    `<button class="btn btn-success btn-sm" onclick="markPemesananCompleted('${item.id}')">
+                                        <i class="fas fa-check"></i>
+                                    </button>` : 
+                                    '<span class="text-success"><i class="fas fa-check-circle"></i></span>'
+                                }
+                                <button class="btn btn-secondary btn-sm" style="background:#e53e3e; border-color:#e53e3e;" onclick="deletePemesanan('${item.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+            updateTotalPenerimaan();
+        }
+        
+        async function markPemesananCompleted(id) {
+            try {
+                await db.collection('pemesanan_barang').doc(id).update({
+                    status: 'completed'
+                });
+                
+                // Update local array
+                const item = pemesananHistory.find(p => p.id === id);
+                if (item) {
+                    item.status = 'completed';
+                }
+                
+                renderPemesananHistory();
+                showNotification('success', 'Berhasil', 'Pemesanan ditandai sebagai selesai!');
+                
+            } catch (error) {
+                console.error('Error updating pemesanan status:', error);
+                showNotification('error', 'Error', 'Gagal mengupdate status!');
+            }
+        }
+        
+        async function deletePemesanan(id) {
+            try {
+                await db.collection('pemesanan_barang').doc(id).delete();
+                
+                pemesananHistory = pemesananHistory.filter(item => item.id !== id);
+                savePemesananHistoryLocal();
+                renderPemesananHistory();
+                showNotification('success', 'Berhasil', 'Pemesanan berhasil dihapus!');
+            } catch (error) {
+                console.error('Error deleting pemesanan:', error);
+                // Jika Firestore gagal, tetap hapus di local array untuk UI
+                pemesananHistory = pemesananHistory.filter(item => item.id !== id);
+                savePemesananHistoryLocal();
+                renderPemesananHistory();
+                showNotification('warning', 'Dihapus Offline', 'Pesanan dihapus dari tampilan. Sinkronisasi ke Firebase akan dicoba lagi.');
+            }
+        }
+        
+        function savePemesananHistoryLocal() {
+            try {
+                localStorage.setItem('b2f_pemesanan_history', JSON.stringify(pemesananHistory));
+            } catch (error) {
+                console.warn('Gagal menyimpan history lokal:', error);
+            }
+        }
+        
+        function updateTotalPenerimaan() {
+            const total = pemesananHistory.reduce((sum, item) => sum + (item.totalUangDiterima || 0), 0);
+            document.getElementById('total-penerimaan').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+        
+        function showDetailModal(id) {
+            const item = pemesananHistory.find(p => p.id === id);
+            if (!item) return;
+            
+            // Fill modal header
+            document.getElementById('detail-nama-geng').textContent = item.namaGeng;
+            
+            // Fill summary
+            document.getElementById('detail-side').textContent = item.gangSide;
+            document.getElementById('detail-tanggal').textContent = new Date(item.tanggal).toLocaleDateString('id-ID');
+            document.getElementById('detail-status').textContent = item.status === 'completed' ? 'Selesai' : 'Pending';
+            
+            // Fill items
+            let itemsHtml = '';
+            
+            if (item.jumlahKacangIjo > 0) {
+                itemsHtml += `
+                    <div class="detail-item">
+                        <div class="detail-item-name">Weed</div>
+                        <div class="detail-item-quantity">${item.jumlahKacangIjo} pcs</div>
+                        <div class="detail-item-price">Rp ${(item.totalKacangIjo || 0).toLocaleString('id-ID')}</div>
+                    </div>
+                `;
+            }
+            
+            if (item.jumlahBaggy > 0) {
+                itemsHtml += `
+                    <div class="detail-item">
+                        <div class="detail-item-name">Baggy</div>
+                        <div class="detail-item-quantity">${item.jumlahBaggy} pcs</div>
+                        <div class="detail-item-price">Rp ${(item.totalBaggy || 0).toLocaleString('id-ID')}</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('detail-items').innerHTML = itemsHtml;
+            
+            // Fill total
+            document.getElementById('detail-total').textContent = `Rp ${(item.totalUangDiterima || 0).toLocaleString('id-ID')}`;
+            
+            // Show modal
+            document.getElementById('detail-pemesanan-modal').classList.add('active');
+        }
+        
+        function closeDetailModal() {
+            document.getElementById('detail-pemesanan-modal').classList.remove('active');
+        }
         
         console.log("🎉 WARUNG DSG Store Admin Dashboard initialized successfully!");
     </script>
